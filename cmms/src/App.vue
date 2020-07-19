@@ -11,24 +11,43 @@
 
       <v-divider></v-divider>
 
-      <v-list shaped dense>
-        <v-list-item-group v-model="item" color="primary">
-          <v-list-item
-            v-for="item in nav_drawer_items"
-            :key="item.title"
-            :color="item.color"
+      <v-list>
+        <v-list-item
+            v-for="(item, idx) in list"
+            :key="idx"
             link
-            :to="item.target_path"
+            :to="item.targetPath"
+            :color="item.color"
           >
             <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
+              <v-icon>
+                {{ item.icon }}
+              </v-icon>
             </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
+            <v-list-item-title>{{item.title}}</v-list-item-title>
           </v-list-item>
-        </v-list-item-group>
+        <v-list-group
+          v-for="(item, idxout) in outerList"
+          :key="idxout"
+          :prepend-icon="item.icon"
+          :color="item.color"
+          no-action
+        >
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>{{item.title}}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
+            v-for="(innerItem, idxin) in innerList[idxout]"
+            :key="idxin"
+            link
+            :to="innerItem.targetPath"
+          >
+            <v-list-item-title>{{innerItem.title}}</v-list-item-title>
+          </v-list-item>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
 
@@ -74,7 +93,7 @@
               v-for="(item, index) in user_menu_items"
               :key="index"
               @click="click"
-              :to="item.target_path"
+              :to="item.targetPath"
             >
               <v-list-item-icon>
                 <v-icon>{{ item.icon }}</v-icon>
@@ -86,9 +105,10 @@
         </v-card>
       </v-menu>
     </v-app-bar>
-
+    <v-content class="pt-10">
+      <router-view></router-view>
+    </v-content>
     <!-- content -->
-    <router-view></router-view>
   </v-app>
 </template>
 
@@ -101,36 +121,57 @@ export default {
   //   components: { ActivitySignClub },
 
   data: () => ({
-    nav_drawer_items: [
-      {
-        title: "我的活动",
-        icon: "mdi-calendar-multiselect",
-        color: "#0088ff",
-        target_path: "/"
-      },
-      {
-        title: "活动签到",
-        icon: "mdi-pencil",
-        color: "success",
-        target_path: "/activitysignclub"
-      },
+    list: [
       {
         title: "我的社团",
         icon: "mdi-account-group",
         color: "warning",
-        target_path: ""
+        targetPath: "/my-club"
+      },
+      {
+        title: "搜索",
+        icon: "mdi-account-group",
+        color: "warning",
+        targetPath: "/search"
       },
       {
         title: "系统管理",
         icon: "mdi-view-dashboard",
         color: "#000000",
-        target_path: ""
+        targetPath: ""
       }
     ],
-    mini: false,
+
+    outerList: [
+      {
+        title: "我的活动",
+        icon: "mdi-calendar-multiselect",
+        color: "#0088ff",
+        targetPath: "/"
+      },
+      
+    ],
+    innerList: [
+      [
+        {
+          title: "正在进行的活动",
+          targetPath: "/"
+        },
+        {
+          title: "已经结束的活动",
+          targetPath: "/"
+        },
+        {
+          title: "将要进行的活动",
+          targetPath: "/"
+        }
+      ],
+    ],
+
+    mini: true,
     user_menu_items: [
-      { icon: "mdi-account", text: "资料设置", target_path: "/setuserinfo" },
-      { icon: "mdi-logout-variant", text: "退出登录", target_path: "" }
+      { icon: "mdi-account", text: "资料设置", targetPath: "/setuserinfo" },
+      { icon: "mdi-logout-variant", text: "退出登录", targetPath: "" }
     ]
   })
 };
