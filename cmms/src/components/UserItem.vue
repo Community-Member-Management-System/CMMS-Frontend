@@ -1,8 +1,9 @@
 <template>
-  <v-card flat link :to="userTarget">
+  <v-card class='pa-5' flat link :to="userTarget">
     <v-list-item>
       <v-list-item-avatar >
-          <v-img :src="userAvatar"></v-img>
+          <!-- <v-img :src="userAvatar"></v-img> -->
+          <v-avatar color='primary'></v-avatar>
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title v-text="userName"></v-list-item-title>
