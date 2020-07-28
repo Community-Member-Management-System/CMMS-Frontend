@@ -1,6 +1,8 @@
 # CMMS-Frontend
 Frontend of Community Member Management System
 
+![Frontend CI](https://github.com/Community-Member-Management-System/CMMS-Frontend/workflows/Frontend%20CI/badge.svg)
+
 ## 原型设计
 
 [Adobe XD 云文档链接](https://xd.adobe.com/view/f538ac6a-72f7-4018-44b9-52de483866bd-8309/)
