@@ -107,7 +107,7 @@
                       />
                     </v-list>
                   </v-card>
-                  <v-card>
+                  <v-card class="mb-5 pa-5">
                     <v-card-title>成员</v-card-title>
                     <v-list subheader>
                       <user-item
