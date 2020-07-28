@@ -6,7 +6,9 @@
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
               <v-card-title class="headline" v-text="item.title"></v-card-title>
-              <v-card-text v-text="item.intro"></v-card-text>
+              <v-card-text>
+                <markdown-it-vue-light class="md-body" :content="item.intro" />
+              </v-card-text>
             </div>
 
             <!-- TODO: 社团头像 -->
@@ -25,6 +27,8 @@
 </template>
 
 <script>
+import MarkdownItVueLight from 'markdown-it-vue/dist/markdown-it-vue-light.umd'
+
 export default {
   name: "MyClubs",
   data: function() {
@@ -33,7 +37,7 @@ export default {
         {
           title: "社团名称1",
           // src: "",
-          intro: "社团简介"
+          intro: "社团简介 **粗体** *斜体* <h1>The tags should be preserved.</h1>",
         },
         {
           title: "社团名称2",
@@ -50,6 +54,8 @@ export default {
   },
   computed: {},
   methods: {},
-  components: {}
+  components: {
+    MarkdownItVueLight
+  }
 };
 </script>
