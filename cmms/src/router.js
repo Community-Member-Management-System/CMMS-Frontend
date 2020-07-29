@@ -6,6 +6,8 @@ import ActivitySignUser from "@/components/ActivitySignUser";
 import SetUserInfo from "@/components/SetUserInfo";
 import MyClubs from "@/components/MyClubs";
 import ClubInfo from "@/components/ClubInfo";
+import ClubManagement from "@/components/ClubManagement/ClubManagement";
+// import ClubMemberManagement from "@/components/ClubManagement/ClubMemberManagement";
 
 // import Page from '@/components/Page';
 
@@ -21,9 +23,13 @@ const router = new Router({
             path: "/myclubs",
             component: MyClubs,
         },
+        // {
+        //     path: "/clubs",
+        //     component: ClubInfo,
+        // },
         {
             path: "/clubs",
-            component: ClubInfo,
+            component: ClubManagement,
         },
         {
             path: "/activitysignclub",
