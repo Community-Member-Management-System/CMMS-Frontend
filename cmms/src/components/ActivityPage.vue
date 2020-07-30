@@ -22,6 +22,24 @@
           </v-row>
           <markdown-it-vue-light class="md-body" :content="activity.activityContent" />
         </v-card>
+
+        <!-- 评论区 -->
+        <v-card class="mb-5 pa-5">
+          <v-card-title>评论 {{comments.length}}</v-card-title>
+
+          <!-- 评论列表 -->
+          <v-list three-line>
+            <v-list-item v-for="(comment, i) in comments" :key="i">
+              <v-list-item-avatar color="primary"></v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>{{comment.username}}</v-list-item-title>
+                <v-list-item-content class="my-3">{{comment.content}}</v-list-item-content>
+                <v-list-item-subtitle>{{comment.time}}</v-list-item-subtitle>
+                <v-divider></v-divider>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -41,6 +59,23 @@ export default {
       activityContent:
         "## 活动内容1\n ......\n ### 活动内容1.1\n ...... \n ## 活动内容2\n ......",
     },
+    comments: [
+      {
+        username: "同学A",
+        content: "测试评论",
+        time: "1 小时前",
+      },
+      {
+        username: "同学B",
+        content: "测试评论",
+        time: "1 小时前",
+      },
+      {
+        username: "同学C",
+        content: "测试评论",
+        time: "1 小时前",
+      },
+    ],
   }),
   computed: {},
   methods: {},
