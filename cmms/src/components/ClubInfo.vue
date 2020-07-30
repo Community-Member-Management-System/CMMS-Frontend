@@ -3,9 +3,7 @@
     <!-- head -->
     <v-row>
       <v-col justify="center" align="center">
-        <v-img
-          height="250px"
-        >
+        <v-img height="250px">
           <v-avatar color="primary" size="100">
             <!-- TODO: Image -->
           </v-avatar>
@@ -15,36 +13,31 @@
         </v-img>
       </v-col>
     </v-row>
-    
+
     <v-divider></v-divider>
 
     <!-- body -->
-    <v-row class='mb-10'>
+    <v-row class="mb-10">
       <v-col>
         <v-card flat>
-          <v-tabs background-color='grey lighten-3' fixed-tabs v-model="tab">
+          <v-tabs background-color="grey lighten-3" fixed-tabs v-model="tab">
             <v-tab v-for="(it, idx) in clubDataType" :key="idx">{{ it }}</v-tab>
           </v-tabs>
           <v-tabs-items v-model="tab">
             <v-tab-item v-for="(it, idx) in clubDataType" :key="idx">
-
               <!-- 社团基本信息 -->
-              <v-row class='background' v-if="idx==0">
+              <v-row class="background" v-if="idx==0">
                 <v-col>
-                  <v-card class='ma-5 pa-5'>
-                    <v-card-text>
-                      一些社团信息
-                    </v-card-text>
+                  <v-card class="ma-5 pa-5">
+                    <v-card-text>一些社团信息</v-card-text>
                   </v-card>
                 </v-col>
               </v-row>
 
               <!-- 社团动态 -->
-              <v-row class='background' v-if="idx==1">
-                <v-col>
+              <v-row class="background" v-if="idx==1">
+                <v-col cols="3" v-for="(a, i) in data.clubActivities" :key="i">
                   <activity-item
-                    v-for="(a, i) in data.clubActivities"
-                    :key="i"
                     :club-avatar="a.clubAvatar"
                     :club-name="a.clubName"
                     :club-profile="a.clubProfile"
@@ -61,13 +54,9 @@
               </v-row>
 
               <!-- 社团通知 -->
-              <v-row class='background' v-if="idx==2">
+              <v-row class="background" v-if="idx==2">
                 <v-col>
-                  <v-card
-                    class='ma-5 pa-5'
-                    v-for="(d, i) in data.clubNotice"
-                    :key="i"
-                  >
+                  <v-card class="ma-5 pa-5" v-for="(d, i) in data.clubNotice" :key="i">
                     <v-card-title>{{ d.title }}</v-card-title>
                     <v-card-subtitle>{{ d.subtitle }}</v-card-subtitle>
                     <v-card-text>{{ d.message }}</v-card-text>
@@ -76,7 +65,7 @@
               </v-row>
 
               <!-- 社团成员 -->
-              <v-row class='background' v-if="idx==3">
+              <v-row class="background" v-if="idx==3">
                 <v-col>
                   <!-- <v-card>
                     <v-card-title>
@@ -135,7 +124,7 @@ import UserItem from "@/components/UserItem";
 import ActivityItem from "@/components/ActivityItem";
 export default {
   name: "ClubInfo",
-  data: function() {
+  data: function () {
     return {
       tab: null,
       clubname: "社团名称",
@@ -143,46 +132,82 @@ export default {
       data: {
         clubInfo: {
           message: {
-            time: "2020-7-15"
-          }
+            time: "2020-7-15",
+          },
         },
         clubActivities: [
           {
-            clubAvatar: '',
-            clubName: 'ZJX Club!',
-            clubProfile: 'wuhu qifei',
-            clubTarget: '',
-            activityName: 'Linux install party',
-            activityTime: '2020-7-17, 15:00-16:00',
-            activityLocation: '西校区3B101',
+            clubAvatar: "",
+            clubName: "ZJX Club!",
+            clubProfile: "wuhu qifei",
+            clubTarget: "",
+            activityName: "Linux install party",
+            activityTime: "2020-7-17, 15:00-16:00",
+            activityLocation: "西校区3B101",
             activityContent: "帮助安装Linux",
-            activityTarget: '',
-            activityStatus: '正在进行中'
+            activityTarget: "",
+            activityStatus: "正在进行中",
           },
           {
-            clubAvatar: '',
-            clubName: 'ZJX Club!',
-            clubProfile: 'wuhu qifei',
-            clubTarget: '',
-            activityName: 'Linux install party',
-            activityTime: '2020-7-17, 15:00-16:00',
-            activityLocation: '西校区3B101',
+            clubAvatar: "",
+            clubName: "ZJX Club!",
+            clubProfile: "wuhu qifei",
+            clubTarget: "",
+            activityName: "Linux install party",
+            activityTime: "2020-7-17, 15:00-16:00",
+            activityLocation: "西校区3B101",
             activityContent: "帮助安装Linux",
-            activityTarget: '',
-            activityStatus: '已结束'
+            activityTarget: "",
+            activityStatus: "已结束",
+          },
+          {
+            clubAvatar: "",
+            clubName: "ZJX Club!",
+            clubProfile: "wuhu qifei",
+            clubTarget: "",
+            activityName: "Linux install party",
+            activityTime: "2020-7-17, 15:00-16:00",
+            activityLocation: "西校区3B101",
+            activityContent: "帮助安装Linux",
+            activityTarget: "",
+            activityStatus: "已结束",
+          },
+          {
+            clubAvatar: "",
+            clubName: "ZJX Club!",
+            clubProfile: "wuhu qifei",
+            clubTarget: "",
+            activityName: "Linux install party",
+            activityTime: "2020-7-17, 15:00-16:00",
+            activityLocation: "西校区3B101",
+            activityContent: "帮助安装Linux",
+            activityTarget: "",
+            activityStatus: "已结束",
+          },
+          {
+            clubAvatar: "",
+            clubName: "ZJX Club!",
+            clubProfile: "wuhu qifei",
+            clubTarget: "",
+            activityName: "Linux install party",
+            activityTime: "2020-7-17, 15:00-16:00",
+            activityLocation: "西校区3B101",
+            activityContent: "帮助安装Linux",
+            activityTarget: "",
+            activityStatus: "已结束",
           },
         ],
         clubNotice: [
           {
             title: "zjx tql",
             subtitle: "2020-7-18",
-            message: "wuhu qifei"
+            message: "wuhu qifei",
           },
           {
             title: "zjx tql",
             subtitle: "2020-7-18",
-            message: "芜湖，起飞"
-          }
+            message: "芜湖，起飞",
+          },
         ],
         clubMember: {
           admin: [
@@ -190,32 +215,32 @@ export default {
               avatar: "",
               name: "ens",
               target: "",
-              profile: "hello!"
-            }
+              profile: "hello!",
+            },
           ],
           member: [
             {
               avatar: "",
               name: "gyx",
               target: "",
-              profile: "hello!"
+              profile: "hello!",
             },
             {
               avatar: "",
               name: "zjx",
               target: "",
-              profile: "hello!"
-            }
-          ]
-        }
-      }
+              profile: "hello!",
+            },
+          ],
+        },
+      },
     };
   },
   computed: {},
   methods: {},
   components: {
     UserItem,
-    ActivityItem
-  }
+    ActivityItem,
+  },
 };
 </script>

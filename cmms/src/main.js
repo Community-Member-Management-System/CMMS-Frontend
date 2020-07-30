@@ -4,6 +4,9 @@ import App from "./App.vue";
 import router from "./router.js";
 import Vuetify from "vuetify/lib";
 import VuetifyConfirm from 'vuetify-confirm';
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
 
 Vue.use(Vuetify, {
     icons: {

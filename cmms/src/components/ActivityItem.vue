@@ -1,5 +1,5 @@
 <template>
-  <v-card class='ma-5 pa-5'>
+  <v-card class="pa-3">
     <!-- <v-card  v-if="showClub" flat link :to="clubTarget">
       <v-list-item>
         <v-list-item-avatar>
@@ -10,10 +10,10 @@
           <v-list-item-subtitle v-text="clubProfile"></v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-    </v-card> -->
+    </v-card>-->
 
     <!-- 状态 chips -->
-    <v-chip color="green" text-color="white" >
+    <v-chip color="green" text-color="white">
       <v-avatar left>
         <v-icon>mdi-checkbox-marked-circle</v-icon>
       </v-avatar>
@@ -24,9 +24,7 @@
     <v-card-subtitle>时间：{{ activityTime }} 地点：{{ activityLocation }}</v-card-subtitle>
     <v-card-text v-text="activityContent"></v-card-text>
     <v-card-actions>
-      <v-btn color="primary darken-2" outlined link :to="activityTarget">
-        查看详情
-      </v-btn>
+      <v-btn color="primary darken-2" outlined link :to="activityTarget">查看详情</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -34,7 +32,9 @@
 <script>
 export default {
   name: "ActivityItem",
-  data: function() {},
+  data: function () {
+    return {};
+  },
   props: {
     clubAvatar: String,
     clubName: String,
@@ -46,9 +46,9 @@ export default {
     activityTarget: String,
     activityContent: String,
     activityStatus: String,
-    showClub: Boolean
+    showClub: Boolean,
   },
   computed: {},
-  methods: {}
+  methods: {},
 };
 </script>
