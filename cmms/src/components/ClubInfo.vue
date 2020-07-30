@@ -48,7 +48,7 @@
                     :activity-status="a.activityStatus"
                     :activity-content="a.activityContent"
                     :activity-target="a.activityTarget"
-                    :show-club="False"
+                    :show-club="false"
                   />
                 </v-col>
               </v-row>
@@ -153,8 +153,8 @@ export default {
             activityTime: "2020-7-17, 15:00-16:00",
             activityLocation: "西校区3B101",
             activityContent: "帮助安装Linux",
-            activityTarget: '/activity',
-            activityStatus: '正在进行中'
+            activityTarget: "/activity",
+            activityStatus: "正在进行中",
           },
           {
             clubAvatar: "",

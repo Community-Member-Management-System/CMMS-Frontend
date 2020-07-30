@@ -8,7 +8,7 @@ import MyClubs from "@/components/MyClubs";
 import ClubInfo from "@/components/ClubInfo";
 import ClubManagement from "@/components/ClubManagement/ClubManagement";
 // import ClubMemberManagement from "@/components/ClubManagement/ClubMemberManagement";
-import ActivityPage from "@/components/ActivityPage"
+import ActivityPage from "@/components/ActivityPage";
 
 // import Page from '@/components/Page';
 
@@ -29,7 +29,7 @@ const router = new Router({
             component: ClubInfo,
         },
         {
-            path: "/manegeclub",
+            path: "/manageclub",
             component: ClubManagement,
         },
         {
