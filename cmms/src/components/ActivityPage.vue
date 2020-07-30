@@ -26,7 +26,24 @@
         <!-- 评论区 -->
         <v-card class="mb-5 pa-5">
           <v-card-title>评论 {{comments.length}}</v-card-title>
-
+          <!-- 发表评论 -->
+          <v-text-field
+            class="mx-10"
+            v-model="message"
+            type="text"
+            outlined
+            rounded
+            solo
+            clearable
+            flat
+            label="在这里发表评论"
+            append-icon="mdi-emoticon-happy"
+            append-outer-icon="mdi-send"
+            clear-icon="mdi-close-circle"
+            @click:append="chooseEmoticon"
+            @click:append-outer="sendMessage"
+            @click:clear="clearMessage"
+          ></v-text-field>
           <!-- 评论列表 -->
           <v-list three-line>
             <v-list-item v-for="(comment, i) in comments" :key="i">
@@ -51,6 +68,7 @@ import MarkdownItVueLight from "markdown-it-vue/dist/markdown-it-vue-light.umd";
 export default {
   name: "ActivityPage",
   data: () => ({
+    message: "",
     activity: {
       activityName: "Linux install party",
       activityTime: "2020-7-17, 15:00-16:00",
@@ -78,7 +96,20 @@ export default {
     ],
   }),
   computed: {},
-  methods: {},
+  methods: {
+    chooseEmoticon() {
+      // TODO: choose emoticon
+      alert("choose emoticon");
+    },
+    sendMessage() {
+      // TODO: send message
+      alert("send message: " + this.message);
+      this.clearMessage();
+    },
+    clearMessage() {
+      this.message = "";
+    },
+  },
   components: {
     MarkdownItVueLight,
   },
