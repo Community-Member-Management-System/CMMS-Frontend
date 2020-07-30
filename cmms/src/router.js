@@ -8,6 +8,7 @@ import MyClubs from "@/components/MyClubs";
 import ClubInfo from "@/components/ClubInfo";
 import ClubManagement from "@/components/ClubManagement/ClubManagement";
 // import ClubMemberManagement from "@/components/ClubManagement/ClubMemberManagement";
+import ActivityPage from "@/components/ActivityPage"
 
 // import Page from '@/components/Page';
 
@@ -23,13 +24,17 @@ const router = new Router({
             path: "/myclubs",
             component: MyClubs,
         },
-        // {
-        //     path: "/clubs",
-        //     component: ClubInfo,
-        // },
         {
             path: "/clubs",
+            component: ClubInfo,
+        },
+        {
+            path: "/manegeclub",
             component: ClubManagement,
+        },
+        {
+            path: "/activity",
+            component: ActivityPage,
         },
         {
             path: "/activitysignclub",

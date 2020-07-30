@@ -67,22 +67,6 @@
               <!-- 社团成员 -->
               <v-row class="background" v-if="idx==3">
                 <v-col>
-                  <!-- <v-card>
-                    <v-card-title>
-                      <v-text-field
-                        v-model="search"
-                        append-icon="mdi-magnify"
-                        label="Search"
-                        single-line
-                        hide-details
-                      ></v-text-field>
-                    </v-card-title>
-                    <v-data-table :headers="headers" :items="desserts" :search="search">
-                      <template v-slot:item.calories="{ item }">
-                        <v-chip :color="getColor(item.calories)" dark>{{ item.calories }}</v-chip>
-                      </template>
-                    </v-data-table>
-                  </v-card>-->
                   <v-card class="mb-5 pa-5">
                     <v-card-title>管理员</v-card-title>
                     <v-list subheader>
@@ -169,8 +153,8 @@ export default {
             activityTime: "2020-7-17, 15:00-16:00",
             activityLocation: "西校区3B101",
             activityContent: "帮助安装Linux",
-            activityTarget: "",
-            activityStatus: "已结束",
+            activityTarget: '/activity',
+            activityStatus: '正在进行中'
           },
           {
             clubAvatar: "",
