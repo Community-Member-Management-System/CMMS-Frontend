@@ -8,7 +8,7 @@
             <!-- TODO: Image -->
           </v-avatar>
           <h1 class="display-1 py-3">{{ clubname }}</h1>
-          <v-btn class="mx-2 mb-4" color="primary">+ 申请加</v-btn>
+          <v-btn class="mx-2 mb-4" color="primary">+ 申请加入</v-btn>
           <!-- <v-btn class="mx-2 mb-4" color="primary">管理社团</v-btn> -->
         </v-img>
       </v-col>
