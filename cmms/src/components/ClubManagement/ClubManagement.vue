@@ -8,7 +8,7 @@
             <!-- TODO: Image -->
           </v-avatar>
           <h1 class="display-1 py-3">{{ clubname }}</h1>
-          <v-btn class="mx-2 mb-4" color="primary">+ 申请加</v-btn>
+          <v-btn class="mx-2 mb-4" color="primary">- 解散社团</v-btn>
           <!-- <v-btn class="mx-2 mb-4" color="primary">管理社团</v-btn> -->
         </v-img>
       </v-col>
@@ -34,24 +34,10 @@
                 </v-col>
               </v-row>
 
-              <!-- 社团动态 -->
+              <!-- 社团活动 -->
               <v-row class="background" v-if="idx==1">
                 <v-col>
-                  <activity-item
-                    v-for="(a, i) in data.clubActivities"
-                    :key="i"
-                    :club-avatar="a.clubAvatar"
-                    :club-name="a.clubName"
-                    :club-profile="a.clubProfile"
-                    :club-target="a.clubTarget"
-                    :activity-name="a.activityName"
-                    :activity-time="a.activityTime"
-                    :activity-location="a.activityLocation"
-                    :activity-status="a.activityStatus"
-                    :activity-content="a.activityContent"
-                    :activity-target="a.activityTarget"
-                    show-club="False"
-                  />
+                  <club-activity-management />
                 </v-col>
               </v-row>
 
@@ -66,8 +52,15 @@
                 </v-col>
               </v-row>
 
-              <!-- 社团成员 -->
+              <!-- 待办事项 -->
               <v-row class="background" v-if="idx==3">
+                <v-col>
+                  <club-todo-management />
+                </v-col>
+              </v-row>
+
+              <!-- 成员信息 -->
+              <v-row class="background" v-if="idx==4">
                 <v-col>
                   <club-member-management />
                 </v-col>
@@ -83,45 +76,28 @@
 <script>
 import ActivityItem from "@/components/ActivityItem";
 import ClubMemberManagement from "@/components/ClubManagement/ClubMemberManagement";
+import ClubActivityManagement from "@/components/ClubManagement/ClubActivityManagement";
+import ClubTodoManagement from "@/components/ClubManagement/ClubTodoManagement";
 export default {
   name: "ClubManagement",
   data: function () {
     return {
       tab: null,
       clubname: "社团名称",
-      clubDataType: ["社团信息", "社团活动", "社团通知", "成员信息"],
+      clubDataType: [
+        "社团信息",
+        "社团活动",
+        "社团通知",
+        "待办事项",
+        "成员信息",
+      ],
       data: {
         clubInfo: {
           message: {
             time: "2020-7-15",
           },
         },
-        clubActivities: [
-          {
-            clubAvatar: "",
-            clubName: "ZJX Club!",
-            clubProfile: "wuhu qifei",
-            clubTarget: "",
-            activityName: "Linux install party",
-            activityTime: "2020-7-17, 15:00-16:00",
-            activityLocation: "西校区3B101",
-            activityContent: "帮助安装Linux",
-            activityTarget: "",
-            activityStatus: "正在进行中",
-          },
-          {
-            clubAvatar: "",
-            clubName: "ZJX Club!",
-            clubProfile: "wuhu qifei",
-            clubTarget: "",
-            activityName: "Linux install party",
-            activityTime: "2020-7-17, 15:00-16:00",
-            activityLocation: "西校区3B101",
-            activityContent: "帮助安装Linux",
-            activityTarget: "",
-            activityStatus: "已结束",
-          },
-        ],
+
         clubNotice: [
           {
             title: "zjx tql",
@@ -134,38 +110,15 @@ export default {
             message: "芜湖，起飞",
           },
         ],
-        clubMember: {
-          admin: [
-            {
-              avatar: "",
-              name: "ens",
-              target: "",
-              profile: "hello!",
-            },
-          ],
-          member: [
-            {
-              avatar: "",
-              name: "gyx",
-              target: "",
-              profile: "hello!",
-            },
-            {
-              avatar: "",
-              name: "zjx",
-              target: "",
-              profile: "hello!",
-            },
-          ],
-        },
       },
     };
   },
   computed: {},
   methods: {},
   components: {
-    ActivityItem,
     ClubMemberManagement,
+    ClubActivityManagement,
+    ClubTodoManagement,
   },
 };
 </script>
