@@ -3,6 +3,7 @@ import App from "./App.vue";
 // import vuetify from "./plugins/vuetify";
 import router from "./router.js";
 import Vuetify from "vuetify/lib";
+import VuetifyConfirm from 'vuetify-confirm';
 
 Vue.use(Vuetify, {
     icons: {
@@ -30,8 +31,11 @@ const opts = {
     },
 };
 
+const vuetify = new Vuetify(opts);
+Vue.use(VuetifyConfirm, { vuetify });
+
 new Vue({
-    vuetify: new Vuetify(opts),
+    vuetify,
     router,
     render: (h) => h(App),
 }).$mount("#app");

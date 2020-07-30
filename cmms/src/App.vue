@@ -14,7 +14,7 @@
       <v-list>
         <v-list-item
           v-for="(item, idx) in list"
-          :key="idx"
+          :key="idx+'1'"
           link
           :to="item.targetPath"
           :color="item.color"
@@ -28,7 +28,7 @@
         <!-- 我的活动 下拉列表 -->
         <v-list-group
           v-for="(item, idxout) in outerList"
-          :key="idxout"
+          :key="idxout+'2'"
           :prepend-icon="item.icon"
           :color="item.color"
           no-action
@@ -45,7 +45,7 @@
 
           <v-list-item
             v-for="(innerItem, idxin) in innerList[idxout]"
-            :key="idxin"
+            :key="idxin+'3'"
             link
             :to="innerItem.targetPath"
             :color="item.color"
@@ -118,10 +118,10 @@
             <v-divider></v-divider>
 
             <v-list>
+              <!-- TODO: click-->
               <v-list-item
                 v-for="(item, index) in user_menu_items"
-                :key="index"
-                @click="click"
+                :key="index+'4'"
                 :to="item.targetPath"
               >
                 <v-list-item-icon>
