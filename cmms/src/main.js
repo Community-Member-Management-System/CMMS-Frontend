@@ -5,8 +5,11 @@ import router from "./router.js";
 import Vuetify from "vuetify/lib";
 import VuetifyConfirm from 'vuetify-confirm';
 import Vuex from 'vuex';
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css';
 
 Vue.use(Vuex);
+Vue.use(mavonEditor);
 
 Vue.use(Vuetify, {
     icons: {

@@ -18,7 +18,7 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-btn elevation="5" bottom fixed class="mx-2" fab dark color="green">
+      <v-btn elevation="5" bottom fixed class="mx-2" fab dark color="green" to="/create-activity">
         <v-icon dark>mdi-plus</v-icon>
       </v-btn>
     </v-row>
