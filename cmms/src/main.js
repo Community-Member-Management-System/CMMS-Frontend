@@ -7,9 +7,12 @@ import VuetifyConfirm from 'vuetify-confirm';
 import Vuex from 'vuex';
 import mavonEditor from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css';
+import DatetimePicker from 'vuetify-datetime-picker';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 Vue.use(Vuex);
 Vue.use(mavonEditor);
+Vue.use(DatetimePicker);
 
 Vue.use(Vuetify, {
     icons: {
