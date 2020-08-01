@@ -64,27 +64,65 @@
           <v-row justify="center">
             <v-col cols="7">
               <v-card>
-                <v-img :src="activityCoverSrc" :aspect-ratio="16/9" @click="selectImg">
-                  <template v-slot:placeholder>
-                    <v-row class="fill-height ma-0" align="center" justify="center">
-                      <v-icon size="60px">mdi-cloud-upload-outline</v-icon>
-                    </v-row>
-                  </template>
+                <input
+                  id="imgInput"
+                  ref="imgInput"
+                  v-show="false"
+                  v-if="!isSelectedImg"
+                  type="file"
+                  accept="image/*"
+                  @input="onImgSelected"
+                />
+                <v-img :src="activityCoverSrc" :aspect-ratio="16/9">
+                  <v-row
+                    v-show="activityCoverSrc=='' "
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn height="60px" width="60px" icon v-bind="attrs" v-on="on">
+                          <v-icon
+                            size="60px"
+                            @click.stop="$refs.imgInput.click();"
+                          >mdi-cloud-upload-outline</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>点击上传图片</span>
+                    </v-tooltip>
+                  </v-row>
+                  <v-btn
+                    absolute
+                    x-small
+                    style="top:8px;right:8px;"
+                    fab
+                    color="red"
+                    v-show="isSelectedImg"
+                    @click="removeImg"
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
                 </v-img>
               </v-card>
             </v-col>
           </v-row>
-          <v-row justify="center">
+          <!-- <v-row justify="center">
             <v-col cols="7">
               <v-file-input
+                ref="vFileInput"
                 v-model="activity.activityCover"
                 prepend-icon="mdi-camera"
                 show-size
                 accept="image/*"
                 label="封面图片"
+                @click.clear="removeImg"
               ></v-file-input>
             </v-col>
-          </v-row>
+          </v-row>-->
+          <!-- <v-row justify="center">
+            
+          </v-row>-->
           <v-row justify="center">
             <v-btn fab color="primary" @click="e6 = 3">
               <v-icon>mdi-chevron-double-down</v-icon>
@@ -123,7 +161,8 @@
 export default {
   name: "CreatActivity",
   data: () => ({
-    e6: 1,
+    isSelectedImg: false,
+    e6: 2,
     activity: {
       activityName: "Linux install party",
       activityStartTime: null,
@@ -132,18 +171,29 @@ export default {
       activityStatus: "正在进行中",
       activityContent: "",
       activityProfile: "",
-      activityCover: null,
+      activityCover: null, //活动封面
       commentRange: ["社团签到成员"],
     },
   }),
   computed: {
     activityCoverSrc() {
-      return window.URL.createObjectURL(this.activity.activityCover);
+      if (this.activity.activityCover)
+        return window.URL.createObjectURL(this.activity.activityCover);
+      return "";
     },
   },
   methods: {
     submitActivity() {},
-    selectImg() {},
+    onImgSelected(e) {
+      this.activity.activityCover = e.target.files[0];
+      this.isSelectedImg = true;
+      // TODO: 上传图片
+    },
+    removeImg() {
+      //   this.$refs.imgInput.value = "";
+      this.isSelectedImg = false;
+      this.activity.activityCover = null;
+    },
   },
   components: {},
   watch: {
