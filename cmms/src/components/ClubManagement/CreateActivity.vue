@@ -12,7 +12,12 @@
                   <v-text-field v-model="activity.activityName" label="活动名称 *" required></v-text-field>
                 </v-col>
                 <v-col>
-                  <v-text-field v-model="activity.activityLocation" label="活动地点 *" required></v-text-field>
+                  <v-text-field
+                    v-model="activity.activityLocation"
+                    label="活动地点 *"
+                    required
+                    @change="setMapCenter"
+                  ></v-text-field>
                 </v-col>
               </v-row>
               <v-row></v-row>
@@ -44,7 +49,7 @@
             <v-col cols="4">
               <v-card-title>校区地图</v-card-title>
               <v-card>
-                <v-img color="primary" :aspect-ratio="16/9"></v-img>
+                <div style="height:285px;" id="map-container"></div>
               </v-card>
             </v-col>
           </v-row>
@@ -158,16 +163,21 @@
 </template>
 
 <script>
+import AMapLoader from "@amap/amap-jsapi-loader";
 export default {
   name: "CreatActivity",
   data: () => ({
+    map: null,
+    placeSearch: null,
+    mapMarker: null,
     isSelectedImg: false,
-    e6: 2,
+    e6: 1,
     activity: {
       activityName: "Linux install party",
       activityStartTime: null,
       activityEndTime: null,
-      activityLocation: "西校区3B101",
+      activityLocation: "东区一教",
+      activityPosition: [117.269118, 31.839057],
       activityStatus: "正在进行中",
       activityContent: "",
       activityProfile: "",
@@ -194,6 +204,27 @@ export default {
       this.isSelectedImg = false;
       this.activity.activityCover = null;
     },
+
+    // 用户输入详细地点，地图自动定位至附近，然后手动在地图上标记详细地点以获取经纬度，将经纬度给用户导航使用
+    setMapCenter() {
+      this.placeSearch.search(
+        this.activity.activityLocation,
+        (status, result) => {
+          if (status == "complete") {
+            let location = result.poiList.pois[0].location;
+            this.activity.activityPosition = [location.lng, location.lat];
+            this.map.setCenter(this.activity.activityPosition);
+            this.mapMarker.setPosition(this.activity.activityPosition);
+          } else alert("查询失败");
+        }
+      );
+    },
+
+    setActivityPosition(e) {
+      this.activity.activityPosition = [e.lnglat.getLng(), e.lnglat.getLat()];
+      this.map.setCenter(this.activity.activityPosition);
+      this.mapMarker.setPosition(this.activity.activityPosition);
+    },
   },
   components: {},
   watch: {
@@ -204,6 +235,46 @@ export default {
         else this.activity.commentRange = ["所有用户"];
       }
     },
+  },
+  mounted() {
+    // 初始化高德地图
+    AMapLoader.load({
+      key: "8609496b04a93409688d07601c08ae89", // 申请好的Web端开发者Key，首次调用 load 时必填
+      version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+      plugins: ["AMap.Geolocation", "AMap.ToolBar", "AMap.PlaceSearch"], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+      AMapUI: {
+        // 是否加载 AMapUI，缺省不加载
+        version: "1.1", // AMapUI 缺省 1.1
+        plugins: [], // 需要加载的 AMapUI ui插件
+      },
+    })
+      .then((AMap) => {
+        var map = new AMap.Map("map-container", {
+          zoom: 18, //级别
+          center: [117.269118, 31.839057], //中心点坐标
+        });
+        var geolocation = new AMap.Geolocation();
+        map.addControl(geolocation);
+        this.map = map;
+        this.placeSearch = new AMap.PlaceSearch({
+          city: "0551", // 兴趣点城市
+          citylimit: false, //是否强制限制在设置的城市内搜索
+          //   map: map, // 展现结果的地图实例
+          //   panel: "panel", // 结果列表将在此容器中进行展示。
+          //   autoFitView: true, // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
+        });
+        this.mapMarker = new AMap.Marker({
+          position: new AMap.LngLat(117.269118, 31.839057), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+          title: "FLXG！",
+        });
+        map.add(this.mapMarker);
+
+        map.clearEvents("rightclick");
+        map.on("rightclick", this.setActivityPosition);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   },
 };
 </script>
