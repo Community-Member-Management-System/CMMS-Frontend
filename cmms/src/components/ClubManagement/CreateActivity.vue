@@ -6,7 +6,7 @@
       <v-stepper-content step="1">
         <v-container>
           <v-row>
-            <v-col cols="8">
+            <v-col cols="7">
               <v-row>
                 <v-col>
                   <v-text-field v-model="activity.activityName" label="活动名称 *" required></v-text-field>
@@ -20,36 +20,44 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
-              <v-row></v-row>
+
               <v-row>
-                <v-col cols="3">
+                <!-- <v-col cols="2">
+                  <v-switch label="Jacob" inset value="Jacob"></v-switch>
+                </v-col>-->
+                <v-col cols="6">
                   <v-datetime-picker label="开始时间 *" v-model="activity.activityStartTime"></v-datetime-picker>
                 </v-col>
-                <v-col cols="3">
+                <v-col cols="6">
                   <v-datetime-picker label="结束时间 *" v-model="activity.activityEndTime"></v-datetime-picker>
                 </v-col>
-                <v-col cols="6">
+              </v-row>
+
+              <v-row>
+                <v-col cols="12">
                   <v-select
                     label="允许评论范围 *"
                     v-model="activity.commentRange"
                     multiple
                     required
-                    hint="本社团签到成员之外的用户"
                     persistent-hint
-                    :items="[ '本社团成员', '所有签到用户','所有用户']"
+                    chips
+                    :items="[ '本社团签到成员','本社团所有成员', '所有签到用户','所有用户']"
                   ></v-select>
                 </v-col>
               </v-row>
+
               <v-row>
                 <v-col>
-                  <v-textarea outlined label="活动简介"></v-textarea>
+                  <v-textarea outlined label="活动简介" v-model="activity.activityProfile"></v-textarea>
                 </v-col>
               </v-row>
             </v-col>
-            <v-col cols="4">
-              <v-card-title>校区地图</v-card-title>
-              <v-card>
-                <div style="height:285px;" id="map-container"></div>
+            <v-col cols="5">
+              <small class="font-weight-light">右击地图标记活动地点 *</small>
+
+              <v-card class="mt-1">
+                <div style="height:425px;" id="map-container"></div>
               </v-card>
             </v-col>
           </v-row>
@@ -151,8 +159,27 @@
             </v-col>
           </v-row>
           <v-row justify="center">
+            <v-btn fab color="primary" @click="e6 = 4">
+              <v-icon>mdi-chevron-double-down</v-icon>
+            </v-btn>
+          </v-row>
+        </v-container>
+      </v-stepper-content>
+
+      <v-stepper-step :complete="e6 > 4" step="4" editable>活动通知类型</v-stepper-step>
+      <v-stepper-content step="4">
+        <v-container>
+          <v-row>
+            <v-col cols="2">
+              <v-switch label="平台内通知" inset input-value="true" value disabled></v-switch>
+            </v-col>
+            <v-col cols="2">
+              <v-switch label="邮件列表通知" inset v-model="isMailListNotice"></v-switch>
+            </v-col>
+          </v-row>
+          <v-row justify="center">
             <!-- TODO -->
-            <v-btn fab color="primary" @click="submitActivity">
+            <v-btn fab color="success" @click="submitActivity">
               <v-icon>mdi-check</v-icon>
             </v-btn>
           </v-row>
@@ -171,19 +198,20 @@ export default {
     placeSearch: null,
     mapMarker: null,
     isSelectedImg: false,
-    e6: 1,
+    e6: 4,
     activity: {
       activityName: "Linux install party",
       activityStartTime: null,
       activityEndTime: null,
       activityLocation: "东区一教",
-      activityPosition: [117.269118, 31.839057],
+      activityPosition: [117.269118, 31.839057], // 经纬度，以供导航
       activityStatus: "正在进行中",
       activityContent: "",
       activityProfile: "",
       activityCover: null, //活动封面
       commentRange: ["社团签到成员"],
     },
+    isMailListNotice: true,
   }),
   computed: {
     activityCoverSrc() {
@@ -215,11 +243,13 @@ export default {
             this.activity.activityPosition = [location.lng, location.lat];
             this.map.setCenter(this.activity.activityPosition);
             this.mapMarker.setPosition(this.activity.activityPosition);
+            this.mapMarker.setTitle(this.activity.activityLocation);
           } else alert("查询失败");
         }
       );
     },
 
+    // 用户右击地图标记活动地点
     setActivityPosition(e) {
       this.activity.activityPosition = [e.lnglat.getLng(), e.lnglat.getLat()];
       this.map.setCenter(this.activity.activityPosition);
