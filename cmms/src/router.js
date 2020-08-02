@@ -1,5 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
+
+import Login from "@/components/Login";
+import Home from "@/components/Home";
 // import ActivityList from "@/components/ActivityList";
 import ActivitySignClub from "@/components/ActivitySignClub";
 import ActivitySignUser from "@/components/ActivitySignUser";
@@ -18,39 +21,45 @@ const router = new Router({
     routes: [
         {
             path: "/",
-            component: MyClubs,
+            component: Login,
         },
         {
-            path: "/myclubs",
-            component: MyClubs,
-        },
-        {
-            path: "/clubs",
-            component: ClubInfo,
-        },
-        {
-            path: "/manage-club",
-            component: ClubManagement,
-        },
-        {
-            path: "/create-activity",
-            component: CreateActivity,
-        },
-        {
-            path: "/activity",
-            component: ActivityPage,
-        },
-        {
-            path: "/activitysignclub",
-            component: ActivitySignClub,
-        },
-        {
-            path: "/activitysignuser",
-            component: ActivitySignUser,
-        },
-        {
-            path: "/setuserinfo",
-            component: SetUserInfo,
+            path: "/home",
+            component: Home,
+            children: [
+                {
+                    path: "/myclubs",
+                    component: MyClubs,
+                },
+                {
+                    path: "/clubs",
+                    component: ClubInfo,
+                },
+                {
+                    path: "/manage-club",
+                    component: ClubManagement,
+                },
+                {
+                    path: "/create-activity",
+                    component: CreateActivity,
+                },
+                {
+                    path: "/activity",
+                    component: ActivityPage,
+                },
+                {
+                    path: "/activitysignclub",
+                    component: ActivitySignClub,
+                },
+                {
+                    path: "/activitysignuser",
+                    component: ActivitySignUser,
+                },
+                {
+                    path: "/setuserinfo",
+                    component: SetUserInfo,
+                },
+            ],
         },
     ],
 });
