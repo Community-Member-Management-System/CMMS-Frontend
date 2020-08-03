@@ -1,16 +1,18 @@
 import Vue from "vue";
-import App from "./App.vue";
-// import vuetify from "./plugins/vuetify";
+import Axios from "axios";
+import VueAxios from "vue-axios";
 import router from "./router.js";
 import Vuetify from "vuetify/lib";
-import VuetifyConfirm from 'vuetify-confirm';
-import Vuex from 'vuex';
-import mavonEditor from 'mavon-editor';
-import 'mavon-editor/dist/css/index.css';
-import DatetimePicker from 'vuetify-datetime-picker';
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
+import VuetifyConfirm from "vuetify-confirm";
+import Vuex from "vuex";
+import mavonEditor from "mavon-editor";
+import "mavon-editor/dist/css/index.css";
+import DatetimePicker from "vuetify-datetime-picker";
+import "material-design-icons-iconfont/dist/material-design-icons.css";
+import App from "./App.vue";
 
 Vue.use(Vuex);
+Vue.use(VueAxios, Axios);
 Vue.use(mavonEditor);
 Vue.use(DatetimePicker);
 
@@ -21,6 +23,18 @@ Vue.use(Vuetify, {
 });
 
 Vue.config.productionTip = false;
+
+// global navigation guards (before)
+router.beforeEach((to, from, next) => {
+    console.log(to);
+    if (window.sessionStorage.getItem("token")) {
+        if (to.name === "Login") next({ path: "/home" });
+        else next();
+    } else {
+        if (to.name === "Login" || to.meta.needAuth === false) next();
+        else next({ path: "/" });
+    }
+});
 
 // TODO: dark theme
 const opts = {
@@ -34,7 +48,7 @@ const opts = {
                 warning: "#ff5722",
                 info: "#607d8b",
                 success: "#4caf50",
-                background: "#EEEEEE"
+                background: "#EEEEEE",
             },
         },
     },

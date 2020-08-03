@@ -23,10 +23,12 @@ const router = new Router({
     routes: [
         {
             path: "/",
+            name: "Login",
             component: Login,
         },
         {
             path: "/home",
+            // meta: {needAuth: false},
             component: Home,
             children: [
                 {
