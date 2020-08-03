@@ -9,9 +9,11 @@ import ActivitySignUser from "@/components/ActivitySignUser";
 import SetUserInfo from "@/components/SetUserInfo";
 import MyClubs from "@/components/MyClubs";
 import ClubInfo from "@/components/ClubInfo";
-import ClubManagement from "@/components/ClubManagement/ClubManagement";
-import CreateActivity from "@/components/ClubManagement/CreateActivity";
 import ActivityPage from "@/components/ActivityPage";
+
+import CreateActivity from "@/components/Activity/CreateActivity";
+import Community from "@/components/Community/Community";
+
 
 // import Page from '@/components/Page';
 
@@ -28,35 +30,35 @@ const router = new Router({
             component: Home,
             children: [
                 {
-                    path: "/myclubs",
+                    path: "myclubs",
                     component: MyClubs,
                 },
                 {
-                    path: "/clubs",
+                    path: "clubs",
                     component: ClubInfo,
                 },
                 {
-                    path: "/manage-club",
-                    component: ClubManagement,
+                    path: "community",
+                    component: Community
                 },
                 {
-                    path: "/create-activity",
+                    path: "create-activity",
                     component: CreateActivity,
                 },
                 {
-                    path: "/activity",
+                    path: "activity",
                     component: ActivityPage,
                 },
                 {
-                    path: "/activitysignclub",
+                    path: "activitysignclub",
                     component: ActivitySignClub,
                 },
                 {
-                    path: "/activitysignuser",
+                    path: "activitysignuser",
                     component: ActivitySignUser,
                 },
                 {
-                    path: "/setuserinfo",
+                    path: "setuserinfo",
                     component: SetUserInfo,
                 },
             ],

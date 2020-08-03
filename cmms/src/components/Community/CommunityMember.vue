@@ -34,7 +34,7 @@
       </v-card-title>
       <v-list subheader>
         <user-item
-          v-for="(a, i) in clubMember.admin"
+          v-for="(a, i) in communityMember.admin"
           :key="i"
           :user-avatar="a.avatar"
           :user-name="a.name"
@@ -50,7 +50,7 @@
                 <v-list-item @click="removeAdmin(a.id)">
                   <v-list-item-title>取消管理员</v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="transferClub(a.id)">
+                <v-list-item @click="transferCommunity(a.id)">
                   <v-list-item-title>转让社团</v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -71,7 +71,7 @@
       </v-card-title>
       <v-list subheader>
         <user-item
-          v-for="(m, i) in clubMember.member"
+          v-for="(m, i) in communityMember.member"
           :key="i"
           :user-avatar="m.avatar"
           :user-name="m.name"
@@ -90,7 +90,7 @@
                 <v-list-item @click="setAdmin(m.id)">
                   <v-list-item-title>设为管理员</v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="transferClub(m.id)">
+                <v-list-item @click="transferCommunity(m.id)">
                   <v-list-item-title>转让社团</v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -104,7 +104,7 @@
 <script>
 import UserItem from "@/components/UserItem";
 export default {
-  name: "ClubMemberManagement",
+  name: "CommunityMemberManagement",
   data: function () {
     return {
       //   confirmDialog: false,
@@ -114,7 +114,7 @@ export default {
       snackbarState: false,
       snackbarText: "",
       snackbarColor: "",
-      clubMember: {
+      communityMember: {
         creator: { avatar: "", name: "ens", target: "", profile: "hello!" },
         admin: [
           {
@@ -177,7 +177,7 @@ export default {
         }
       });
     },
-    transferClub(id) {
+    transferCommunity(id) {
       this.$confirm("一旦转让将无法撤销", {
         title: "确认转让社团？",
       }).then((res) => {

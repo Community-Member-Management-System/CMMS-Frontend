@@ -1,19 +1,19 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="3" v-for="(a, i) in clubActivities" :key="i">
+      <v-col cols="4" v-for="(a, i) in communityActivities" :key="i">
         <activity-item
-          :club-avatar="a.clubAvatar"
-          :club-name="a.clubName"
-          :club-profile="a.clubProfile"
-          :club-target="a.clubTarget"
+          :community-avatar="a.communityAvatar"
+          :community-name="a.communityName"
+          :community-profile="a.communityProfile"
+          :community-target="a.communityTarget"
           :activity-name="a.activityName"
           :activity-time="a.activityTime"
           :activity-location="a.activityLocation"
           :activity-status="a.activityStatus"
           :activity-content="a.activityContent"
           :activity-target="a.activityTarget"
-          show-club
+          show-community
         />
       </v-col>
     </v-row>
@@ -27,17 +27,16 @@
 
 <script>
 import ActivityItem from "@/components/ActivityItem";
-import ClubActivityManagement from "@/components/ClubManagement/ClubActivityManagement";
 export default {
-  name: "ClubManagement",
+  name: "CommunityActivity",
   data: function () {
     return {
-      clubActivities: [
+      communityActivities: [
         {
-          clubAvatar: "",
-          clubName: "ZJX Club!",
-          clubProfile: "wuhu qifei",
-          clubTarget: "",
+          communityAvatar: "",
+          communityName: "ZJX Community!",
+          communityProfile: "wuhu qifei",
+          communityTarget: "",
           activityName: "Linux install party",
           activityTime: "2020-7-17, 15:00-16:00",
           activityLocation: "西校区3B101",
@@ -46,10 +45,10 @@ export default {
           activityStatus: "正在进行中",
         },
         {
-          clubAvatar: "",
-          clubName: "ZJX Club!",
-          clubProfile: "wuhu qifei",
-          clubTarget: "",
+          communityAvatar: "",
+          communityName: "ZJX Community!",
+          communityProfile: "wuhu qifei",
+          communityTarget: "",
           activityName: "Linux install party",
           activityTime: "2020-7-17, 15:00-16:00",
           activityLocation: "西校区3B101",
@@ -58,10 +57,10 @@ export default {
           activityStatus: "已结束",
         },
         {
-          clubAvatar: "",
-          clubName: "ZJX Club!",
-          clubProfile: "wuhu qifei",
-          clubTarget: "",
+          communityAvatar: "",
+          communityName: "ZJX Community!",
+          communityProfile: "wuhu qifei",
+          communityTarget: "",
           activityName: "Linux install party",
           activityTime: "2020-7-17, 15:00-16:00",
           activityLocation: "西校区3B101",
@@ -70,10 +69,10 @@ export default {
           activityStatus: "已结束",
         },
         {
-          clubAvatar: "",
-          clubName: "ZJX Club!",
-          clubProfile: "wuhu qifei",
-          clubTarget: "",
+          communityAvatar: "",
+          communityName: "ZJX Community!",
+          communityProfile: "wuhu qifei",
+          communityTarget: "",
           activityName: "Linux install party",
           activityTime: "2020-7-17, 15:00-16:00",
           activityLocation: "西校区3B101",
@@ -82,10 +81,10 @@ export default {
           activityStatus: "已结束",
         },
         {
-          clubAvatar: "",
-          clubName: "ZJX Club!",
-          clubProfile: "wuhu qifei",
-          clubTarget: "",
+          communityAvatar: "",
+          communityName: "ZJX Community!",
+          communityProfile: "wuhu qifei",
+          communityTarget: "",
           activityName: "Linux install party",
           activityTime: "2020-7-17, 15:00-16:00",
           activityLocation: "西校区3B101",
