@@ -228,7 +228,7 @@ export default {
         text: "资料设置",
         targetPath: "/setuserinfo",
       },
-      { icon: "mdi-logout-variant", text: "退出登录", targetPath: "" },
+      { icon: "mdi-logout-variant", text: "退出登录", targetPath: "/" },
     ],
   }),
   methods: {
