@@ -17,43 +17,21 @@
     <v-row class="mb-10">
       <v-col>
         <v-card flat>
-          <v-tabs background-color="grey lighten-3" fixed-tabs v-model="tab">
-            <v-tab v-for="(it, idx) in communityDataType" :key="idx">{{ it }}</v-tab>
+          <v-tabs v-model="tab" background-color="grey lighten-3" fixed-tabs>
+            <v-tab v-for="(it, idx) in communityTabs" :key="idx">{{ it.tabName }}</v-tab>
           </v-tabs>
+          <!-- <v-row class="background">
+            <v-col>
+              <keep-alive>
+                <component :is="communityTabs[tab].tabComponent"></component>
+              </keep-alive>
+            </v-col>
+          </v-row>-->
           <v-tabs-items v-model="tab">
-            <v-tab-item v-for="(it, idx) in communityDataType" :key="idx">
-              <!-- 社团信息 -->
-              <v-row class="background" v-if="idx==0">
+            <v-tab-item v-for="(it, idx) in communityTabs" :key="idx">
+              <v-row class="background">
                 <v-col>
-                  <community-info></community-info>
-                </v-col>
-              </v-row>
-
-              <!-- 社团活动 -->
-              <v-row class="background" v-if="idx==1">
-                <v-col>
-                  <community-activity />
-                </v-col>
-              </v-row>
-
-              <!-- 社团通知 -->
-              <v-row class="background" v-if="idx==2">
-                <v-col>
-                  <community-notice />
-                </v-col>
-              </v-row>
-
-              <!-- 社团成员 -->
-              <v-row class="background" v-if="idx==3">
-                <v-col>
-                  <community-member />
-                </v-col>
-              </v-row>
-
-              <!-- 待办事项 -->
-              <v-row class="background" v-if="idx==4">
-                <v-col>
-                  <community-todo />
+                  <component :is="it.tabComponent"></component>
                 </v-col>
               </v-row>
             </v-tab-item>
@@ -72,20 +50,27 @@ import CommunityMember from "@/components/Community/CommunityMember";
 import CommunityTodo from "@/components/Community/CommunityTodo";
 export default {
   name: "Community",
+  props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
   data: function () {
     return {
-      tab: null,
+      tab: 0,
       communityName: "社团名称",
-      communityDataType: [
-        "社团信息",
-        "社团活动",
-        "社团通知",
-        "社团成员",
-        "待办事项",
-      ],
     };
   },
-  computed: {},
+  computed: {
+    communityTabs() {
+      let allTabs = [
+        { tabName: "社团信息", tabComponent: "CommunityInfo" },
+        { tabName: "社团活动", tabComponent: "CommunityActivity" },
+        { tabName: "社团通知", tabComponent: "CommunityNotice" },
+        { tabName: "社团成员", tabComponent: "CommunityMember" },
+        { tabName: "待办事项", tabComponent: "CommunityTodo" },
+      ];
+      if (this.authType == "admin") return allTabs;
+      else if (this.authType == "user") return allTabs.slice(0, 3);
+      else return null;
+    },
+  },
   methods: {},
   components: {
     CommunityInfo,

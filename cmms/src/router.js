@@ -38,8 +38,9 @@ const router = new Router({
                     component: ClubInfo,
                 },
                 {
-                    path: "community",
-                    component: Community
+                    path: "community/:authType",
+                    component: Community,
+                    props: true,
                 },
                 {
                     path: "create-activity",
