@@ -91,6 +91,7 @@
         </v-btn>
         <v-divider vertical></v-divider>
         <v-avatar class="ml-5" color="grey" size="30">
+          <!-- TODO: get avatar -->
           <v-icon dark>mdi-account-circle</v-icon>
         </v-avatar>
 
@@ -105,10 +106,12 @@
             <v-list>
               <v-list-item>
                 <v-list-item-avatar color="grey">
+                  <!-- TODO: get avatar -->
                   <v-icon dark>mdi-account-circle</v-icon>
                 </v-list-item-avatar>
 
                 <v-list-item-content>
+                  <!-- TODO: get user info -->
                   <v-list-item-title>Username</v-list-item-title>
                   <v-list-item-subtitle>Introduction</v-list-item-subtitle>
                 </v-list-item-content>
@@ -118,21 +121,17 @@
             <v-divider></v-divider>
 
             <v-list>
-              <!-- TODO: click-->
-              <v-list-item
-                v-for="(item, index) in user_menu_items"
-                :key="index+'4'"
-                :to="item.targetPath"
-              >
+              <v-list-item to="/setuserinfo">
                 <v-list-item-icon>
-                  <v-icon>{{ item.icon }}</v-icon>
+                  <v-icon>mdi-account</v-icon>
                 </v-list-item-icon>
-
-                <v-list-item-title>
-                  {{
-                  item.text
-                  }}
-                </v-list-item-title>
+                <v-list-item-title>资料设置</v-list-item-title>
+              </v-list-item>
+              <v-list-item to="/api/auth/logout">
+                <v-list-item-icon>
+                  <v-icon>mdi-logout-variant</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>退出登录</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-card>
@@ -157,14 +156,10 @@
 </template>
 
 <script>
-// import ActivitySignClub from "./components/ActivitySignClub";
-
 export default {
   name: "Home",
-
-  //   components: { ActivitySignClub },
-
   data: () => ({
+    mini: false,
     fab: false,
     list: [
       {
@@ -179,12 +174,6 @@ export default {
         color: "orange accent-4",
         targetPath: "/myclubs",
       },
-      // {
-      //     title: "搜索",
-      //     icon: "mdi-account-group",
-      //     color: "warning",
-      //     targetPath: "/search",
-      // },
       // {
       //     title: "系统管理",
       //     icon: "mdi-view-dashboard",
@@ -219,16 +208,6 @@ export default {
           targetPath: "/activity-due",
         },
       ],
-    ],
-
-    mini: false,
-    user_menu_items: [
-      {
-        icon: "mdi-account",
-        text: "资料设置",
-        targetPath: "/setuserinfo",
-      },
-      { icon: "mdi-logout-variant", text: "退出登录", targetPath: "/" },
     ],
   }),
   methods: {
