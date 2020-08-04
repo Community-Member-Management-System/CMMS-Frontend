@@ -1,5 +1,5 @@
 <template>
-  <v-app v-resize="onResize()">
+  <v-app v-resize="onResize">
     <!-- navigation drawer -->
     <v-navigation-drawer v-model="drawer" color="grey lighten-4" :mini-variant.sync="mini" app>
       <v-list-item class="px-2">
