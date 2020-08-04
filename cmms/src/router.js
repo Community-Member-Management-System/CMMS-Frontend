@@ -32,36 +32,36 @@ const router = new Router({
             component: Home,
             children: [
                 {
-                    path: "myclubs",
+                    path: "/myclubs",
                     component: MyClubs,
                 },
                 {
-                    path: "clubs",
+                    path: "/clubs",
                     component: ClubInfo,
                 },
                 {
-                    path: "community/:authType",
+                    path: "/community/:authType",
                     component: Community,
                     props: true,
                 },
                 {
-                    path: "create-activity",
+                    path: "/create-activity",
                     component: CreateActivity,
                 },
                 {
-                    path: "activity",
+                    path: "/activity",
                     component: ActivityPage,
                 },
                 {
-                    path: "activitysignclub",
+                    path: "/activitysignclub",
                     component: ActivitySignClub,
                 },
                 {
-                    path: "activitysignuser",
+                    path: "/activitysignuser",
                     component: ActivitySignUser,
                 },
                 {
-                    path: "setuserinfo",
+                    path: "/setuserinfo",
                     component: SetUserInfo,
                 },
             ],
