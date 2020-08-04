@@ -28,7 +28,6 @@ Vue.config.productionTip = false;
 
 // global navigation guards (before)
 router.beforeEach((to, from, next) => {
-    console.log(to);
     if (router.app.$cookies.get("login") === "true") {
         if (to.name === "Login") next({ path: "/home" });
         else {

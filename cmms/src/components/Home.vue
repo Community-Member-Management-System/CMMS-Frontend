@@ -127,7 +127,7 @@
                 </v-list-item-icon>
                 <v-list-item-title>资料设置</v-list-item-title>
               </v-list-item>
-              <v-list-item to="/api/auth/logout">
+              <v-list-item @click="logout()">
                 <v-list-item-icon>
                   <v-icon>mdi-logout-variant</v-icon>
                 </v-list-item-icon>
@@ -225,6 +225,14 @@ export default {
       } else {
         this.$router.go(-1);
       }
+    },
+    logout() {
+      // TODO: send to backend
+      // this.axios.post("/api/auth/logout");
+      // clear cookies
+      this.$cookies.remove("login");
+      // jump to login page
+      this.$router.push({ path: "/" });
     },
   },
 };
