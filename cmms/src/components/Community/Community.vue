@@ -20,22 +20,26 @@
           <v-tabs v-model="tab" background-color="grey lighten-3" fixed-tabs>
             <v-tab v-for="(it, idx) in communityTabs" :key="idx">{{ it.tabName }}</v-tab>
           </v-tabs>
-          <!-- <v-row class="background">
+
+          <v-row class="background">
             <v-col>
-              <keep-alive>
-                <component :is="communityTabs[tab].tabComponent"></component>
-              </keep-alive>
+              <v-scroll-x-transition>
+                <keep-alive>
+                  <component :is="communityTabs[tab].tabComponent" :authType="authType"></component>
+                </keep-alive>
+              </v-scroll-x-transition>
             </v-col>
-          </v-row>-->
-          <v-tabs-items v-model="tab">
+          </v-row>
+
+          <!-- <v-tabs-items v-model="tab">
             <v-tab-item v-for="(it, idx) in communityTabs" :key="idx">
               <v-row class="background">
                 <v-col>
-                  <component :is="it.tabComponent"></component>
+                  <component :is="it.tabComponent" :authType="authType"></component>
                 </v-col>
               </v-row>
             </v-tab-item>
-          </v-tabs-items>
+          </v-tabs-items>-->
         </v-card>
       </v-col>
     </v-row>
@@ -53,7 +57,7 @@ export default {
   props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
   data: function () {
     return {
-      tab: 0,
+      tab: 1,
       communityName: "社团名称",
     };
   },

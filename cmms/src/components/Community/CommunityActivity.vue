@@ -1,24 +1,25 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="4" v-for="(a, i) in communityActivities" :key="i">
-        <activity-item
-          :community-avatar="a.communityAvatar"
-          :community-name="a.communityName"
-          :community-profile="a.communityProfile"
-          :community-target="a.communityTarget"
-          :activity-name="a.activityName"
-          :activity-time="a.activityTime"
-          :activity-location="a.activityLocation"
-          :activity-status="a.activityStatus"
-          :activity-content="a.activityContent"
-          :activity-target="a.activityTarget"
-          show-community
-        />
+      <v-col cols="4" v-for="(activity, i) in activities" :key="i">
+        <activity-profile v-bind="activity">
+          <template v-if="authType == 'admin' " v-slot:deleteBtn>
+            <v-btn absolute right color="red darken-2" outlined link @click="deleteActivity">删除活动</v-btn>
+          </template>
+        </activity-profile>
       </v-col>
     </v-row>
-    <v-row justify="center">
-      <v-btn elevation="5" bottom fixed class="mx-2" fab dark color="green" to="/create-activity">
+    <v-row justify="center" v-if="authType == 'admin' ">
+      <v-btn
+        elevation="5"
+        bottom
+        fixed
+        class="mx-2"
+        fab
+        dark
+        color="green"
+        to="/home/create-activity"
+      >
         <v-icon dark>mdi-plus</v-icon>
       </v-btn>
     </v-row>
@@ -26,79 +27,84 @@
 </template>
 
 <script>
-import ActivityItem from "@/components/ActivityItem";
+import ActivityProfile from "@/components/Activity/ActivityProfile";
 export default {
   name: "CommunityActivity",
+  props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
   data: function () {
     return {
-      communityActivities: [
+      activities: [
         {
-          communityAvatar: "",
-          communityName: "ZJX Community!",
-          communityProfile: "wuhu qifei",
-          communityTarget: "",
-          activityName: "Linux install party",
-          activityTime: "2020-7-17, 15:00-16:00",
-          activityLocation: "西校区3B101",
-          activityContent: "帮助安装Linux",
-          activityTarget: "",
-          activityStatus: "正在进行中",
+          status: "正在进行中",
+          title: "Linux install party",
+          description: "帮助安装Linux",
+          startTime: "2020-07-17 15:00",
+          endTime: "2020-07-17 16:00",
+          location: "西校区3B101",
+          detailLink: "/home/activity",
         },
         {
-          communityAvatar: "",
-          communityName: "ZJX Community!",
-          communityProfile: "wuhu qifei",
-          communityTarget: "",
-          activityName: "Linux install party",
-          activityTime: "2020-7-17, 15:00-16:00",
-          activityLocation: "西校区3B101",
-          activityContent: "帮助安装Linux",
-          activityTarget: "",
-          activityStatus: "已结束",
+          status: "正在进行中",
+          title: "Linux install party",
+          description: "帮助安装Linux",
+          startTime: "2020-07-17 15:00",
+          endTime: "2020-07-17 16:00",
+          location: "西校区3B101",
+          detailLink: "/home/activity",
         },
         {
-          communityAvatar: "",
-          communityName: "ZJX Community!",
-          communityProfile: "wuhu qifei",
-          communityTarget: "",
-          activityName: "Linux install party",
-          activityTime: "2020-7-17, 15:00-16:00",
-          activityLocation: "西校区3B101",
-          activityContent: "帮助安装Linux",
-          activityTarget: "",
-          activityStatus: "已结束",
+          status: "正在进行中",
+          title: "Linux install party",
+          description: "帮助安装Linux",
+          startTime: "2020-07-17 15:00",
+          endTime: "2020-07-17 16:00",
+          location: "西校区3B101",
+          detailLink: "/home/activity",
         },
         {
-          communityAvatar: "",
-          communityName: "ZJX Community!",
-          communityProfile: "wuhu qifei",
-          communityTarget: "",
-          activityName: "Linux install party",
-          activityTime: "2020-7-17, 15:00-16:00",
-          activityLocation: "西校区3B101",
-          activityContent: "帮助安装Linux",
-          activityTarget: "",
-          activityStatus: "已结束",
+          status: "正在进行中",
+          title: "Linux install party",
+          description: "帮助安装Linux",
+          startTime: "2020-07-17 15:00",
+          endTime: "2020-07-17 16:00",
+          location: "西校区3B101",
+          detailLink: "/home/activity",
         },
         {
-          communityAvatar: "",
-          communityName: "ZJX Community!",
-          communityProfile: "wuhu qifei",
-          communityTarget: "",
-          activityName: "Linux install party",
-          activityTime: "2020-7-17, 15:00-16:00",
-          activityLocation: "西校区3B101",
-          activityContent: "帮助安装Linux",
-          activityTarget: "",
-          activityStatus: "已结束",
+          status: "正在进行中",
+          title: "Linux install party",
+          description: "帮助安装Linux",
+          startTime: "2020-07-17 15:00",
+          endTime: "2020-07-17 16:00",
+          location: "西校区3B101",
+          detailLink: "/home/activity",
         },
       ],
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    getActivities() {
+      // TODO: 获取该社团所有活动
+    },
+    deleteActivity() {
+      this.$confirm("其他相关活动信息将一并删除", {
+        title: "确认删除该活动？",
+      }).then((res) => {
+        if (res) {
+          // TODO: 删除活动
+        }
+      });
+    },
+  },
+  //   mounted() {
+  //     this.getActivities();
+  //   },
+  activated() {
+    this.getActivities();
+  },
   components: {
-    ActivityItem,
+    ActivityProfile,
   },
 };
 </script>
