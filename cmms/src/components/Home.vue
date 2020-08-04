@@ -1,7 +1,7 @@
 <template>
-  <v-app>
+  <v-app v-resize="onResize()">
     <!-- navigation drawer -->
-    <v-navigation-drawer color="grey lighten-4" :mini-variant.sync="mini" app>
+    <v-navigation-drawer v-model="drawer" color="grey lighten-4" :mini-variant.sync="mini" app>
       <v-list-item class="px-2">
         <v-btn icon @click.stop="mini = !mini">
           <v-icon>mdi-menu</v-icon>
@@ -78,6 +78,9 @@
       </v-btn>
       <!-- app bar -->
       <v-app-bar class="background" flat>
+        <v-btn class="d-inline d-lg-none" icon @click.stop="drawer = true">
+          <v-icon>mdi-menu</v-icon>
+        </v-btn>
         <v-spacer></v-spacer>
         <!-- TODO: 搜索栏 -->
         <v-btn icon>
@@ -159,6 +162,7 @@
 export default {
   name: "Home",
   data: () => ({
+    drawer: true,
     mini: false,
     fab: false,
     list: [
@@ -210,7 +214,20 @@ export default {
       ],
     ],
   }),
+  mounted() {
+    this.onResize();
+  },
   methods: {
+    onResize() {
+      if (
+        this.$vuetify.breakpoint.name === "lg" ||
+        this.$vuetify.breakpoint.name === "xl"
+      ) {
+        this.drawer = true;
+      } else {
+        this.mini = false;
+      }
+    },
     onScroll(e) {
       if (typeof window === "undefined") return;
       const top = window.pageYOffset || e.target.scrollTop || 0;
@@ -228,7 +245,6 @@ export default {
     },
     logout() {
       // TODO: send to backend
-      // this.axios.post("/api/auth/logout");
       // clear cookies
       this.$cookies.remove("login");
       // jump to login page
