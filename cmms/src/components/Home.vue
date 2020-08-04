@@ -245,6 +245,14 @@ export default {
     },
     logout() {
       // TODO: send to backend
+      this.axios
+        .post("/api/auth/logout", null, {
+          headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+        })
+        .then((response) => {
+          console.log(response);
+          alert(response.data.detail);
+        });
       // clear cookies
       this.$cookies.remove("login");
       // jump to login page
