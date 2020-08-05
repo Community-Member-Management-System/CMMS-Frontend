@@ -10,16 +10,7 @@
       </v-col>
     </v-row>
     <v-row justify="center" v-if="authType == 'admin' ">
-      <v-btn
-        elevation="5"
-        bottom
-        fixed
-        class="mx-2"
-        fab
-        dark
-        color="green"
-        to="/home/create-activity"
-      >
+      <v-btn elevation="5" bottom fixed class="mx-2" fab dark color="green" to="/create-activity">
         <v-icon dark>mdi-plus</v-icon>
       </v-btn>
     </v-row>
@@ -41,7 +32,7 @@ export default {
           startTime: "2020-07-17 15:00",
           endTime: "2020-07-17 16:00",
           location: "西校区3B101",
-          detailLink: "/home/activity",
+          detailLink: "/activity",
         },
         {
           status: "正在进行中",
@@ -50,7 +41,7 @@ export default {
           startTime: "2020-07-17 15:00",
           endTime: "2020-07-17 16:00",
           location: "西校区3B101",
-          detailLink: "/home/activity",
+          detailLink: "/activity",
         },
         {
           status: "正在进行中",
@@ -59,7 +50,7 @@ export default {
           startTime: "2020-07-17 15:00",
           endTime: "2020-07-17 16:00",
           location: "西校区3B101",
-          detailLink: "/home/activity",
+          detailLink: "/activity",
         },
         {
           status: "正在进行中",
@@ -68,7 +59,7 @@ export default {
           startTime: "2020-07-17 15:00",
           endTime: "2020-07-17 16:00",
           location: "西校区3B101",
-          detailLink: "/home/activity",
+          detailLink: "/activity",
         },
         {
           status: "正在进行中",
@@ -77,7 +68,7 @@ export default {
           startTime: "2020-07-17 15:00",
           endTime: "2020-07-17 16:00",
           location: "西校区3B101",
-          detailLink: "/home/activity",
+          detailLink: "/activity",
         },
       ],
     };

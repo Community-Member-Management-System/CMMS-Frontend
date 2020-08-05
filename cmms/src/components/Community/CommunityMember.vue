@@ -1,37 +1,27 @@
  <template>
   <v-container>
-    <!-- <v-row justify="center">
-      <v-dialog v-model="confirmDialog" persistent max-width="290">
-        <v-card>
-          <v-card-title class="headline">{{confirmDialogTitle}}</v-card-title>
-          <v-card-text>{{confirmDialogText}}</v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="green darken-1"
-              text
-              @click="confirmDialog = false;confirmDialogResult=true"
-            >确认</v-btn>
-            <v-btn
-              color="green darken-1"
-              text
-              @click="confirmDialog = false;confirmDialogResult=false"
-            >取消</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>-->
+    <!-- 消息提示框 -->
     <v-snackbar v-model="snackbarState" top :color="snackbarColor" dark>
       {{ snackbarText }}
       <template v-slot:action="{ attrs }">
         <v-btn color="white" text v-bind="attrs" @click="snackbarState = false">Close</v-btn>
       </template>
     </v-snackbar>
+
     <v-card class="mb-5 pa-5">
       <v-card-title>
-        <span>管理员</span>
-        <v-icon class="ml-5" color="info" large @click="addAdmin">mdi-account-plus-outline</v-icon>
+        <v-list-item>
+          <v-list-item-content>
+            <span>管理员</span>
+          </v-list-item-content>
+          <v-btn absolute right fab dark small color="green" @click="addAdmin">
+            <v-icon>mdi-account-plus-outline</v-icon>
+          </v-btn>
+        </v-list-item>
       </v-card-title>
+
+      <v-divider></v-divider>
+
       <v-list subheader>
         <user-item
           v-for="(a, i) in communityMember.admin"
@@ -44,7 +34,7 @@
           <template v-slot:action>
             <v-menu>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon large color="primary" dark v-bind="attrs" v-on="on">mdi-dots-horizontal</v-icon>
+                <v-icon large color="grey" dark v-bind="attrs" v-on="on">mdi-pencil-circle</v-icon>
               </template>
               <v-list>
                 <v-list-item @click="removeAdmin(a.id)">
@@ -61,14 +51,26 @@
     </v-card>
     <v-card class="mb-5 pa-5">
       <v-card-title>
-        <span>成员</span>
-        <v-icon
-          class="ml-10"
-          color="info"
-          large
-          @click="inviteMember"
-        >mdi-account-multiple-plus-outline</v-icon>
+        <v-list-item>
+          <v-list-item-content>
+            <span>社团成员</span>
+          </v-list-item-content>
+          <v-btn
+            absolute
+            right
+            fab
+            dark
+            small
+            color="green"
+            @click="inviteMember"
+            to="/invite-user"
+          >
+            <v-icon>mdi-account-multiple-plus-outline</v-icon>
+          </v-btn>
+        </v-list-item>
       </v-card-title>
+      <v-divider></v-divider>
+
       <v-list subheader>
         <user-item
           v-for="(m, i) in communityMember.member"
@@ -81,7 +83,13 @@
           <template v-slot:action>
             <v-menu>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon large color="primary" dark v-bind="attrs" v-on="on">mdi-dots-horizontal</v-icon>
+                <v-icon
+                  large
+                  color="grey"
+                  dark
+                  v-bind="attrs"
+                  @click.stop.self.prevent="on.click"
+                >mdi-pencil-circle</v-icon>
               </template>
               <v-list>
                 <v-list-item @click="removeMember(m.id)">
@@ -105,12 +113,9 @@
 import UserItem from "@/components/UserItem";
 export default {
   name: "CommunityMemberManagement",
+  props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
   data: function () {
     return {
-      //   confirmDialog: false,
-      //   confirmDialogTitle: "",
-      //   confirmDialogText: "",
-      //   confirmDialogResult: false,
       snackbarState: false,
       snackbarText: "",
       snackbarColor: "",
@@ -120,7 +125,13 @@ export default {
           {
             avatar: "",
             name: "ens",
-            target: "",
+            target: "/personal-info",
+            profile: "hello!",
+          },
+          {
+            avatar: "",
+            name: "cwk",
+            target: "/personal-info",
             profile: "hello!",
           },
         ],
@@ -128,13 +139,19 @@ export default {
           {
             avatar: "",
             name: "gyx",
-            target: "",
+            target: "/personal-info",
             profile: "hello!",
           },
           {
             avatar: "",
             name: "zjx",
-            target: "",
+            target: "/personal-info",
+            profile: "hello!",
+          },
+          {
+            avatar: "",
+            name: "ca",
+            target: "/personal-info",
             profile: "hello!",
           },
         ],

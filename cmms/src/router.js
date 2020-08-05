@@ -13,6 +13,9 @@ import ActivityPage from "@/components/ActivityPage";
 
 import CreateActivity from "@/components/Activity/CreateActivity";
 import Community from "@/components/Community/Community";
+import InviteUser from "@/components/Community/InviteUser";
+
+import PersonalInfo from "@/components/PersonalInfo";
 
 
 // import Page from '@/components/Page';
@@ -40,7 +43,7 @@ const router = new Router({
                     component: ClubInfo,
                 },
                 {
-                    path: "community/:authType", // authType can be 'admin' or 'user'
+                    path: "/community/:authType", // authType can be 'admin' or 'user'
                     component: Community,
                     props: true,
                     meta: { needAuth: false }, // debug other components without auth
@@ -48,6 +51,16 @@ const router = new Router({
                 {
                     path: "/create-activity",
                     component: CreateActivity,
+                    meta: { needAuth: false }, // debug other components without auth
+                },
+                {
+                    path: "/personal-info",
+                    component: PersonalInfo,
+                    meta: { needAuth: false }, // debug other components without auth
+                },
+                {
+                    path: "/invite-user",
+                    component: InviteUser,
                     meta: { needAuth: false }, // debug other components without auth
                 },
                 {

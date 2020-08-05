@@ -57,13 +57,13 @@ export default {
   props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
   data: function () {
     return {
-      tab: 1,
+      tab: 3,
       communityName: "社团名称",
     };
   },
   computed: {
     communityTabs() {
-      let allTabs = [
+      const allTabs = [
         { tabName: "社团信息", tabComponent: "CommunityInfo" },
         { tabName: "社团活动", tabComponent: "CommunityActivity" },
         { tabName: "社团通知", tabComponent: "CommunityNotice" },
