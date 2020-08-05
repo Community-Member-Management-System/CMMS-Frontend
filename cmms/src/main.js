@@ -5,6 +5,7 @@ import router from "./router.js";
 import VueCookies from "vue-cookies";
 import Vuetify from "vuetify/lib";
 import VuetifyConfirm from "vuetify-confirm";
+import Toasted from 'vue-toasted';
 import Vuex from "vuex";
 import mavonEditor from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
@@ -60,6 +61,7 @@ const opts = {
 
 const vuetify = new Vuetify(opts);
 Vue.use(VuetifyConfirm, { vuetify });
+Vue.use(Toasted);
 
 new Vue({
     vuetify,

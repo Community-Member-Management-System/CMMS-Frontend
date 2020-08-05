@@ -1,12 +1,12 @@
  <template>
   <v-container>
-    <!-- 消息提示框 -->
+    <!-- 消息提示框
     <v-snackbar v-model="snackbarState" top :color="snackbarColor" dark>
       {{ snackbarText }}
       <template v-slot:action="{ attrs }">
         <v-btn color="white" text v-bind="attrs" @click="snackbarState = false">Close</v-btn>
       </template>
-    </v-snackbar>
+    </v-snackbar>-->
 
     <v-card class="mb-5 pa-5">
       <v-card-title>
@@ -181,7 +181,8 @@ export default {
       }).then((res) => {
         if (res) {
           // TODO: 请求后端
-          this.popupSnackbar("success", "移除成功");
+          // this.popupSnackbar("success", "移除成功");
+          this.$toasted.show("hhh");
         }
       });
     },
@@ -203,11 +204,11 @@ export default {
         }
       });
     },
-    popupSnackbar(type, message) {
-      this.snackbarColor = type;
-      this.snackbarText = message;
-      this.snackbarState = true;
-    },
+    // popupSnackbar(type, message) {
+    //   this.snackbarColor = type;
+    //   this.snackbarText = message;
+    //   this.snackbarState = true;
+    // },
   },
   components: {
     UserItem,
