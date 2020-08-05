@@ -32,7 +32,6 @@ router.beforeEach((to, from, next) => {
     if (router.app.$cookies.get("login") === "true") {
         if (to.name === "Login") next({ path: "/home" });
         else {
-            console.log("here");
             next();
         }
     } else {

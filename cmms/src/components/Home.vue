@@ -93,9 +93,10 @@
           <v-icon>mdi-bell</v-icon>
         </v-btn>
         <v-divider vertical></v-divider>
-        <v-avatar class="ml-5" color="grey" size="30">
+        <v-avatar class="mx-5" color="grey" size="40">
           <!-- TODO: get avatar -->
-          <v-icon dark>mdi-account-circle</v-icon>
+          <!-- <v-icon dark>mdi-account-circle</v-icon> -->
+          <v-img :src="user.avatar"></v-img>
         </v-avatar>
 
         <!-- user drop-down menu -->
@@ -105,18 +106,19 @@
               <v-icon>mdi-menu-down</v-icon>
             </v-btn>
           </template>
-          <v-card>
+          <v-card class="px-3">
             <v-list>
               <v-list-item>
                 <v-list-item-avatar color="grey">
                   <!-- TODO: get avatar -->
-                  <v-icon dark>mdi-account-circle</v-icon>
+                  <!-- <v-icon dark>mdi-account-circle</v-icon> -->
+                  <v-img :src="user.avatar"></v-img>
                 </v-list-item-avatar>
 
                 <v-list-item-content>
                   <!-- TODO: get user info -->
-                  <v-list-item-title>Username</v-list-item-title>
-                  <v-list-item-subtitle>Introduction</v-list-item-subtitle>
+                  <v-list-item-title>{{ user.nick_name }}</v-list-item-title>
+                  <v-list-item-subtitle>{{ user.profile }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -165,6 +167,18 @@ export default {
     drawer: true,
     mini: false,
     fab: false,
+    user: {
+      id: "",
+      new: true,
+      nick_name: "",
+      avatar: "",
+      profile: "",
+      communities: [],
+      student_id: "",
+      real_name: "",
+      email: "",
+      phone: "",
+    },
     list: [
       {
         title: "个人主页",
@@ -216,8 +230,38 @@ export default {
   }),
   mounted() {
     this.onResize();
+    this.fetchUserInfo();
   },
   methods: {
+    async fetchUserInfo() {
+      await this.axios
+        .post("/api/auth/check", null, {
+          headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+        })
+        .then((response) => {
+          // console.log("Check User: ");
+          // console.log(response);
+          this.user.id = response.data.userid.toString();
+          this.user.new = response.data.new;
+          if (this.user.new) {
+            // TODO: turn to set user info page
+          }
+        });
+      let url = "/api/users/" + this.user.id;
+      console.log(url);
+      this.axios.get(url).then((response) => {
+        // console.log("Fetch User Info: " + url);
+        // console.log(response);
+        this.user.nick_name = response.data.nick_name;
+        this.user.avatar = response.data.avatar;
+        this.user.profile = response.data.profile;
+        this.user.communities = response.data.communities;
+        this.user.student_id = response.data.student_id;
+        this.user.real_name = response.data.real_name;
+        this.user.email = response.data.email;
+        this.user.phone = response.data.phone;
+      });
+    },
     onResize() {
       if (
         this.$vuetify.breakpoint.name === "lg" ||
@@ -250,7 +294,7 @@ export default {
           headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           alert(response.data.detail);
         });
       // clear cookies
