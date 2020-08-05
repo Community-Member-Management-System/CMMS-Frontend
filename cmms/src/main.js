@@ -43,6 +43,7 @@ router.beforeEach((to, from, next) => {
 // TODO: dark theme
 const opts = {
     theme: {
+        dark: false,
         themes: {
             light: {
                 primary: "#03a9f4",

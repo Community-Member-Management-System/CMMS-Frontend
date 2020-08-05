@@ -1,7 +1,7 @@
 <template>
   <v-app v-resize="onResize">
     <!-- navigation drawer -->
-    <v-navigation-drawer v-model="drawer" color="grey lighten-4" :mini-variant.sync="mini" app>
+    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" app>
       <v-list-item class="px-2">
         <v-btn icon @click.stop="mini = !mini">
           <v-icon>mdi-menu</v-icon>
@@ -35,11 +35,7 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>
-                {{
-                item.title
-                }}
-              </v-list-item-title>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </template>
 
@@ -50,11 +46,7 @@
             :to="innerItem.targetPath"
             :color="item.color"
           >
-            <v-list-item-title>
-              {{
-              innerItem.title
-              }}
-            </v-list-item-title>
+            <v-list-item-title>{{ innerItem.title }}</v-list-item-title>
           </v-list-item>
         </v-list-group>
       </v-list>
@@ -86,7 +78,7 @@
         <v-btn icon>
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
-        <v-btn icon>
+        <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
           <v-icon>mdi-brightness-7</v-icon>
         </v-btn>
         <v-btn icon>

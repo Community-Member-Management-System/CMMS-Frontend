@@ -20,7 +20,7 @@
     <v-row class="mb-10">
       <v-col>
         <v-card flat>
-          <v-tabs background-color="grey lighten-3" fixed-tabs v-model="tab">
+          <v-tabs fixed-tabs v-model="tab">
             <v-tab v-for="(it, idx) in clubDataType" :key="idx">{{ it }}</v-tab>
           </v-tabs>
           <v-tabs-items v-model="tab">
