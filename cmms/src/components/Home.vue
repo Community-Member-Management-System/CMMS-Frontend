@@ -124,6 +124,12 @@
                 </v-list-item-icon>
                 <v-list-item-title>资料设置</v-list-item-title>
               </v-list-item>
+              <v-list-item to="/create-community">
+                <v-list-item-icon>
+                  <v-icon>mdi-newspaper-variant</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>创建社团</v-list-item-title>
+              </v-list-item>
               <v-list-item @click="logout()">
                 <v-list-item-icon>
                   <v-icon>mdi-logout-variant</v-icon>

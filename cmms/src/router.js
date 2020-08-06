@@ -15,7 +15,12 @@ import CreateActivity from "@/components/Activity/CreateActivity";
 import Community from "@/components/Community/Community";
 import InviteUser from "@/components/Community/InviteUser";
 
+import SystemManagement from "@/components/SystemManagement/SystemManagement";
+import SystemAuditCommunity from "@/components/SystemManagement/SystemAuditCommunity";
+
 import PersonalInfo from "@/components/PersonalInfo";
+import CreateCommunity from "@/components/CreateCommunity";
+
 
 
 // import Page from '@/components/Page';
@@ -41,6 +46,21 @@ const router = new Router({
                 {
                     path: "/clubs",
                     component: ClubInfo,
+                },
+                {
+                    path: "/system-management",
+                    component: SystemManagement,
+                    meta: { needAuth: false }, // debug other components without auth
+                },
+                {
+                    path: "/system-audit-community",
+                    component: SystemAuditCommunity,
+                    meta: { needAuth: false }, // debug other components without auth
+                },
+                {
+                    path: "/create-community",
+                    component: CreateCommunity,
+                    meta: { needAuth: false }, // debug other components without auth
                 },
                 {
                     path: "/community/:authType", // authType can be 'admin' or 'user'

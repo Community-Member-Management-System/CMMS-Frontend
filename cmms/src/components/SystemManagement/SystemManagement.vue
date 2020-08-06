@@ -19,7 +19,12 @@
                     :status="it.status"
                     class="my-3"
                   ></system-application-item>
-                  <v-pagination v-model="curPage1" :length="length1" class='mt-4' :total-visible="7"></v-pagination>
+                  <v-pagination
+                    v-model="curPage1"
+                    :length="length1"
+                    class="mt-4"
+                    :total-visible="7"
+                  ></v-pagination>
                 </v-col>
               </v-row>
               <v-row class="background" v-if="idx==1">
@@ -32,7 +37,12 @@
                     :status="it.status"
                     class="my-3"
                   ></system-application-item>
-                  <v-pagination v-model="curPage2" :length="length2" class='mt-4' :total-visible="7"></v-pagination>
+                  <v-pagination
+                    v-model="curPage2"
+                    :length="length2"
+                    class="mt-4"
+                    :total-visible="7"
+                  ></v-pagination>
                 </v-col>
               </v-row>
             </v-tab-item>
@@ -44,7 +54,7 @@
 </template>
 
 <script>
-import SystemApplicationItem from "@/components/SystemApplicationItem";
+import SystemApplicationItem from "@/components/SystemManagement/SystemApplicationItem";
 export default {
   name: "SystemManagement",
   data: function () {
