@@ -1,7 +1,8 @@
 <template>
   <v-container>
     <!-- head -->
-    <v-row>
+    <!-- 放社团信息里 -->
+    <!-- <v-row>
       <v-col justify="center" align="center">
         <v-img height="250px">
           <v-avatar color="primary" size="100"></v-avatar>
@@ -9,38 +10,34 @@
           <v-btn class="mx-2 mb-4" color="primary">- 解散社团</v-btn>
         </v-img>
       </v-col>
-    </v-row>
+    </v-row>-->
+    <!-- <v-row justify="center">
+      <v-col cols="2">
+        <v-avatar color="primary"></v-avatar>
+      </v-col>
+      <v-col align-self="center" cols="3">
+        <div class="text-h4">{{ communityName }}</div>
+      </v-col>
+    </v-row>-->
 
-    <v-divider></v-divider>
+    <!-- <v-divider></v-divider> -->
 
     <!-- body -->
     <v-row class="mb-10">
       <v-col>
-        <v-card flat>
-          <v-tabs v-model="tab" background-color="grey lighten-3" fixed-tabs>
-            <v-tab v-for="(it, idx) in communityTabs" :key="idx">{{ it.tabName }}</v-tab>
-          </v-tabs>
+        <v-tabs v-model="tab" background-color="grey lighten-3" fixed-tabs>
+          <v-tab v-for="(it, idx) in communityTabs" :key="idx">{{ it.tabName }}</v-tab>
+        </v-tabs>
 
-          <v-row class="background">
-            <v-col>
-              <v-scroll-x-transition>
-                <keep-alive>
-                  <component :is="communityTabs[tab].tabComponent" :authType="authType"></component>
-                </keep-alive>
-              </v-scroll-x-transition>
-            </v-col>
-          </v-row>
-
-          <!-- <v-tabs-items v-model="tab">
-            <v-tab-item v-for="(it, idx) in communityTabs" :key="idx">
-              <v-row class="background">
-                <v-col>
-                  <component :is="it.tabComponent" :authType="authType"></component>
-                </v-col>
-              </v-row>
-            </v-tab-item>
-          </v-tabs-items>-->
-        </v-card>
+        <v-row class="background">
+          <v-col>
+            <v-scroll-x-transition>
+              <keep-alive>
+                <component :is="communityTabs[tab].tabComponent" :authType="authType"></component>
+              </keep-alive>
+            </v-scroll-x-transition>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -57,7 +54,7 @@ export default {
   props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
   data: function () {
     return {
-      tab: 3,
+      tab: 0,
       communityName: "社团名称",
     };
   },

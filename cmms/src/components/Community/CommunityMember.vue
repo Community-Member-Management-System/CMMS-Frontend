@@ -1,13 +1,5 @@
  <template>
   <v-container>
-    <!-- 消息提示框
-    <v-snackbar v-model="snackbarState" top :color="snackbarColor" dark>
-      {{ snackbarText }}
-      <template v-slot:action="{ attrs }">
-        <v-btn color="white" text v-bind="attrs" @click="snackbarState = false">Close</v-btn>
-      </template>
-    </v-snackbar>-->
-
     <v-card class="mb-5 pa-5">
       <v-card-title>
         <v-list-item>
@@ -34,7 +26,13 @@
           <template v-slot:action>
             <v-menu>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon large color="grey" dark v-bind="attrs" v-on="on">mdi-pencil-circle</v-icon>
+                <v-icon
+                  large
+                  color="grey"
+                  dark
+                  v-bind="attrs"
+                  @click.stop.self.prevent="on.click"
+                >mdi-pencil-circle</v-icon>
               </template>
               <v-list>
                 <v-list-item @click="removeAdmin(a.id)">
@@ -116,9 +114,6 @@ export default {
   props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
   data: function () {
     return {
-      snackbarState: false,
-      snackbarText: "",
-      snackbarColor: "",
       communityMember: {
         creator: { avatar: "", name: "ens", target: "", profile: "hello!" },
         admin: [
@@ -181,8 +176,11 @@ export default {
       }).then((res) => {
         if (res) {
           // TODO: 请求后端
-          // this.popupSnackbar("success", "移除成功");
-          this.$toasted.show("hhh");
+          this.$toasted.show("hhh", {
+            theme: "bubble",
+            position: "top-center",
+            duration: 3000,
+          });
         }
       });
     },
@@ -204,11 +202,6 @@ export default {
         }
       });
     },
-    // popupSnackbar(type, message) {
-    //   this.snackbarColor = type;
-    //   this.snackbarText = message;
-    //   this.snackbarState = true;
-    // },
   },
   components: {
     UserItem,
