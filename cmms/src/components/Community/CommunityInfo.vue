@@ -39,7 +39,8 @@
             <v-btn class="ml-2" outlined color="primary">加入</v-btn>
           </div>
           <div v-else>
-            <v-btn outlined color="primary">编辑社团</v-btn>
+            <v-btn outlined color="primary">编辑</v-btn>
+            <v-btn class="ml-2" outlined color="red">解散</v-btn>
           </div>
         </div>
       </v-col>
