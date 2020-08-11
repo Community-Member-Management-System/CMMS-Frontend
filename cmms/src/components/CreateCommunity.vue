@@ -11,7 +11,8 @@
               <v-col cols="5">
                 <v-row justify="center">
                   <v-avatar color="primary" size="180" class="mt-6">
-                    <span class="white--text headline">Avatar</span>
+                    <span v-if="!community.avatar" class="white--text headline">Avatar</span>
+                    <v-img v-else :src="community.avatar"></v-img>
                   </v-avatar>
                 </v-row>
                 <v-row justify="center" class="mt-4">
@@ -79,11 +80,37 @@ export default {
     onFileChanged(e) {
       this.selectedFile = e.target.files[0];
 
-      // TODO: 上传头像文件，设置 avatar image
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.community.avatar = e.target.result;
+      };
+      if (this.selectedFile) {
+        reader.readAsDataURL(this.selectedFile);
+      }
     },
     submit() {
-      // TODO: 提交
-      alert("信息已保存");
+      let formData = new FormData();
+      formData.append("name", this.community.name);
+      formData.append("profile", this.community.profile);
+      if (this.selectedFile)
+        formData.append("avatar", this.selectedFile);
+
+      let url = "/api/community/";
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": this.$cookies.get("csrftoken"),
+        },
+      };
+      this.axios
+          .post(url, formData, config)
+          .then((response) => {
+            alert('创建完成，请等待管理员审核。')
+            return response;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
     },
   },
 };

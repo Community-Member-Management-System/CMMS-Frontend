@@ -7,7 +7,6 @@ import Home from "@/components/Home";
 import ActivitySignClub from "@/components/ActivitySignClub";
 import ActivitySignUser from "@/components/ActivitySignUser";
 import SetUserInfo from "@/components/SetUserInfo";
-import MyClubs from "@/components/MyClubs";
 import ClubInfo from "@/components/ClubInfo";
 import ActivityPage from "@/components/ActivityPage";
 
@@ -21,6 +20,7 @@ import SystemAuditCommunity from "@/components/SystemManagement/SystemAuditCommu
 import PersonalInfo from "@/components/PersonalInfo";
 import CreateCommunity from "@/components/CreateCommunity";
 import ActivityList from "@/components/ActivityList";
+import ClubList from "@/components/ClubList";
 
 
 
@@ -41,11 +41,11 @@ const router = new Router({
             component: Home,
             children: [
                 {
-                    path: "/myclubs",
-                    component: MyClubs,
+                    path: "/clubs",
+                    component: ClubList,
                 },
                 {
-                    path: "/clubs",
+                    path: "/clubs/:club_id",
                     component: ClubInfo,
                 },
                 {

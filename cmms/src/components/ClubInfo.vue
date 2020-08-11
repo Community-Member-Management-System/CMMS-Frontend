@@ -5,10 +5,13 @@
       <v-col justify="center" align="center">
         <v-img height="250px">
           <v-avatar color="primary" size="100">
-            <!-- TODO: Image -->
+            <span v-if="!avatar" class="white--text headline">暂无头像</span>
+            <v-img v-else :src="avatar"></v-img>
           </v-avatar>
           <h1 class="display-1 py-3">{{ clubname }}</h1>
-          <v-btn class="mx-2 mb-4" color="primary">+ 申请加入</v-btn>
+          <h3>目前状态: {{ joinStatus }}</h3>
+          <v-btn v-if="joinStatus === '未加入'" class="mx-2 mb-4" color="primary">+ 申请加入</v-btn>
+          <v-btn v-if="joinStatus !== '未加入'" class="mx-2 mb-4" color="error">- 退出</v-btn>
           <!-- <v-btn class="mx-2 mb-4" color="primary">管理社团</v-btn> -->
         </v-img>
       </v-col>
@@ -29,7 +32,13 @@
               <v-row class="background" v-if="idx==0">
                 <v-col>
                   <v-card class="ma-5 pa-5">
-                    <v-card-text>一些社团信息</v-card-text>
+                    基本信息
+                    <v-card-text>创建时间: {{ data.clubInfo.createDate }}</v-card-text>
+                    <v-card-text>创建者: {{ data.clubInfo.creator }}, 目前拥有者: {{ data.clubInfo.owner }}</v-card-text>
+                  </v-card>
+                  <v-card class="ma-5 pa-5">
+                    社团简介
+                    <v-card-text>{{ data.clubInfo.profile }}</v-card-text>
                   </v-card>
                 </v-col>
               </v-row>
@@ -53,19 +62,19 @@
                 </v-col>
               </v-row>
 
-              <!-- 社团通知 -->
-              <v-row class="background" v-if="idx==2">
-                <v-col>
-                  <v-card class="ma-5 pa-5" v-for="(d, i) in data.clubNotice" :key="i">
-                    <v-card-title>{{ d.title }}</v-card-title>
-                    <v-card-subtitle>{{ d.subtitle }}</v-card-subtitle>
-                    <v-card-text>{{ d.message }}</v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row>
+<!--              &lt;!&ndash; 社团通知 &ndash;&gt;-->
+<!--              <v-row class="background" v-if="idx==2">-->
+<!--                <v-col>-->
+<!--                  <v-card class="ma-5 pa-5" v-for="(d, i) in data.clubNotice" :key="i">-->
+<!--                    <v-card-title>{{ d.title }}</v-card-title>-->
+<!--                    <v-card-subtitle>{{ d.subtitle }}</v-card-subtitle>-->
+<!--                    <v-card-text>{{ d.message }}</v-card-text>-->
+<!--                  </v-card>-->
+<!--                </v-col>-->
+<!--              </v-row>-->
 
               <!-- 社团成员 -->
-              <v-row class="background" v-if="idx==3">
+              <v-row class="background" v-if="idx==2">
                 <v-col>
                   <v-card class="mb-5 pa-5">
                     <v-card-title>管理员</v-card-title>
@@ -112,12 +121,18 @@ export default {
     return {
       tab: null,
       clubname: "社团名称",
-      clubDataType: ["社团信息", "社团活动", "社团通知", "成员信息"],
+      avatar: null,
+      clubDataType: ["社团信息", "社团活动",
+        // "社团通知",
+        "成员信息"],
+      joinStatus: '',
+      valid: false,
       data: {
         clubInfo: {
-          message: {
-            time: "2020-7-15",
-          },
+          profile: "",
+          createDate: "",
+          owner: "",
+          creator: ""
         },
         clubActivities: [
           {
@@ -181,18 +196,18 @@ export default {
             activityStatus: "已结束",
           },
         ],
-        clubNotice: [
-          {
-            title: "zjx tql",
-            subtitle: "2020-7-18",
-            message: "wuhu qifei",
-          },
-          {
-            title: "zjx tql",
-            subtitle: "2020-7-18",
-            message: "芜湖，起飞",
-          },
-        ],
+        // clubNotice: [
+        //   {
+        //     title: "zjx tql",
+        //     subtitle: "2020-7-18",
+        //     message: "wuhu qifei",
+        //   },
+        //   {
+        //     title: "zjx tql",
+        //     subtitle: "2020-7-18",
+        //     message: "芜湖，起飞",
+        //   },
+        // ],
         clubMember: {
           admin: [
             {
@@ -226,5 +241,20 @@ export default {
     UserItem,
     ActivityItem,
   },
+  mounted() {
+    this.axios
+      .get('/api/community/' + this.$route.params['club_id'])
+      .then(response => {
+        this.clubname = response.data['name']
+        this.avatar = response.data['avatar']
+        this.valid = response.data['valid']
+        this.joinStatus = response.data['join_status']
+        this.data.clubInfo.profile = response.data['profile']
+        this.data.clubInfo.createDate = response.data['date_created']
+        this.data.clubInfo.owner = response.data['owner']
+        this.data.clubInfo.creator = response.data['creator']
+        // this.data.clubMember.admin = response.data['admin']
+      })
+  }
 };
 </script>

@@ -5,20 +5,20 @@
         <v-card class='mb-5 pa-5'>
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
-              <v-card-title class="headline" v-text="item.title"></v-card-title>
+              <v-card-title class="headline" v-text="item.name"></v-card-title>
               <v-card-text>
-                <markdown-it-vue-light class="md-body" :content="item.intro" />
+                <markdown-it-vue-light class="md-body" :content="item.profile" />
               </v-card-text>
             </div>
 
-            <!-- TODO: 社团头像 -->
             <v-avatar color="blue" class="ma-3" size="125" tile>
               <!-- <v-img :src="item.src"></v-img> -->
-              <span class="white--text headline">社团头像</span>
+              <span v-if="!item.avatar" class="white--text headline">暂无头像</span>
+              <v-img v-else :src="item.avatar"></v-img>
             </v-avatar>
           </div>
           <v-card-actions>
-            <v-btn color="primary darken-2" outlined link to='/clubs'>查看主页</v-btn>
+            <v-btn color="primary darken-2" outlined link :to='"/clubs/" + item.id'>查看主页</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -34,21 +34,7 @@ export default {
   data: function() {
     return {
       items: [
-        {
-          title: "社团名称1",
-          // src: "",
-          intro: "社团简介 **粗体** *斜体* <h1>The tags should be preserved.</h1>",
-        },
-        {
-          title: "社团名称2",
-          // src: "",
-          intro: "社团简介"
-        },
-        {
-          title: "社团名称3",
-          // src: "",
-          intro: "社团简介"
-        }
+
       ]
     };
   },
@@ -56,6 +42,13 @@ export default {
   methods: {},
   components: {
     MarkdownItVueLight
+  },
+  mounted() {
+    this.axios
+      .get('/api/community')
+      .then(response => {
+        this.items = response.data
+      })
   }
 };
 </script>

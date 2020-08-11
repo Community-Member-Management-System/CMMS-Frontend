@@ -186,7 +186,7 @@ export default {
         title: "所有社团",
         icon: "mdi-account-group",
         color: "orange accent-4",
-        targetPath: "/myclubs",
+        targetPath: "/clubs",
       },
       // {
       //     title: "系统管理",
