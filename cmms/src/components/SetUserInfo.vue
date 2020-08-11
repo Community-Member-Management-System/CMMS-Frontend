@@ -99,13 +99,17 @@ export default {
       profileRules: [(v) => v.length <= 50 || "个人简介不能超过 50 个字符"],
     };
   },
-  mounted() {
-    this.initForm();
+  computed: {
+    vuexUser () {
+      return this.$store.getters.user
+    }
+  },
+  watch: {
+    vuexUser: function (newVal, oldVal) {
+      this.user = newVal
+    }
   },
   methods: {
-    initForm() {
-      this.user = this.$store.getters.user;
-    },
     onButtonClick() {
       this.isSelecting = true;
       window.addEventListener(
