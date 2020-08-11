@@ -5,7 +5,7 @@ import router from "./router.js";
 import VueCookies from "vue-cookies";
 import Vuetify from "vuetify/lib";
 import VuetifyConfirm from "vuetify-confirm";
-import Toasted from 'vue-toasted';
+import Toasted from "vue-toasted";
 import Vuex from "vuex";
 import mavonEditor from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
@@ -63,8 +63,28 @@ const vuetify = new Vuetify(opts);
 Vue.use(VuetifyConfirm, { vuetify });
 Vue.use(Toasted);
 
+const store = new Vuex.Store({
+    state: {
+        user: null,
+    },
+    mutations: {
+        setUser(state, user) {
+            state.user = user;
+        },
+    },
+    getters: {
+        user: (state) => {
+            return state.user;
+        },
+        userId: (state) => {
+            return state.user.id;
+        },
+    },
+});
+
 new Vue({
     vuetify,
     router,
+    store,
     render: (h) => h(App),
 }).$mount("#app");

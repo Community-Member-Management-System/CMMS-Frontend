@@ -246,7 +246,6 @@ export default {
           }
         });
       let url = "/api/users/" + this.user.id;
-      console.log(url);
       this.axios.get(url).then((response) => {
         // console.log("Fetch User Info: " + url);
         // console.log(response);
@@ -258,6 +257,8 @@ export default {
         this.user.real_name = response.data.real_name;
         this.user.email = response.data.email;
         this.user.phone = response.data.phone;
+        // set user state
+        this.$store.commit("setUser", this.user);
       });
     },
     onResize() {
