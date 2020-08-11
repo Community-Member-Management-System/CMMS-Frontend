@@ -20,6 +20,7 @@ import SystemAuditCommunity from "@/components/SystemManagement/SystemAuditCommu
 
 import PersonalInfo from "@/components/PersonalInfo";
 import CreateCommunity from "@/components/CreateCommunity";
+import ActivityList from "@/components/ActivityList";
 
 
 
@@ -99,7 +100,12 @@ const router = new Router({
                 {
                     path: "/setuserinfo",
                     component: SetUserInfo,
+                    name: 'SetUserInfo'
                 },
+                {
+                    path: "/activities",
+                    component: ActivityList,
+                }
             ],
         },
     ],

@@ -26,29 +26,29 @@
         </v-list-item>
 
         <!-- 我的活动 下拉列表 -->
-        <v-list-group
-          v-for="(item, idxout) in outerList"
-          :key="idxout+'2'"
-          :prepend-icon="item.icon"
-          :color="item.color"
-          no-action
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </template>
+<!--        <v-list-group-->
+<!--          v-for="(item, idxout) in outerList"-->
+<!--          :key="idxout+'2'"-->
+<!--          :prepend-icon="item.icon"-->
+<!--          :color="item.color"-->
+<!--          no-action-->
+<!--        >-->
+<!--          <template v-slot:activator>-->
+<!--            <v-list-item-content>-->
+<!--              <v-list-item-title>{{ item.title }}</v-list-item-title>-->
+<!--            </v-list-item-content>-->
+<!--          </template>-->
 
-          <v-list-item
-            v-for="(innerItem, idxin) in innerList[idxout]"
-            :key="idxin+'3'"
-            link
-            :to="innerItem.targetPath"
-            :color="item.color"
-          >
-            <v-list-item-title>{{ innerItem.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list-group>
+<!--          <v-list-item-->
+<!--            v-for="(innerItem, idxin) in innerList[idxout]"-->
+<!--            :key="idxin+'3'"-->
+<!--            link-->
+<!--            :to="innerItem.targetPath"-->
+<!--            :color="item.color"-->
+<!--          >-->
+<!--            <v-list-item-title>{{ innerItem.title }}</v-list-item-title>-->
+<!--          </v-list-item>-->
+<!--        </v-list-group>-->
       </v-list>
     </v-navigation-drawer>
 
@@ -177,13 +177,13 @@ export default {
     },
     list: [
       {
-        title: "个人主页",
+        title: "我的信息",
         icon: "mdi-account",
         color: "green",
         targetPath: "/home",
       },
       {
-        title: "我的社团",
+        title: "所有社团",
         icon: "mdi-account-group",
         color: "orange accent-4",
         targetPath: "/myclubs",
@@ -196,33 +196,33 @@ export default {
       // },
     ],
 
-    outerList: [
-      {
-        title: "我的活动",
-        icon: "mdi-calendar-multiselect",
-        color: "light-blue accent-4",
-        targetPath: "/",
-      },
-    ],
-    innerList: [
-      [
-        {
-          title: "正在进行的活动",
-          color: "light-blue accent-4",
-          targetPath: "/activity-now",
-        },
-        {
-          title: "已经结束的活动",
-          color: "light-blue accent-4",
-          targetPath: "/activity-fin",
-        },
-        {
-          title: "将要进行的活动",
-          color: "light-blue accent-4",
-          targetPath: "/activity-due",
-        },
-      ],
-    ],
+    // outerList: [
+    //   {
+    //     title: "我的活动",
+    //     icon: "mdi-calendar-multiselect",
+    //     color: "light-blue accent-4",
+    //     targetPath: "/",
+    //   },
+    // ],
+    // innerList: [
+    //   [
+    //     {
+    //       title: "正在进行的活动",
+    //       color: "light-blue accent-4",
+    //       targetPath: "/activity-now",
+    //     },
+    //     {
+    //       title: "已经结束的活动",
+    //       color: "light-blue accent-4",
+    //       targetPath: "/activity-fin",
+    //     },
+    //     {
+    //       title: "将要进行的活动",
+    //       color: "light-blue accent-4",
+    //       targetPath: "/activity-due",
+    //     },
+    //   ],
+    // ],
   }),
   mounted() {
     this.onResize();
@@ -240,7 +240,7 @@ export default {
           this.user.id = response.data.userid.toString();
           this.user.new = response.data.new;
           if (this.user.new) {
-            // TODO: turn to set user info page
+            this.$router.push('SetUserInfo')
           }
         });
       let url = "/api/users/" + this.user.id;
