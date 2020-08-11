@@ -136,12 +136,16 @@ export default {
       let formData = new FormData();
       formData.append("real_name", this.user.real_name);
       formData.append("nick_name", this.user.nick_name);
-      formData.append("email", this.user.email);
-      formData.append("phone", this.user.phone);
-      formData.append("profile", this.user.profile);
-      formData.append("avatar", this.selectedFile);
+      if (this.user.email)
+        formData.append("email", this.user.email);
+      if (this.user.phone)
+        formData.append("phone", this.user.phone);
+      if (this.user.profile)
+        formData.append("profile", this.user.profile);
+      if (this.selectedFile)
+        formData.append("avatar", this.selectedFile);
 
-      let url = "/api/users/" + this.user.id;
+      let url = "/api/users/" + this.user.id + "/";
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -149,7 +153,7 @@ export default {
         },
       };
       this.axios
-        .post(url, formData, config)
+        .patch(url, formData, config)
         .then((response) => {
           console.log(response);
           return response;
