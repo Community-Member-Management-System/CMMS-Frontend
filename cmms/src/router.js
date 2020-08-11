@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import Login from "@/components/Login";
+import Base from "@/components/Base";
 import Home from "@/components/Home";
 // import ActivityList from "@/components/ActivityList";
 import ActivitySignClub from "@/components/ActivitySignClub";
@@ -36,10 +37,14 @@ const router = new Router({
             component: Login,
         },
         {
-            path: "/home",
+            path: "/base",
             // meta: {needAuth: false},
-            component: Home,
+            component: Base,
             children: [
+                {
+                    path: "/home",
+                    component: Home
+                },
                 {
                     path: "/clubs",
                     component: ClubList,

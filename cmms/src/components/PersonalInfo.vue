@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="pt-12 mt-6">        
+    <v-container fluid class="pt-12 mt-6">
         <v-row justify="center" align="center">
             <v-col justify="center" align="center">
                 <v-avatar color="orange" size="100">
@@ -10,7 +10,7 @@
                     </h1>
                     <v-btn class="mx-2 mb-4" color="primary">关注</v-btn>
 
-                    <v-btn class="mx-2 mb-4" color="primary">私信</v-btn> 
+                    <v-btn class="mx-2 mb-4" color="primary">私信</v-btn>
             </v-col>
         </v-row>
         <v-divider></v-divider>
@@ -22,7 +22,7 @@
                     </v-tabs>
                     <v-tabs-items v-model="tab">
                         <v-tab-item v-for="(it, idx) in userDataType" :key="idx">
-                            <v-card flat class="mx-auto my-auto pa-2" v-for="(d, i) in classifiedData[it]" :key="i"> 
+                            <v-card flat class="mx-auto my-auto pa-2" v-for="(d, i) in classifiedData[it]" :key="i">
                                 <v-card-subtitle> {{ d.time }}</v-card-subtitle>
                                 <v-card-text class="text--primary">{{ d.message }}</v-card-text>
                             </v-card>
@@ -39,41 +39,41 @@ export default {
     name: "PersonalInfo",
     data: function () {
         return {
-            tab: null, 
+            tab: null,
             username: "gyx2333",
             userDataType: [
                 "个人信息",
-                "个人动态",
-                "通知信息"
+                "参加社团",
             ],
             userData: [
                 {
-                    type: "通知信息",
+                    type: "个人信息",
                     message: "gyx成为了系统管理员",
                     time: "2020-1-11"
                 },
                 {
-                    type: "个人动态",
+                    type: "参加社团",
                     message: "gyx 在 活动 2333 中评论 zjx TQL",
                     time: "1926-8-17"
                 },
             ]
         }
-    }, 
+    },
     computed: {
-        classifiedData: function () {
-            let result = {}
-            for (let i=0; i <  this.userDataType.length; ++i) {
-                let tmp = []
-                for (let j = 0; j < this.userData.length; ++j) {
-                    if (this.userData[j].type == this.userDataType[i]) {
-                        tmp.push(this.userData[j])
-                    }
-                }
-                result[this.userDataType[i]] = tmp
-            }
-            return result
-        }
+        // classifiedData: function () {
+        //     let result = {}
+        //     for (let i=0; i <  this.userDataType.length; ++i) {
+        //         let tmp = []
+        //         for (let j = 0; j < this.userData.length; ++j) {
+        //             if (this.userData[j].type == this.userDataType[i]) {
+        //                 tmp.push(this.userData[j])
+        //             }
+        //         }
+        //         result[this.userDataType[i]] = tmp
+        //     }
+        //     return result
+        // }
+
     },
     methods: {
 
