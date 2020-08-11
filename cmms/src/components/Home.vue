@@ -53,7 +53,7 @@
     </v-navigation-drawer>
 
     <!-- content -->
-    <v-content class="background">
+    <v-main class="background">
       <!-- 回到顶部浮动按钮 -->
       <v-btn
         v-scroll="onScroll"
@@ -86,9 +86,8 @@
         </v-btn>
         <v-divider vertical></v-divider>
         <v-avatar class="mx-5" color="grey" size="40">
-          <!-- TODO: get avatar -->
-          <!-- <v-icon dark>mdi-account-circle</v-icon> -->
-          <v-img :src="user.avatar"></v-img>
+          <v-icon dark v-if="!user.avatar">mdi-account-circle</v-icon>
+          <v-img v-else :src="user.avatar"></v-img>
         </v-avatar>
 
         <!-- user drop-down menu -->
@@ -102,9 +101,8 @@
             <v-list>
               <v-list-item>
                 <v-list-item-avatar color="grey">
-                  <!-- TODO: get avatar -->
-                  <!-- <v-icon dark>mdi-account-circle</v-icon> -->
-                  <v-img :src="user.avatar"></v-img>
+                  <v-icon dark v-if="!user.avatar">mdi-account-circle</v-icon>
+                  <v-img v-else :src="user.avatar"></v-img>
                 </v-list-item-avatar>
 
                 <v-list-item-content>
@@ -154,7 +152,7 @@
       </v-btn>
 
       <router-view></router-view>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
