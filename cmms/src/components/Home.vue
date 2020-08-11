@@ -53,7 +53,7 @@
     </v-navigation-drawer>
 
     <!-- content -->
-    <v-content class="background">
+    <v-main class="background">
       <!-- 回到顶部浮动按钮 -->
       <v-btn
         v-scroll="onScroll"
@@ -154,7 +154,7 @@
       </v-btn>
 
       <router-view></router-view>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
