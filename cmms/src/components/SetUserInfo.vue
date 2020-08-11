@@ -106,7 +106,7 @@ export default {
   },
   watch: {
     vuexUser: function (newVal, oldVal) {
-      this.user = newVal
+      this.user = {...newVal}
     }
   },
   methods: {
