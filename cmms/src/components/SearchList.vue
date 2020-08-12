@@ -1,16 +1,15 @@
 <template>
   <v-container>
-    <h1>搜索社团、活动或用户……</h1>
-    <h3>Keyword: {{ query }}</h3>
+    <div class="text-h5 mb-3">搜索: " {{ query }} " 的结果</div>
     <v-row dense>
       <v-col>
         <v-card flat>
           <v-tabs fixed-tabs v-model="tab">
-            <v-tab v-for="item in items" :key="item.tab"> {{ item.tab }}</v-tab>
+            <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
           </v-tabs>
           <v-tabs-items v-model="tab">
             <v-tab-item v-for="item in items" :key="item.tab">
-              <v-card v-for="(item, i) in item.content" :key="i" cols="12" class='mb-5 pa-5'>
+              <v-card v-for="(item, i) in item.content" :key="i" cols="12" class="mb-5 pa-5">
                 <div class="d-flex flex-no-wrap justify-space-between">
                   <div>
                     <v-card-title class="headline" v-text="item.name"></v-card-title>
@@ -20,13 +19,12 @@
                   </div>
 
                   <v-avatar color="blue" class="ma-3" size="125" tile>
-                    <!-- <v-img :src="item.src"></v-img> -->
                     <span v-if="!item.avatar" class="white--text headline">暂无头像</span>
                     <v-img v-else :src="item.avatar"></v-img>
                   </v-avatar>
                 </div>
                 <v-card-actions>
-                  <v-btn color="primary darken-2" outlined link :to='item.link'>查看详情</v-btn>
+                  <v-btn color="primary darken-2" outlined link :to="item.link">查看详情</v-btn>
                 </v-card-actions>
               </v-card>
             </v-tab-item>
@@ -38,67 +36,61 @@
 </template>
 
 <script>
-import MarkdownItVueLight from 'markdown-it-vue/dist/markdown-it-vue-light.umd'
+import MarkdownItVueLight from "markdown-it-vue/dist/markdown-it-vue-light.umd";
 
 export default {
   name: "SearchList",
-  data: function() {
+  data: function () {
     return {
       tab: null,
       items: [
-        { tab: '社团', content: [] },
-        { tab: '用户', content: [] },
-        { tab: '活动', content: [] }
-      ]
+        { tab: "社团", content: [] },
+        { tab: "用户", content: [] },
+        { tab: "活动", content: [] },
+      ],
     };
   },
   computed: {},
   methods: {},
   components: {
-    MarkdownItVueLight
+    MarkdownItVueLight,
   },
   props: {
-    query: String
+    query: String,
   },
   mounted() {
     if (this.query) {
-      this.axios
-          .get('/api/community?search=' + this.query)
-          .then(response => {
-            for (let i = 0; i < response.data.length; i++) {
-              this.items[0].content.push({
-                name: response.data[i].name,
-                profile: response.data[i].profile,
-                avatar: response.data[i].avatar,
-                link: "/community/" + response.data[i].id
-              })
-            }
-          })
-      this.axios
-          .get('/api/users?search=' + this.query)
-          .then(response => {
-            for (let i = 0; i < response.data.length; i++) {
-              this.items[1].content.push({
-                name: response.data[i].nick_name,
-                profile: response.data[i].profile,
-                avatar: response.data[i].avatar,
-                link: "/users/" + response.data[i].id
-              })
-            }
-          })
-      this.axios
-          .get('/api/activity?search=' + this.query)
-          .then(response => {
-            for (let i = 0; i < response.data.length; i++) {
-              this.items[2].content.push({
-                name: response.data[i].title,
-                profile: response.data[i].description,
-                avatar: null,
-                link: "/activity/" + response.data[i].id
-              })
-            }
-          })
+      this.axios.get("/api/community?search=" + this.query).then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          this.items[0].content.push({
+            name: response.data[i].name,
+            profile: response.data[i].profile,
+            avatar: response.data[i].avatar,
+            link: "/community/" + response.data[i].id,
+          });
+        }
+      });
+      this.axios.get("/api/users?search=" + this.query).then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          this.items[1].content.push({
+            name: response.data[i].nick_name,
+            profile: response.data[i].profile,
+            avatar: response.data[i].avatar,
+            link: "/users/" + response.data[i].id,
+          });
+        }
+      });
+      this.axios.get("/api/activity?search=" + this.query).then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          this.items[2].content.push({
+            name: response.data[i].title,
+            profile: response.data[i].description,
+            avatar: null,
+            link: "/activity/" + response.data[i].id,
+          });
+        }
+      });
     }
-  }
+  },
 };
 </script>

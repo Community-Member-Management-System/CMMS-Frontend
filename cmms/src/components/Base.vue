@@ -82,6 +82,7 @@
         </v-btn>
         <v-text-field
           v-show="expand"
+          v-model="query"
           rounded
           filled
           single-line
@@ -194,6 +195,7 @@ export default {
     mini: false,
     fab: false,
     expand: false,
+    query: "",
     user: {
       id: "",
       new: true,
@@ -331,7 +333,12 @@ export default {
       // jump to login page
       this.$router.push({ path: "/" });
     },
-    search() {},
+    search() {
+      this.$router.push({
+        path: "/search",
+        query: { q: this.query },
+      });
+    },
   },
 };
 </script>
