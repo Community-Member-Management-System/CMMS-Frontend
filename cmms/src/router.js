@@ -9,7 +9,7 @@ import ActivitySignClub from "@/components/ActivitySignClub";
 import ActivitySignUser from "@/components/ActivitySignUser";
 import SetUserInfo from "@/components/SetUserInfo";
 import ClubInfo from "@/components/ClubInfo";
-import ActivityPage from "@/components/ActivityPage";
+import ActivityPage from "@/components/Activity/ActivityPage";
 
 import CreateActivity from "@/components/Activity/CreateActivity";
 import Community from "@/components/Community/Community";
@@ -91,7 +91,7 @@ const router = new Router({
                     meta: { needAuth: false }, // debug other components without auth
                 },
                 {
-                    path: "/activity",
+                    path: "/activity/:activity_id",
                     component: ActivityPage,
                     meta: { needAuth: false }, // debug other components without auth
                 },
