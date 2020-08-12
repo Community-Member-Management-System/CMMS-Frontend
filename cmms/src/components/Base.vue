@@ -88,9 +88,11 @@
           single-line
           dense
           hide-details
+          autofocus
           placeholder="搜索社团、活动、成员 ..."
           append-icon="mdi-arrow-right"
           @click:append="search"
+          @keydown.enter="search"
         ></v-text-field>
 
         <!-- 切换主题 -->
