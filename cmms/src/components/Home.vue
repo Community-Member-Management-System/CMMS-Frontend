@@ -80,7 +80,19 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.getters.user;
+      let user = this.$store.getters.user;
+      if (!user) {
+        user =  {
+          avatar: null,
+          nick_name: "",
+          real_name: "",
+          email: "",
+          phone: "",
+          profile: "",
+          communities: []
+        }
+      }
+      return user
     },
   },
   methods: {},
