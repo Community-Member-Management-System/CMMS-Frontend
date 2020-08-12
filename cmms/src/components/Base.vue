@@ -26,29 +26,29 @@
         </v-list-item>
 
         <!-- 我的活动 下拉列表 -->
-<!--        <v-list-group-->
-<!--          v-for="(item, idxout) in outerList"-->
-<!--          :key="idxout+'2'"-->
-<!--          :prepend-icon="item.icon"-->
-<!--          :color="item.color"-->
-<!--          no-action-->
-<!--        >-->
-<!--          <template v-slot:activator>-->
-<!--            <v-list-item-content>-->
-<!--              <v-list-item-title>{{ item.title }}</v-list-item-title>-->
-<!--            </v-list-item-content>-->
-<!--          </template>-->
+        <!--        <v-list-group-->
+        <!--          v-for="(item, idxout) in outerList"-->
+        <!--          :key="idxout+'2'"-->
+        <!--          :prepend-icon="item.icon"-->
+        <!--          :color="item.color"-->
+        <!--          no-action-->
+        <!--        >-->
+        <!--          <template v-slot:activator>-->
+        <!--            <v-list-item-content>-->
+        <!--              <v-list-item-title>{{ item.title }}</v-list-item-title>-->
+        <!--            </v-list-item-content>-->
+        <!--          </template>-->
 
-<!--          <v-list-item-->
-<!--            v-for="(innerItem, idxin) in innerList[idxout]"-->
-<!--            :key="idxin+'3'"-->
-<!--            link-->
-<!--            :to="innerItem.targetPath"-->
-<!--            :color="item.color"-->
-<!--          >-->
-<!--            <v-list-item-title>{{ innerItem.title }}</v-list-item-title>-->
-<!--          </v-list-item>-->
-<!--        </v-list-group>-->
+        <!--          <v-list-item-->
+        <!--            v-for="(innerItem, idxin) in innerList[idxout]"-->
+        <!--            :key="idxin+'3'"-->
+        <!--            link-->
+        <!--            :to="innerItem.targetPath"-->
+        <!--            :color="item.color"-->
+        <!--          >-->
+        <!--            <v-list-item-title>{{ innerItem.title }}</v-list-item-title>-->
+        <!--          </v-list-item>-->
+        <!--        </v-list-group>-->
       </v-list>
     </v-navigation-drawer>
 
@@ -73,17 +73,47 @@
         <v-btn class="d-inline d-lg-none" icon @click.stop="drawer = true">
           <v-icon>mdi-menu</v-icon>
         </v-btn>
+
         <v-spacer></v-spacer>
-        <!-- TODO: 搜索栏 -->
-        <v-btn icon>
+
+        <!-- 搜索 -->
+        <v-btn icon @click="expand = !expand">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
+        <v-text-field
+          v-show="expand"
+          rounded
+          filled
+          single-line
+          dense
+          hide-details
+          placeholder="搜索社团、活动、成员 ..."
+          append-icon="mdi-arrow-right"
+          @click:append="search"
+        ></v-text-field>
+
+        <!-- 切换主题 -->
         <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
           <v-icon>mdi-brightness-7</v-icon>
         </v-btn>
-        <v-btn icon>
+
+        <!-- 通知 -->
+        <!-- <v-btn icon>
           <v-icon>mdi-bell</v-icon>
-        </v-btn>
+        </v-btn>-->
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn color="rgba(0, 0, 0, 0)" depressed v-on="on">
+              <v-icon>mdi-bell</v-icon>
+            </v-btn>
+          </template>
+          <v-card class="px-3">
+            <v-list>
+              <v-divider></v-divider>
+            </v-list>
+          </v-card>
+        </v-menu>
+
         <v-divider vertical></v-divider>
         <v-avatar class="mx-5" color="grey" size="40">
           <v-icon dark v-if="!user.avatar">mdi-account-circle</v-icon>
@@ -163,6 +193,7 @@ export default {
     drawer: true,
     mini: false,
     fab: false,
+    expand: false,
     user: {
       id: "",
       new: true,
@@ -175,6 +206,7 @@ export default {
       email: "",
       phone: "",
     },
+    notice: [],
     list: [
       {
         title: "我的信息",
@@ -240,7 +272,7 @@ export default {
           this.user.id = response.data.userid.toString();
           this.user.new = response.data.new;
           if (this.user.new) {
-            this.$router.push('SetUserInfo')
+            this.$router.push("SetUserInfo");
           }
         });
       let url = "/api/users/" + this.user.id;
@@ -299,6 +331,7 @@ export default {
       // jump to login page
       this.$router.push({ path: "/" });
     },
+    search() {},
   },
 };
 </script>
