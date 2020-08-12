@@ -211,7 +211,7 @@ export default {
     notice: [],
     list: [
       {
-        title: "我的信息",
+        title: "我的主页",
         icon: "mdi-account",
         color: "green",
         targetPath: "/home",

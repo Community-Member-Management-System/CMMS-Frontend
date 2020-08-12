@@ -1,60 +1,61 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <v-row justify="center" align="center">
       <v-col justify="center" align="center">
-        <v-avatar color="orange" size="100">
+        <v-avatar size="200">
           <v-icon dark v-if="!user.avatar">mdi-account-circle</v-icon>
           <v-img v-else :src="user.avatar"></v-img>
         </v-avatar>
-        <h1 class="display-1 py-3">
-          {{ user.nick_name }}
-        </h1>
+      </v-col>
+      <v-col>
+        <div class="text-h4">{{ user.nick_name }}</div>
+        <div class="text-h6">{{ user.profile }}</div>
       </v-col>
     </v-row>
     <v-divider></v-divider>
-    <v-row>
+    <v-row class="mb-10">
       <v-col>
         <v-card flat>
           <v-tabs fixed-tabs v-model="tab">
-            <v-tab v-for="item in items" :key="item.tab"> {{ item.tab }}</v-tab>
+            <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
           </v-tabs>
           <v-tabs-items v-model="tab">
             <v-tab-item v-for="item in items" :key="item.tab">
-<!--              <v-card flat class="mx-auto my-auto pa-2" v-for="(d, i) in classifiedData[it]" :key="i">-->
-<!--                <v-card-subtitle> {{ d.time }}</v-card-subtitle>-->
-<!--                <v-card-text class="text&#45;&#45;primary">{{ d.message }}</v-card-text>-->
-<!--              </v-card>-->
               <div v-if="item.desc === 'info'">
                 <!-- 个人信息 -->
-                <v-card>
+                <v-card class="px-5">
                   <v-card-text>
                     <ul>
                       <li>真实姓名: {{ user.real_name }}</li>
                       <li>学号: {{ user.student_id }}</li>
                       <li>Email: {{ user.email }}</li>
                       <li>电话: {{ user.phone }}</li>
-                      <li>个人简介: {{ user.profile }}</li>
                     </ul>
                   </v-card-text>
                 </v-card>
               </div>
               <div v-else>
                 <!-- 社团 -->
-                <v-card flat class="mx-auto my-auto pa-2" v-for="community in user.communities" :key="community.id">
+                <v-card class="pa-5" flat v-for="community in user.communities" :key="community.id">
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <div>
                       <v-card-title>{{ community.name }}</v-card-title>
                       <v-card-subtitle>{{ community.profile }}</v-card-subtitle>
                     </div>
                     <v-avatar color="blue" class="ma-3" size="125" tile>
-                      <!-- <v-img :src="item.src"></v-img> -->
                       <span v-if="!community.avatar" class="white--text headline">暂无头像</span>
                       <v-img v-else :src="community.avatar"></v-img>
                     </v-avatar>
                   </div>
                   <v-card-actions>
-                    <v-btn color="primary darken-2" outlined link :to='"/community/" + community.id'>查看详情</v-btn>
+                    <v-btn
+                      color="primary darken-2"
+                      outlined
+                      link
+                      :to="'/community/' + community.id"
+                    >查看详情</v-btn>
                   </v-card-actions>
+                  <v-divider class="my-3"></v-divider>
                 </v-card>
               </div>
             </v-tab-item>
@@ -72,21 +73,17 @@ export default {
     return {
       tab: null,
       items: [
-        { tab: '你的信息', desc: 'info' },
-        { tab: '你的社团', desc: 'communities' }
-      ]
-    }
+        { tab: "我的社团", desc: "communities" },
+        { tab: "我的信息", desc: "info" },
+      ],
+    };
   },
   computed: {
-    user () {
+    user() {
       return this.$store.getters.user;
-    }
+    },
   },
-  methods: {
-
-  },
-  mounted() {
-
-  }
-}
+  methods: {},
+  mounted() {},
+};
 </script>
