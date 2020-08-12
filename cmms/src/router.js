@@ -22,6 +22,7 @@ import PersonalInfo from "@/components/PersonalInfo";
 import CreateCommunity from "@/components/CreateCommunity";
 import ActivityList from "@/components/ActivityList";
 import ClubList from "@/components/ClubList";
+import SearchList from "@/components/SearchList";
 
 
 
@@ -110,6 +111,11 @@ const router = new Router({
                 {
                     path: "/activities",
                     component: ActivityList,
+                },
+                {
+                    path: "/search",
+                    component: SearchList,
+                    props: (route) => ({ query: route.query.q })
                 }
             ],
         },
