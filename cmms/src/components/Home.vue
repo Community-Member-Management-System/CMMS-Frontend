@@ -62,7 +62,7 @@ export default {
         for (let i=0; i <  this.userDataType.length; ++i) {
             let tmp = []
             for (let j = 0; j < this.userData.length; ++j) {
-                if (this.userData[j].type == this.userDataType[i]) {
+                if (this.userData[j].type === this.userDataType[i]) {
                     tmp.push(this.userData[j])
                 }
             }
