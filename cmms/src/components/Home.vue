@@ -16,14 +16,47 @@
       <v-col>
         <v-card flat>
           <v-tabs fixed-tabs v-model="tab">
-            <v-tab v-for="(it, idx) in userDataType" :key="idx"> {{ it }} </v-tab>
+            <v-tab v-for="item in items" :key="item.tab"> {{ item.tab }}</v-tab>
           </v-tabs>
           <v-tabs-items v-model="tab">
-            <v-tab-item v-for="(it, idx) in userDataType" :key="idx">
-              <v-card flat class="mx-auto my-auto pa-2" v-for="(d, i) in classifiedData[it]" :key="i">
-                <v-card-subtitle> {{ d.time }}</v-card-subtitle>
-                <v-card-text class="text--primary">{{ d.message }}</v-card-text>
-              </v-card>
+            <v-tab-item v-for="item in items" :key="item.tab">
+<!--              <v-card flat class="mx-auto my-auto pa-2" v-for="(d, i) in classifiedData[it]" :key="i">-->
+<!--                <v-card-subtitle> {{ d.time }}</v-card-subtitle>-->
+<!--                <v-card-text class="text&#45;&#45;primary">{{ d.message }}</v-card-text>-->
+<!--              </v-card>-->
+              <div v-if="item.desc === 'info'">
+                <!-- 个人信息 -->
+                <v-card>
+                  <v-card-text>
+                    <ul>
+                      <li>真实姓名: {{ user.real_name }}</li>
+                      <li>学号: {{ user.student_id }}</li>
+                      <li>Email: {{ user.email }}</li>
+                      <li>电话: {{ user.phone }}</li>
+                      <li>个人简介: {{ user.profile }}</li>
+                    </ul>
+                  </v-card-text>
+                </v-card>
+              </div>
+              <div v-else>
+                <!-- 社团 -->
+                <v-card flat class="mx-auto my-auto pa-2" v-for="community in user.communities" :key="community.id">
+                  <div class="d-flex flex-no-wrap justify-space-between">
+                    <div>
+                      <v-card-title>{{ community.name }}</v-card-title>
+                      <v-card-subtitle>{{ community.profile }}</v-card-subtitle>
+                    </div>
+                    <v-avatar color="blue" class="ma-3" size="125" tile>
+                      <!-- <v-img :src="item.src"></v-img> -->
+                      <span v-if="!community.avatar" class="white--text headline">暂无头像</span>
+                      <v-img v-else :src="community.avatar"></v-img>
+                    </v-avatar>
+                  </div>
+                  <v-card-actions>
+                    <v-btn color="primary darken-2" outlined link :to='"/community/" + community.id'>查看详情</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </div>
             </v-tab-item>
           </v-tabs-items>
         </v-card>
@@ -38,38 +71,13 @@ export default {
   data: function () {
     return {
       tab: null,
-      userDataType: [
-        "你的信息",
-        "你的社团",
-      ],
-      userData: [
-        {
-          type: "个人信息",
-          message: "gyx成为了系统管理员",
-          time: "2020-1-11"
-        },
-        {
-          type: "参加社团",
-          message: "gyx 在 活动 2333 中评论 zjx TQL",
-          time: "1926-8-17"
-        },
+      items: [
+        { tab: '你的信息', desc: 'info' },
+        { tab: '你的社团', desc: 'communities' }
       ]
     }
   },
   computed: {
-    classifiedData: function () {
-        let result = {}
-        for (let i=0; i <  this.userDataType.length; ++i) {
-            let tmp = []
-            for (let j = 0; j < this.userData.length; ++j) {
-                if (this.userData[j].type === this.userDataType[i]) {
-                    tmp.push(this.userData[j])
-                }
-            }
-            result[this.userDataType[i]] = tmp
-        }
-        return result
-    },
     user () {
       return this.$store.getters.user;
     }
