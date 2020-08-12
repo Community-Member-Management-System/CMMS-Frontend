@@ -159,6 +159,7 @@ export default {
         .patch(url, formData, config)
         .then((response) => {
           console.log(response);
+          this.$store.dispatch("updateUser", this.user.id);
           return response;
         })
         .catch((err) => {

@@ -198,18 +198,6 @@ export default {
     fab: false,
     expand: false,
     query: "",
-    user: {
-      id: "",
-      new: true,
-      nick_name: "",
-      avatar: "",
-      profile: "",
-      communities: [],
-      student_id: "",
-      real_name: "",
-      email: "",
-      phone: "",
-    },
     notice: [],
     list: [
       {
@@ -264,6 +252,23 @@ export default {
     this.onResize();
     this.fetchUserInfo();
   },
+  computed: {
+    user() {
+      let user = this.$store.getters.user;
+      if (!user) {
+        user =  {
+          avatar: null,
+          nick_name: "",
+          real_name: "",
+          email: "",
+          phone: "",
+          profile: "",
+          communities: []
+        }
+      }
+      return user
+    },
+  },
   methods: {
     async fetchUserInfo() {
       await this.axios
@@ -273,27 +278,14 @@ export default {
         .then((response) => {
           // console.log("Check User: ");
           // console.log(response);
-          this.user.id = response.data.userid.toString();
-          this.user.new = response.data.new;
-          if (this.user.new) {
+          let userID = response.data.userid.toString();
+          let userNew = response.data.new;
+          if (userNew) {
             this.$router.push("SetUserInfo");
           }
+          this.$store.dispatch("updateUser", userID);
         });
-      let url = "/api/users/" + this.user.id;
-      this.axios.get(url).then((response) => {
-        // console.log("Fetch User Info: " + url);
-        // console.log(response);
-        this.user.nick_name = response.data.nick_name;
-        this.user.avatar = response.data.avatar;
-        this.user.profile = response.data.profile;
-        this.user.communities = response.data.communities;
-        this.user.student_id = response.data.student_id;
-        this.user.real_name = response.data.real_name;
-        this.user.email = response.data.email;
-        this.user.phone = response.data.phone;
-        // set user state
-        this.$store.commit("setUser", this.user);
-      });
+      // this.user = this.$store.getters.user
     },
     onResize() {
       if (

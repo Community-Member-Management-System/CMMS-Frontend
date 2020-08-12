@@ -80,6 +80,38 @@ const store = new Vuex.Store({
             return state.user.id;
         },
     },
+    actions: {
+        updateUser (context, userID) {
+            let user = {
+                id: "",
+                new: true,
+                nick_name: "",
+                avatar: "",
+                profile: "",
+                communities: [],
+                student_id: "",
+                real_name: "",
+                email: "",
+                phone: "",
+            }
+            let url = "/api/users/" + userID;
+            Axios.get(url).then((response) => {
+                // console.log("Fetch User Info: " + url);
+                // console.log(response);
+                user.id = userID;
+                user.nick_name = response.data.nick_name;
+                user.avatar = response.data.avatar;
+                user.profile = response.data.profile;
+                user.communities = response.data.communities;
+                user.student_id = response.data.student_id;
+                user.real_name = response.data.real_name;
+                user.email = response.data.email;
+                user.phone = response.data.phone;
+                // set user state
+                context.commit("setUser", user);
+            });
+        }
+    }
 });
 
 new Vue({
