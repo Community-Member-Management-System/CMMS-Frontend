@@ -58,39 +58,56 @@ export default {
   props: {
     query: String,
   },
+  watch: {
+    query(oldVal, newVal) {
+      if (oldVal !== newVal) {
+        this.search();
+      }
+    },
+  },
   mounted() {
-    if (this.query) {
-      this.axios.get("/api/community?search=" + this.query).then((response) => {
-        for (let i = 0; i < response.data.length; i++) {
-          this.items[0].content.push({
-            name: response.data[i].name,
-            profile: response.data[i].profile,
-            avatar: response.data[i].avatar,
-            link: "/community/" + response.data[i].id,
+    this.search();
+  },
+  methods: {
+    search() {
+      console.log("Search");
+      if (this.query) {
+        this.axios
+          .get("/api/community?search=" + this.query)
+          .then((response) => {
+            for (let i = 0; i < response.data.length; i++) {
+              this.items[0].content.push({
+                name: response.data[i].name,
+                profile: response.data[i].profile,
+                avatar: response.data[i].avatar,
+                link: "/community/" + response.data[i].id,
+              });
+            }
           });
-        }
-      });
-      this.axios.get("/api/users?search=" + this.query).then((response) => {
-        for (let i = 0; i < response.data.length; i++) {
-          this.items[1].content.push({
-            name: response.data[i].nick_name,
-            profile: response.data[i].profile,
-            avatar: response.data[i].avatar,
-            link: "/users/" + response.data[i].id,
+        this.axios.get("/api/users?search=" + this.query).then((response) => {
+          for (let i = 0; i < response.data.length; i++) {
+            this.items[1].content.push({
+              name: response.data[i].nick_name,
+              profile: response.data[i].profile,
+              avatar: response.data[i].avatar,
+              link: "/users/" + response.data[i].id,
+            });
+          }
+        });
+        this.axios
+          .get("/api/activity?search=" + this.query)
+          .then((response) => {
+            for (let i = 0; i < response.data.length; i++) {
+              this.items[2].content.push({
+                name: response.data[i].title,
+                profile: response.data[i].description,
+                avatar: null,
+                link: "/activity/" + response.data[i].id,
+              });
+            }
           });
-        }
-      });
-      this.axios.get("/api/activity?search=" + this.query).then((response) => {
-        for (let i = 0; i < response.data.length; i++) {
-          this.items[2].content.push({
-            name: response.data[i].title,
-            profile: response.data[i].description,
-            avatar: null,
-            link: "/activity/" + response.data[i].id,
-          });
-        }
-      });
-    }
+      }
+    },
   },
 };
 </script>
