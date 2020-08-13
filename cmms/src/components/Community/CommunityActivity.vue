@@ -17,7 +17,16 @@
       </v-col>
     </v-row>
     <v-row justify="center" v-if="authType == 'admin' ">
-      <v-btn elevation="5" bottom fixed class="mx-2" fab dark color="green" to="/create-activity">
+      <v-btn
+        elevation="5"
+        bottom
+        fixed
+        class="mx-2"
+        fab
+        dark
+        color="green"
+        :to="`/activity/create/${community.id}`"
+      >
         <v-icon dark>mdi-plus</v-icon>
       </v-btn>
     </v-row>

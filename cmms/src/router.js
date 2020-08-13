@@ -74,9 +74,9 @@ const router = new Router({
                     component: Community,
                 },
                 {
-                    path: "/create-activity",
+                    path: "/activity/create/:communityId",
                     component: CreateActivity,
-                    meta: { needAuth: false }, // debug other components without auth
+                    props: true
                 },
                 {
                     path: "/personal-info",

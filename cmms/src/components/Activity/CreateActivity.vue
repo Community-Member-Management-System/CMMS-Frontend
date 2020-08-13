@@ -9,11 +9,11 @@
             <v-col cols="7">
               <v-row>
                 <v-col>
-                  <v-text-field v-model="activity.activityName" label="活动名称 *" required></v-text-field>
+                  <v-text-field v-model="activity.title" label="活动名称 *" required></v-text-field>
                 </v-col>
                 <v-col>
                   <v-text-field
-                    v-model="activity.activityLocation"
+                    v-model="activity.location"
                     label="活动地点 *"
                     required
                     @change="setMapCenter"
@@ -22,14 +22,11 @@
               </v-row>
 
               <v-row>
-                <!-- <v-col cols="2">
-                  <v-switch label="Jacob" inset value="Jacob"></v-switch>
-                </v-col>-->
                 <v-col cols="6">
-                  <v-datetime-picker label="开始时间 *" v-model="activity.activityStartTime"></v-datetime-picker>
+                  <v-datetime-picker label="开始时间 *" v-model="activity.start_time"></v-datetime-picker>
                 </v-col>
                 <v-col cols="6">
-                  <v-datetime-picker label="结束时间 *" v-model="activity.activityEndTime"></v-datetime-picker>
+                  <v-datetime-picker label="结束时间 *" v-model="activity.end_time"></v-datetime-picker>
                 </v-col>
               </v-row>
 
@@ -49,7 +46,14 @@
 
               <v-row>
                 <v-col>
-                  <v-textarea outlined label="活动简介" v-model="activity.activityProfile"></v-textarea>
+                  <v-row>
+                    <v-col cols="4">
+                      <v-switch label="平台内通知" inset input-value="true" value disabled></v-switch>
+                    </v-col>
+                    <v-col cols="4">
+                      <v-switch label="邮件列表通知" inset v-model="isMailListNotice"></v-switch>
+                    </v-col>
+                  </v-row>
                 </v-col>
               </v-row>
             </v-col>
@@ -57,7 +61,7 @@
               <small class="font-weight-light">右击地图标记活动地点 *</small>
 
               <v-card class="mt-1">
-                <div style="height:425px;" id="map-container"></div>
+                <div style="height:330px;" id="map-container"></div>
               </v-card>
             </v-col>
           </v-row>
@@ -70,83 +74,9 @@
         </v-container>
       </v-stepper-content>
 
-      <v-stepper-step :complete="e6 > 2" step="2" editable>活动封面</v-stepper-step>
+      <v-stepper-step :complete="e6 > 2" step="2" editable>活动详细内容</v-stepper-step>
 
       <v-stepper-content step="2">
-        <v-container>
-          <v-row justify="center">
-            <v-col cols="7">
-              <v-card>
-                <input
-                  id="imgInput"
-                  ref="imgInput"
-                  v-show="false"
-                  v-if="!isSelectedImg"
-                  type="file"
-                  accept="image/*"
-                  @input="onImgSelected"
-                />
-                <v-img :src="activityCoverSrc" :aspect-ratio="16/9">
-                  <v-row
-                    v-show="activityCoverSrc=='' "
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn height="60px" width="60px" icon v-bind="attrs" v-on="on">
-                          <v-icon
-                            size="60px"
-                            @click.stop="$refs.imgInput.click();"
-                          >mdi-cloud-upload-outline</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>点击上传图片</span>
-                    </v-tooltip>
-                  </v-row>
-                  <v-btn
-                    absolute
-                    x-small
-                    style="top:8px;right:8px;"
-                    fab
-                    color="red"
-                    v-show="isSelectedImg"
-                    @click="removeImg"
-                  >
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </v-img>
-              </v-card>
-            </v-col>
-          </v-row>
-          <!-- <v-row justify="center">
-            <v-col cols="7">
-              <v-file-input
-                ref="vFileInput"
-                v-model="activity.activityCover"
-                prepend-icon="mdi-camera"
-                show-size
-                accept="image/*"
-                label="封面图片"
-                @click.clear="removeImg"
-              ></v-file-input>
-            </v-col>
-          </v-row>-->
-          <!-- <v-row justify="center">
-            
-          </v-row>-->
-          <v-row justify="center">
-            <v-btn fab color="primary" @click="e6 = 3">
-              <v-icon>mdi-chevron-double-down</v-icon>
-            </v-btn>
-          </v-row>
-        </v-container>
-      </v-stepper-content>
-
-      <v-stepper-step :complete="e6 > 3" step="3" editable>活动详细内容</v-stepper-step>
-
-      <v-stepper-content step="3">
         <v-container>
           <v-row>
             <v-col>
@@ -154,27 +84,8 @@
                 style="min-height:550px;z-index:0"
                 :boxShadow="false"
                 placeholder="活动详细内容..."
-                v-model="activity.activityContent"
+                v-model="activity.description"
               />
-            </v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-btn fab color="primary" @click="e6 = 4">
-              <v-icon>mdi-chevron-double-down</v-icon>
-            </v-btn>
-          </v-row>
-        </v-container>
-      </v-stepper-content>
-
-      <v-stepper-step :complete="e6 > 4" step="4" editable>活动通知类型</v-stepper-step>
-      <v-stepper-content step="4">
-        <v-container>
-          <v-row>
-            <v-col cols="2">
-              <v-switch label="平台内通知" inset input-value="true" value disabled></v-switch>
-            </v-col>
-            <v-col cols="2">
-              <v-switch label="邮件列表通知" inset v-model="isMailListNotice"></v-switch>
             </v-col>
           </v-row>
           <v-row justify="center">
@@ -193,23 +104,20 @@
 import AMapLoader from "@amap/amap-jsapi-loader";
 export default {
   name: "CreatActivity",
+  props: { communityId: { required: true, default: null } },
   data: () => ({
     map: null,
     placeSearch: null,
     mapMarker: null,
-    isSelectedImg: false,
-    e6: 4,
+    e6: 1,
     activity: {
-      activityName: "Linux install party",
-      activityStartTime: null,
-      activityEndTime: null,
-      activityLocation: "东区一教",
-      activityPosition: [117.269118, 31.839057], // 经纬度，以供导航
-      activityStatus: "正在进行中",
-      activityContent: "",
-      activityProfile: "",
-      activityCover: null, //活动封面
-      commentRange: ["社团签到成员"],
+      title: "Linux install party",
+      start_time: new Date(),
+      end_time: new Date(new Date().getTime() + 7200000),
+      location: "东区一教",
+      position: [117.269118, 31.839057], // 经纬度，以供导航
+      description: "# 帮助同学能够XXXXXX",
+      commentRange: ["本社团签到成员"],
     },
     isMailListNotice: true,
   }),
@@ -221,39 +129,46 @@ export default {
     },
   },
   methods: {
-    submitActivity() {},
-    onImgSelected(e) {
-      this.activity.activityCover = e.target.files[0];
-      this.isSelectedImg = true;
-      // TODO: 上传图片
-    },
-    removeImg() {
-      //   this.$refs.imgInput.value = "";
-      this.isSelectedImg = false;
-      this.activity.activityCover = null;
+    submitActivity() {
+      let new_activity = Object.assign({}, this.activity);
+      new_activity.start_time = new_activity.start_time.toISOString();
+      new_activity.end_time = new_activity.end_time.toISOString();
+      new_activity.related_community = this.communityId;
+      this.axios
+        .post("/api/activity/", new_activity, {
+          headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+        })
+        .then((response) => {
+          this.$toasted.show("创建成功！", {
+            theme: "bubble",
+            position: "top-center",
+            duration: 3000,
+          });
+          this.$router.push(`/activity/${response.data.id}`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     // 用户输入详细地点，地图自动定位至附近，然后手动在地图上标记详细地点以获取经纬度，将经纬度给用户导航使用
     setMapCenter() {
-      this.placeSearch.search(
-        this.activity.activityLocation,
-        (status, result) => {
-          if (status == "complete") {
-            let location = result.poiList.pois[0].location;
-            this.activity.activityPosition = [location.lng, location.lat];
-            this.map.setCenter(this.activity.activityPosition);
-            this.mapMarker.setPosition(this.activity.activityPosition);
-            this.mapMarker.setTitle(this.activity.activityLocation);
-          } else alert("查询失败");
-        }
-      );
+      this.placeSearch.search(this.activity.location, (status, result) => {
+        if (status == "complete") {
+          let location = result.poiList.pois[0].location;
+          this.activity.position = [location.lng, location.lat];
+          this.map.setCenter(this.activity.position);
+          this.mapMarker.setPosition(this.activity.position);
+          this.mapMarker.setTitle(this.activity.location);
+        } else alert("查询失败");
+      });
     },
 
     // 用户右击地图标记活动地点
     setActivityPosition(e) {
-      this.activity.activityPosition = [e.lnglat.getLng(), e.lnglat.getLat()];
-      this.map.setCenter(this.activity.activityPosition);
-      this.mapMarker.setPosition(this.activity.activityPosition);
+      this.activity.position = [e.lnglat.getLng(), e.lnglat.getLat()];
+      this.map.setCenter(this.activity.position);
+      this.mapMarker.setPosition(this.activity.position);
     },
   },
   components: {},
@@ -266,6 +181,7 @@ export default {
       }
     },
   },
+  // 高德地图持续为您导航 :)
   mounted() {
     // 初始化高德地图
     AMapLoader.load({
