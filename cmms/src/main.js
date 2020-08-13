@@ -61,7 +61,11 @@ const opts = {
 
 const vuetify = new Vuetify(opts);
 Vue.use(VuetifyConfirm, { vuetify });
-Vue.use(Toasted);
+Vue.use(Toasted, {
+    theme: "bubble",
+    position: "top-center",
+    duration: 3000,
+});
 
 const store = new Vuex.Store({
     state: {
