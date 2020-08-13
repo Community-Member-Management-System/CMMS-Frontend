@@ -104,30 +104,32 @@
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn color="rgba(0, 0, 0, 0)" depressed v-on="on">
-              <v-badge color="red" dot>
+              <v-badge color="red" dot :value="newNotice">
                 <v-icon>mdi-bell</v-icon>
               </v-badge>
             </v-btn>
           </template>
           <v-card class="mx-auto px-3" max-width="300">
             <v-list>
-              <v-list-item v-if="notice.length == 0">
+              <v-list-item v-if="noticeStatus.length == 0">
                 <v-list-item-content>
                   <v-list-item-subtitle>暂时没有通知</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
-              <template v-else v-for="(item, index) in notice">
+              <template v-else v-for="(item, index) in noticeStatus">
                 <v-list-item :key="item.pk">
                   <v-list-item-content>
-                    <v-list-item-title>标题</v-list-item-title>
-                    <v-list-item-subtitle v-text="item.description"></v-list-item-subtitle>
+                    <v-list-item-title
+                      v-text="getNoticeTitle(notice[index].type, notice[index].subtype)"
+                    ></v-list-item-title>
+                    <v-list-item-subtitle v-text="notice[index].description"></v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-list-item-action-text>1 min</v-list-item-action-text>
+                    <!-- <v-list-item-action-text>1 min</v-list-item-action-text> -->
                     <v-icon>close</v-icon>
                   </v-list-item-action>
                 </v-list-item>
-                <v-divider v-if="index + 1 < notice.length" :key="index"></v-divider>
+                <v-divider v-if="index + 1 < noticeStatus.length" :key="index"></v-divider>
               </template>
             </v-list>
           </v-card>
@@ -214,7 +216,7 @@ export default {
     fab: false,
     expand: false,
     query: "",
-    notice_status: [],
+    noticeStatus: [],
     notice: [],
     list: [
       {
@@ -285,6 +287,14 @@ export default {
       }
       return user;
     },
+    newNotice() {
+      for (let i = 0; i < this.noticeStatus.length; i++) {
+        if (!this.noticeStatus[i].read) {
+          return true;
+        }
+      }
+      return false;
+    },
   },
   methods: {
     fetchUserInfo() {
@@ -299,21 +309,31 @@ export default {
             this.$router.push("SetUserInfo");
           }
           this.$store.dispatch("updateUser", userID);
+          this.fetchNoticeList();
         });
     },
     fetchNoticeList() {
-      // this.axios
-      //   .get("/api/notice", null, {
-      //     headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
-      //   })
-      //   .then((response) => {
-      //     let userID = response.data.userid.toString();
-      //     let userNew = response.data.new;
-      //     if (userNew) {
-      //       this.$router.push("SetUserInfo");
-      //     }
-      //     this.$store.dispatch("updateUser", userID);
-      //   });
+      this.axios.get("/api/notice/").then((response) => {
+        console.log(response);
+        this.noticeStatus = response.data;
+        console.log(this.noticeStatus.length);
+
+        for (let i = 0; i < this.noticeStatus.length; i++) {
+          this.axios
+            .post(
+              "/api/notice/",
+              { pk: this.noticeStatus[i].pk },
+              {
+                headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+              }
+            )
+            .then((response) => {
+              console.log(response);
+              this.notice.push(response.data);
+              console.log(this.notice);
+            });
+        }
+      });
     },
     timeFormat(timestamp) {
       let mistiming = Math.round((Date.now() - timestamp) / 1000);
