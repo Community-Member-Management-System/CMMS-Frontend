@@ -119,13 +119,11 @@
               <template v-else v-for="(item, index) in noticeStatus">
                 <v-list-item :key="item.pk">
                   <v-list-item-content>
-                    <v-list-item-title
-                      v-text="getNoticeTitle(notice[index].type, notice[index].subtype)"
-                    ></v-list-item-title>
-                    <v-list-item-subtitle v-text="notice[index].description"></v-list-item-subtitle>
+                    <v-list-item-title v-text="getNoticeTitle(notice[index])"></v-list-item-title>
+                    <v-list-item-subtitle v-text="notice[index] ? notice[index].description : ''"></v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <!-- <v-list-item-action-text>1 min</v-list-item-action-text> -->
+                    <v-list-item-action-text v-text="getNoticeTime(notice[index])">1 min</v-list-item-action-text>
                     <v-icon>close</v-icon>
                   </v-list-item-action>
                 </v-list-item>
@@ -335,8 +333,10 @@ export default {
         }
       });
     },
-    timeFormat(timestamp) {
-      let mistiming = Math.round((Date.now() - timestamp) / 1000);
+    getNoticeTime(notice) {
+      if (!notice) return "";
+      let timestamp = notice.date;
+      let mistiming = Math.round((Date.now() - Date.parse(timestamp)) / 1000);
       let arrr = ["年", "个月", "星期", "天", "小时", "分钟", "秒"];
       let arrn = [31536000, 2592000, 604800, 86400, 3600, 60, 1];
       for (let i = 0; i < arrn.length; i++) {
@@ -346,7 +346,10 @@ export default {
         }
       }
     },
-    getNoticeTitle(type, subtype) {
+    getNoticeTitle(notice) {
+      if (!notice) return "";
+      let type = notice.type;
+      let subtype = notice.subtype;
       switch (type) {
         case "PC":
           switch (subtype) {
