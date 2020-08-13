@@ -5,8 +5,8 @@ import Login from "@/components/Login";
 import Base from "@/components/Base";
 import Home from "@/components/Home";
 // import ActivityList from "@/components/ActivityList";
-import ActivitySignClub from "@/components/ActivitySignClub";
-import ActivitySignUser from "@/components/ActivitySignUser";
+import ActivitySignClub from "@/components/Sign/ActivitySignClub";
+import ActivitySignUser from "@/components/Sign/ActivitySignUser";
 import SetUserInfo from "@/components/SetUserInfo";
 import ClubInfo from "@/components/ClubInfo";
 import ActivityPage from "@/components/Activity/ActivityPage";
@@ -94,11 +94,11 @@ const router = new Router({
                     meta: { needAuth: false }, // debug other components without auth
                 },
                 {
-                    path: "/activitysignclub",
+                    path: "/sign-community/:activity_id",
                     component: ActivitySignClub,
                 },
                 {
-                    path: "/activitysignuser",
+                    path: "/sign-user/:activity_id",
                     component: ActivitySignUser,
                 },
                 {
