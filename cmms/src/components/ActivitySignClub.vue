@@ -12,7 +12,7 @@
       class="text-h5 text-sm-h3"
       align="center"
       justify="center"
-    >{{ clubName }} {{ activityName }} 签到</v-row>
+    >{{ communityName }} - {{ activityName }} 签到</v-row>
   </v-container>
 </template>
 
@@ -23,16 +23,26 @@ export default {
   name: "ActivitySignClub",
 
   data: () => ({
-    signCode: "1234",
-    color: "#fef9f6",
-    clubName: "无名社团",
-    activityName: "无名活动",
+    signCode: "******",
+    activityName: "......",
+    communityID: 0,
+    communityName: "加载中",
     activityID: 1,
     otpKey: null,
     otpInstance: null,
   }),
   methods: {},
   mounted() {
+    this.axios.get("/api/activity/" + this.activityID).then((response) => {
+      console.log(response);
+      this.activityName = response.data.title;
+      this.communityID = response.data.related_community;
+      this.axios.get("/api/community/" + this.communityID).then((response) => {
+        console.log(response);
+        this.communityName = response.data.name;
+      });
+    });
+
     this.axios
       .get("/api/activity/" + this.activityID + "/secret_key")
       .then((response) => {
