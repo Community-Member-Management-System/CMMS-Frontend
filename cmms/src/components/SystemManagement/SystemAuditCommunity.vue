@@ -34,7 +34,7 @@
           </div>
           <v-card-actions>
             <div v-if="community.valid">
-              <v-btn color="primary darken-2" outlined link :to='"/clubs/" + community.pk'>查看主页</v-btn>
+              <v-btn color="primary darken-2" outlined link :to='"/community/" + community.pk'>查看主页</v-btn>
               <v-btn class="ml-2" outlined color="red" @click="set(false, community.pk)">转为待审核</v-btn>
             </div>
             <div v-else>

@@ -22,6 +22,20 @@
 
     <!-- <v-divider></v-divider> -->
 
+    <v-row justify="center" align="center">
+      <v-col justify="center" align="center">
+        <v-avatar size="130">
+          <v-icon dark v-if="!community.avatar">mdi-account-circle</v-icon>
+          <v-img v-else :src="community.avatar"></v-img>
+        </v-avatar>
+      </v-col>
+      <v-col>
+        <div class="text-h4">{{ community.name }}</div>
+        <!-- <div class="text-h6">{{ user.profile }}</div> -->
+      </v-col>
+    </v-row>
+    <v-divider></v-divider>
+
     <!-- body -->
     <v-row class="mb-10">
       <v-col>
@@ -59,7 +73,7 @@ export default {
   data: function () {
     return {
       tab: 0,
-      community: null,
+      community: { admins: [] },
     };
   },
   computed: {
@@ -79,7 +93,6 @@ export default {
     authType() {
       if (
         this.$store.getters.user &&
-        this.community &&
         this.community.admins.indexOf(parseInt(this.$store.getters.user.id)) >
           -1
       )
@@ -89,7 +102,7 @@ export default {
   },
   created() {
     this.axios
-      .get("/api/community/" + this.$route.params["club_id"])
+      .get("/api/community/" + this.$route.params["communityId"])
       .then((response) => {
         this.community = response.data;
       });

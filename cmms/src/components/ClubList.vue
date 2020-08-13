@@ -17,7 +17,7 @@
             </v-avatar>
           </div>
           <v-card-actions>
-            <v-btn color="primary darken-2" outlined link :to="'/clubs/' + item.id">查看主页</v-btn>
+            <v-btn color="primary darken-2" outlined link :to="'/community/' + item.id">查看主页</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

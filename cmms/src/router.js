@@ -50,10 +50,10 @@ const router = new Router({
                     path: "/clubs",
                     component: ClubList,
                 },
-                {
-                    path: "/clubs/:club_id",
-                    component: ClubInfo,
-                },
+                // {
+                //     path: "/clubs/:club_id",
+                //     component: ClubInfo,
+                // },
                 {
                     path: "/system-management",
                     component: SystemManagement,
@@ -70,7 +70,7 @@ const router = new Router({
                     meta: { needAuth: false }, // debug other components without auth
                 },
                 {
-                    path: "/community/:club_id",
+                    path: "/community/:communityId",
                     component: Community,
                 },
                 {
