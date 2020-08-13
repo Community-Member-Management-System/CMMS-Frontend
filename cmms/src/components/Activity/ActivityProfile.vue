@@ -11,7 +11,8 @@
     <v-card-title v-text="title"></v-card-title>
 
     <v-card-subtitle>
-      <div class="mt-1">时间：{{ startTime }} - {{ endTime }}</div>
+      <div class="mt-1">开始时间：{{ start_time }}</div>
+      <div class="mt-1">结束时间：{{ end_time }}</div>
       <div class="mt-1">地点：{{ location }}</div>
     </v-card-subtitle>
 
@@ -33,8 +34,8 @@ export default {
     status: String,
     title: String,
     description: String,
-    startTime: String,
-    endTime: String,
+    start_time: String,
+    end_time: String,
     location: String,
     detailLink: String,
   },
