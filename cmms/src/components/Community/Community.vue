@@ -33,7 +33,11 @@
           <v-col>
             <v-scroll-x-transition>
               <keep-alive>
-                <component :is="communityTabs[tab].tabComponent" :authType="authType"></component>
+                <component
+                  :is="communityTabs[tab].tabComponent"
+                  :authType="authType"
+                  :community="community"
+                ></component>
               </keep-alive>
             </v-scroll-x-transition>
           </v-col>
@@ -51,11 +55,11 @@ import CommunityMember from "@/components/Community/CommunityMember";
 import CommunityTodo from "@/components/Community/CommunityTodo";
 export default {
   name: "Community",
-  props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
+  // props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
   data: function () {
     return {
       tab: 0,
-      communityName: "社团名称",
+      community: null,
     };
   },
   computed: {
@@ -71,6 +75,24 @@ export default {
       else if (this.authType == "user") return allTabs.slice(0, 3);
       else return null;
     },
+
+    authType() {
+      if (
+        this.$store.getters.user &&
+        this.community &&
+        this.community.admins.indexOf(parseInt(this.$store.getters.user.id)) >
+          -1
+      )
+        return "admin";
+      else return "user";
+    },
+  },
+  created() {
+    this.axios
+      .get("/api/community/" + this.$route.params["club_id"])
+      .then((response) => {
+        this.community = response.data;
+      });
   },
   methods: {},
   components: {

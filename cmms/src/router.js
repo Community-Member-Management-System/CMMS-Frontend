@@ -70,10 +70,8 @@ const router = new Router({
                     meta: { needAuth: false }, // debug other components without auth
                 },
                 {
-                    path: "/community/:authType", // authType can be 'admin' or 'user'
+                    path: "/community/:club_id",
                     component: Community,
-                    props: true,
-                    meta: { needAuth: false }, // debug other components without auth
                 },
                 {
                     path: "/create-activity",
