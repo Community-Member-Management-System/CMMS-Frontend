@@ -70,13 +70,12 @@ export default {
   methods: {
     clear() {
       for (let i = 0; i < this.items.length; i++) {
-        this.items[i].content = []
+        this.items[i].content = [];
       }
     },
     search() {
-      console.log("Search");
       if (this.query) {
-        this.clear()
+        this.clear();
         this.axios
           .get("/api/community?search=" + this.query)
           .then((response) => {

@@ -81,7 +81,7 @@ const store = new Vuex.Store({
         },
     },
     actions: {
-        updateUser (context, userID) {
+        updateUser(context, userID) {
             let user = {
                 id: "",
                 new: true,
@@ -93,11 +93,9 @@ const store = new Vuex.Store({
                 real_name: "",
                 email: "",
                 phone: "",
-            }
+            };
             let url = "/api/users/" + userID;
             Axios.get(url).then((response) => {
-                // console.log("Fetch User Info: " + url);
-                // console.log(response);
                 user.id = userID;
                 user.nick_name = response.data.nick_name;
                 user.avatar = response.data.avatar;
@@ -110,8 +108,8 @@ const store = new Vuex.Store({
                 // set user state
                 context.commit("setUser", user);
             });
-        }
-    }
+        },
+    },
 });
 
 new Vue({

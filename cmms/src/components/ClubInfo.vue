@@ -9,7 +9,7 @@
             <v-img v-else :src="avatar"></v-img>
           </v-avatar>
           <h1 class="display-1 py-3">{{ clubname }}</h1>
-          <h3>目前状态: {{ joinStatus }}</h3>
+          <!-- <h3>目前状态: {{ joinStatus }}</h3> -->
           <v-btn v-if="joinStatus === '未加入'" class="mx-2 mb-4" color="primary">+ 申请加入</v-btn>
           <v-btn v-if="joinStatus !== '未加入'" class="mx-2 mb-4" color="error">- 退出</v-btn>
           <!-- <v-btn class="mx-2 mb-4" color="primary">管理社团</v-btn> -->
@@ -62,16 +62,16 @@
                 </v-col>
               </v-row>
 
-<!--              &lt;!&ndash; 社团通知 &ndash;&gt;-->
-<!--              <v-row class="background" v-if="idx==2">-->
-<!--                <v-col>-->
-<!--                  <v-card class="ma-5 pa-5" v-for="(d, i) in data.clubNotice" :key="i">-->
-<!--                    <v-card-title>{{ d.title }}</v-card-title>-->
-<!--                    <v-card-subtitle>{{ d.subtitle }}</v-card-subtitle>-->
-<!--                    <v-card-text>{{ d.message }}</v-card-text>-->
-<!--                  </v-card>-->
-<!--                </v-col>-->
-<!--              </v-row>-->
+              <!--              &lt;!&ndash; 社团通知 &ndash;&gt;-->
+              <!--              <v-row class="background" v-if="idx==2">-->
+              <!--                <v-col>-->
+              <!--                  <v-card class="ma-5 pa-5" v-for="(d, i) in data.clubNotice" :key="i">-->
+              <!--                    <v-card-title>{{ d.title }}</v-card-title>-->
+              <!--                    <v-card-subtitle>{{ d.subtitle }}</v-card-subtitle>-->
+              <!--                    <v-card-text>{{ d.message }}</v-card-text>-->
+              <!--                  </v-card>-->
+              <!--                </v-col>-->
+              <!--              </v-row>-->
 
               <!-- 社团成员 -->
               <v-row class="background" v-if="idx==2">
@@ -122,17 +122,20 @@ export default {
       tab: null,
       clubname: "社团名称",
       avatar: null,
-      clubDataType: ["社团信息", "社团活动",
+      clubDataType: [
+        "社团信息",
+        "社团活动",
         // "社团通知",
-        "成员信息"],
-      joinStatus: '',
+        "成员信息",
+      ],
+      joinStatus: "",
       valid: false,
       data: {
         clubInfo: {
           profile: "",
           createDate: "",
           owner: "",
-          creator: ""
+          creator: "",
         },
         clubActivities: [
           {
@@ -243,18 +246,18 @@ export default {
   },
   mounted() {
     this.axios
-      .get('/api/community/' + this.$route.params['club_id'])
-      .then(response => {
-        this.clubname = response.data['name']
-        this.avatar = response.data['avatar']
-        this.valid = response.data['valid']
-        this.joinStatus = response.data['join_status']
-        this.data.clubInfo.profile = response.data['profile']
-        this.data.clubInfo.createDate = response.data['date_created']
-        this.data.clubInfo.owner = response.data['owner']
-        this.data.clubInfo.creator = response.data['creator']
+      .get("/api/community/" + this.$route.params["club_id"])
+      .then((response) => {
+        this.clubname = response.data["name"];
+        this.avatar = response.data["avatar"];
+        this.valid = response.data["valid"];
+        this.joinStatus = response.data["join_status"];
+        this.data.clubInfo.profile = response.data["profile"];
+        this.data.clubInfo.createDate = response.data["date_created"];
+        this.data.clubInfo.owner = response.data["owner"];
+        this.data.clubInfo.creator = response.data["creator"];
         // this.data.clubMember.admin = response.data['admin']
-      })
-  }
+      });
+  },
 };
 </script>

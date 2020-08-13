@@ -82,17 +82,17 @@ export default {
     user() {
       let user = this.$store.getters.user;
       if (!user) {
-        user =  {
+        user = {
           avatar: null,
           nick_name: "",
           real_name: "",
           email: "",
           phone: "",
           profile: "",
-          communities: []
-        }
+          communities: [],
+        };
       }
-      return user
+      return user;
     },
   },
   methods: {},
