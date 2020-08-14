@@ -51,7 +51,7 @@ export default {
     this.$nextTick(function () {
       window.setInterval(() => {
         this.signCode = this.otpInstance.now();
-      }, 3000);
+      }, 5000);
     });
   },
 };

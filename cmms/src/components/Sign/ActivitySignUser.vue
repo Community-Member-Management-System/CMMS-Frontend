@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row
-      class="py-12 my-12 font-weight-light display-2"
+      class="py-12 my-12 text-h4 text-md-h3"
       justify="center"
       align="center"
     >{{ communityName }} {{ activityName }} 活动签到</v-row>
@@ -49,22 +49,24 @@ export default {
   },
   methods: {
     verifyRequest: function () {
-      alert("OK");
       this.axios
         .post(
           "/api/activity/" + this.activityID + "/sign_in",
-          {
-            otp: this.digitCode,
-          },
-          {
-            headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
-          }
+          { otp: this.digitCode },
+          { headers: { "X-CSRFToken": this.$cookies.get("csrftoken") } }
         )
         .then((response) => {
-          console.log(response);
+          this.$toasted.show("签到成功！", {
+            position: "top-center",
+            duration: 3000,
+          });
           this.valid = true;
         })
         .catch((error) => {
+          this.$toasted.show("签到失败！请检查签到码是否有误", {
+            position: "top-center",
+            duration: 3000,
+          });
           console.log(error);
         });
     },
