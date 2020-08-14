@@ -75,6 +75,7 @@
                   :is="communityTabs[tab].tabComponent"
                   :authType="authType"
                   :community="community"
+                  @modifyCommunity="getCommunity()"
                 ></component>
               </keep-alive>
             </v-scroll-x-transition>
@@ -125,13 +126,17 @@ export default {
     },
   },
   created() {
-    this.axios
-      .get("/api/community/" + this.$route.params["communityId"])
-      .then((response) => {
-        this.community = response.data;
-      });
+    this.getCommunity();
   },
   methods: {
+    getCommunity() {
+      this.axios
+        .get("/api/community/" + this.$route.params["communityId"])
+        .then((response) => {
+          this.community = response.data;
+        });
+    },
+
     userSetJoinStatus(communityId, joinStatus) {
       this.axios
         .post(

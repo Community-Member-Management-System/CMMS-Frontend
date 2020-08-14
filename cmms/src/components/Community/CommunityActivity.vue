@@ -10,7 +10,7 @@
               color="red darken-2"
               outlined
               link
-              @click="deleteActivity(activity.id)"
+              @click="deleteActivity(activity.id,i)"
             >删除活动</v-btn>
           </template>
         </activity-profile>
@@ -43,20 +43,24 @@ export default {
   },
   data: function () {
     return {
-      activities: [
-        // {
-        //   status: "正在进行中",
-        //   title: "Linux install party",
-        //   description: "帮助安装Linux",
-        //   startTime: "2020-07-17 15:00",
-        //   endTime: "2020-07-17 16:00",
-        //   location: "西校区3B101",
-        //   detailLink: "/activity/0",
-        // },
-      ],
+      activities: [],
     };
   },
-  computed: {},
+  computed: {
+    // activities() {
+    //   if (!this.community) return [];
+    //   let activities = [];
+    //   let activity;
+    //   for (let activityId of this.community.activities) {
+    //     this.axios.get("/api/activity/" + activityId).then((response) => {
+    //       activity = response.data;
+    //       activity.detailLink = "/activity/" + activity.id;
+    //       activities.push(activity);
+    //     });
+    //   }
+    //   return activities;
+    // },
+  },
   methods: {
     getActivities() {
       if (!this.community) return;
@@ -70,7 +74,7 @@ export default {
         });
       }
     },
-    deleteActivity(activityId) {
+    deleteActivity(activityId, index) {
       this.$confirm("其他相关活动信息将一并删除", {
         title: "确认删除该活动？",
       }).then((res) => {
@@ -85,6 +89,8 @@ export default {
                 position: "top-center",
                 duration: 3000,
               });
+              this.$emit("modifyCommunity");
+              this.activities.splice(index, 1);
             });
         }
       });

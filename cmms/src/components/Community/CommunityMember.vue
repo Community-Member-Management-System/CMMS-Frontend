@@ -16,12 +16,12 @@
 
       <v-list subheader>
         <user-item
-          v-for="(a, i) in communityMember.admin"
+          v-for="(a, i) in admins"
           :key="i"
           :user-avatar="a.avatar"
-          :user-name="a.name"
+          :user-name="a.nick_name"
           :user-profile="a.profile"
-          :user-target="a.target"
+          :user-target="`/user/${a.id}`"
         >
           <template v-slot:action>
             <v-menu>
@@ -71,12 +71,12 @@
 
       <v-list subheader>
         <user-item
-          v-for="(m, i) in communityMember.member"
+          v-for="(m, i) in onlyMembers"
           :key="i"
           :user-avatar="m.avatar"
-          :user-name="m.name"
+          :user-name="m.nick_name"
           :user-profile="m.profile"
-          :user-target="m.target"
+          :user-target="`/user/${m.id}`"
         >
           <template v-slot:action>
             <v-menu>
@@ -111,49 +111,34 @@
 import UserItem from "@/components/UserItem";
 export default {
   name: "CommunityMemberManagement",
-  props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
+  props: {
+    authType: { type: String, required: true, default: "admin" },
+    community: { required: true, default: {} },
+  }, //user or admin
   data: function () {
-    return {
-      communityMember: {
-        creator: { avatar: "", name: "ens", target: "", profile: "hello!" },
-        admin: [
-          {
-            avatar: "",
-            name: "ens",
-            target: "/personal-info",
-            profile: "hello!",
-          },
-          {
-            avatar: "",
-            name: "cwk",
-            target: "/personal-info",
-            profile: "hello!",
-          },
-        ],
-        member: [
-          {
-            avatar: "",
-            name: "gyx",
-            target: "/personal-info",
-            profile: "hello!",
-          },
-          {
-            avatar: "",
-            name: "zjx",
-            target: "/personal-info",
-            profile: "hello!",
-          },
-          {
-            avatar: "",
-            name: "ca",
-            target: "/personal-info",
-            profile: "hello!",
-          },
-        ],
-      },
-    };
+    return {};
   },
-  computed: {},
+  computed: {
+    admins() {
+      let admins = [];
+      for (let member of this.community.members) {
+        if (this.community.admins.indexOf(member.id) > -1) {
+          admins.push(member);
+        }
+      }
+      return admins;
+    },
+    onlyMembers() {
+      // 仅是成员，非管理员
+      let onlyMembers = [];
+      for (let member of this.community.members) {
+        if (this.community.admins.indexOf(member.id) <= -1) {
+          onlyMembers.push(member);
+        }
+      }
+      return onlyMembers;
+    },
+  },
   methods: {
     addAdmin() {
       //TODO:主动搜索成员并设为管理员
@@ -170,21 +155,24 @@ export default {
     inviteMember() {
       // TODO: 跳转到邀请成员页面
     },
-    removeMember(id) {
+
+    removeMember(userId) {
       this.$confirm("一旦移除将无法恢复！", {
         title: "确认移除该成员？",
       }).then((res) => {
         if (res) {
-          // TODO: 请求后端
-          this.$toasted.show("hhh", {
-            theme: "bubble",
-            position: "top-center",
-            duration: 3000,
-          });
+          this.axios
+            .delete(`/api/community/${this.community.id}/members/${userId}`, {
+              headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+            })
+            .then((response) => {
+              this.$emit("modifyCommunity");
+            });
         }
       });
     },
-    setAdmin(id) {
+
+    setAdmin(userId) {
       this.$confirm("其他管理员将收到通知", {
         title: "确认设为管理员？",
       }).then((res) => {
@@ -193,7 +181,7 @@ export default {
         }
       });
     },
-    transferCommunity(id) {
+    transferCommunity(userId) {
       this.$confirm("一旦转让将无法撤销", {
         title: "确认转让社团？",
       }).then((res) => {
