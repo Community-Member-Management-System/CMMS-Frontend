@@ -4,9 +4,10 @@ import Router from "vue-router";
 import Login from "@/components/Login";
 import Base from "@/components/Base";
 import Home from "@/components/Home";
-// import ActivityList from "@/components/ActivityList";
+
 import ActivitySignClub from "@/components/Sign/ActivitySignClub";
 import ActivitySignUser from "@/components/Sign/ActivitySignUser";
+
 import SetUserInfo from "@/components/SetUserInfo";
 import ClubInfo from "@/components/ClubInfo";
 import ActivityPage from "@/components/Activity/ActivityPage";
@@ -39,7 +40,6 @@ const router = new Router({
         },
         {
             path: "/base",
-            // meta: {needAuth: false},
             component: Base,
             children: [
                 {

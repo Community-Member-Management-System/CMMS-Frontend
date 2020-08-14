@@ -35,11 +35,9 @@ export default {
   mounted() {
     this.activityID = this.$route.params.activity_id;
     this.axios.get("/api/activity/" + this.activityID).then((response) => {
-      console.log(response);
       this.activityName = response.data.title;
       this.communityID = response.data.related_community;
       this.axios.get("/api/community/" + this.communityID).then((response) => {
-        console.log(response);
         this.communityName = response.data.name;
       });
     });
