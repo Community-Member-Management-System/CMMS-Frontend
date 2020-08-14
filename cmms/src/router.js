@@ -86,6 +86,7 @@ const router = new Router({
                 {
                     path: "/user/:userId",
                     component: UserPage,
+                    props: true
                 },
                 {
                     path: "/invite-user",
