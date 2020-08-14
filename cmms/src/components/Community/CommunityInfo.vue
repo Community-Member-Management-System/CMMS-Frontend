@@ -76,21 +76,7 @@ export default {
     community: { required: true, default: null },
   },
   data: function () {
-    return {
-      // community: {
-      //   id: 0,
-      //   members: "string",
-      //   join_status: "string",
-      //   name: "USTC LUG",
-      //   profile: "简介简介简介简介简介简介简介简介简介简介简介",
-      //   date_created: "2020-08-06 09:24:38",
-      //   avatar: "string",
-      //   valid: true,
-      //   creator: 0,
-      //   owner: 0,
-      //   admins: [0],
-      // },
-    };
+    return {};
   },
   computed: {},
   methods: {},

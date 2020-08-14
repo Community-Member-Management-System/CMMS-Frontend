@@ -4,7 +4,8 @@
       <v-col>
         <v-card class="pa-10">
           <v-card-title>
-            <v-icon>mdi-pencil</v-icon>创建社团
+            <v-icon>mdi-pencil</v-icon>
+            {{isCreatingCommunity?'创建社团':'修改社团'}}
           </v-card-title>
           <v-form class="ma-5" v-model="valid">
             <v-row>
@@ -53,7 +54,10 @@
 
 <script>
 export default {
-  name: "CreateCommunity",
+  name: "CreateModifyCommunity",
+  props: {
+    communityId: { type: String, required: false, default: null }, //
+  },
   data: function () {
     return {
       valid: false,
@@ -62,8 +66,34 @@ export default {
         profile: "",
         avatar: null,
       },
+      selectedFile: null,
     };
   },
+
+  computed: {
+    isCreatingCommunity() {
+      if (this.communityId !== null) return false;
+      else return true;
+    },
+  },
+
+  created() {
+    // 若为修改社团，则拉取社团信息
+    if (!this.isCreatingCommunity) {
+      let url = `/api/community/${this.communityId}`;
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": this.$cookies.get("csrftoken"),
+        },
+      };
+      this.axios.get(url, config).then((response) => {
+        this.community = response.data;
+        // TODO 判断是否有修改的权限
+      });
+    }
+  },
+
   methods: {
     onButtonClick() {
       this.isSelecting = true;
@@ -92,8 +122,7 @@ export default {
       let formData = new FormData();
       formData.append("name", this.community.name);
       formData.append("profile", this.community.profile);
-      if (this.selectedFile)
-        formData.append("avatar", this.selectedFile);
+      if (this.selectedFile) formData.append("avatar", this.selectedFile);
 
       let url = "/api/community/";
       let config = {
@@ -102,15 +131,29 @@ export default {
           "X-CSRFToken": this.$cookies.get("csrftoken"),
         },
       };
-      this.axios
+      if (this.isCreatingCommunity) {
+        this.axios
           .post(url, formData, config)
           .then((response) => {
-            alert('创建完成，请等待管理员审核。')
+            this.$toasted.show("创建完成，请等待管理员审核。");
             return response;
           })
           .catch((err) => {
             console.log(err);
           });
+      } else {
+        this.axios
+          .patch(`/api/community/${this.communityId}`, formData, config)
+          .then((response) => {
+            this.$toasted.show("修改成功！");
+            this.community = response.data;
+            this.$router.push({ path: `/community/${this.communityId}` });
+          })
+          .catch((err) => {
+            this.$toasted.show("修改失败！");
+            console.log(err);
+          });
+      }
     },
   },
 };

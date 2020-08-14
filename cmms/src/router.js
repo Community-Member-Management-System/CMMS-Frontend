@@ -64,6 +64,7 @@ const router = new Router({
                     component: SystemAuditCommunity,
                     meta: { needAuth: false }, // debug other components without auth
                 },
+                //创建社团和修改社团合并到一起了
                 {
                     path: "/community/create",
                     component: CreateModifyCommunity,
@@ -71,6 +72,7 @@ const router = new Router({
                 {
                     path: "/community/:communityId/modify",
                     component: CreateModifyCommunity,
+                    props: true
                 },
                 {
                     path: "/community/:communityId",
