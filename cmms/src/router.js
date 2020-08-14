@@ -19,7 +19,7 @@ import InviteUser from "@/components/Community/InviteUser";
 import SystemManagement from "@/components/SystemManagement/SystemManagement";
 import SystemAuditCommunity from "@/components/SystemManagement/SystemAuditCommunity";
 
-import PersonalInfo from "@/components/PersonalInfo";
+import UserPage from "@/components/User/UserPage";
 import CreateModifyCommunity from "@/components/Community/CreateModifyCommunity";
 import ActivityList from "@/components/ActivityList";
 import ClubList from "@/components/ClubList";
@@ -84,9 +84,8 @@ const router = new Router({
                     props: true
                 },
                 {
-                    path: "/personal-info",
-                    component: PersonalInfo,
-                    meta: { needAuth: false }, // debug other components without auth
+                    path: "/user/:userId",
+                    component: UserPage,
                 },
                 {
                     path: "/invite-user",

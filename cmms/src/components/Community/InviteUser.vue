@@ -40,7 +40,7 @@ export default {
         {
           avatar: "",
           name: "ens",
-          target: "/personal-info",
+          target: "/user/??",
           profile: "hello!",
         },
       ],

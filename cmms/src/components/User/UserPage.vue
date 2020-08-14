@@ -36,7 +36,7 @@
 
 <script>
 export default {
-    name: "PersonalInfo",
+    name: "UserPage",
     data: function () {
         return {
             tab: null,
