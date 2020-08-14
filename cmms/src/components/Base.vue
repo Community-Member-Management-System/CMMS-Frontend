@@ -171,7 +171,7 @@
                 </v-list-item-icon>
                 <v-list-item-title>资料设置</v-list-item-title>
               </v-list-item>
-              <v-list-item to="/create-community">
+              <v-list-item to="/community/create">
                 <v-list-item-icon>
                   <v-icon>mdi-newspaper-variant</v-icon>
                 </v-list-item-icon>

@@ -19,7 +19,7 @@ import SystemManagement from "@/components/SystemManagement/SystemManagement";
 import SystemAuditCommunity from "@/components/SystemManagement/SystemAuditCommunity";
 
 import PersonalInfo from "@/components/PersonalInfo";
-import CreateCommunity from "@/components/CreateCommunity";
+import CreateModifyCommunity from "@/components/Community/CreateModifyCommunity";
 import ActivityList from "@/components/ActivityList";
 import ClubList from "@/components/ClubList";
 import SearchList from "@/components/SearchList";
@@ -50,10 +50,10 @@ const router = new Router({
                     path: "/clubs",
                     component: ClubList,
                 },
-                // {
-                //     path: "/clubs/:club_id",
-                //     component: ClubInfo,
-                // },
+                {
+                    path: "/clubs/:club_id",
+                    component: ClubInfo,
+                },
                 {
                     path: "/system-management",
                     component: SystemManagement,
@@ -65,9 +65,12 @@ const router = new Router({
                     meta: { needAuth: false }, // debug other components without auth
                 },
                 {
-                    path: "/create-community",
-                    component: CreateCommunity,
-                    meta: { needAuth: false }, // debug other components without auth
+                    path: "/community/create",
+                    component: CreateModifyCommunity,
+                },
+                {
+                    path: "/community/:communityId/modify",
+                    component: CreateModifyCommunity,
                 },
                 {
                     path: "/community/:communityId",

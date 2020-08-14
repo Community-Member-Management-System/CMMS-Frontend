@@ -31,7 +31,31 @@
       </v-col>
       <v-col>
         <div class="text-h4">{{ community.name }}</div>
-        <!-- <div class="text-h6">{{ user.profile }}</div> -->
+        <div class="mt-5">
+          <div v-if="authType == 'user'">
+            <v-btn
+              v-if="community.join_status == '未加入'"
+              class="mx-2 mb-4"
+              color="primary"
+              @click="userSetJoinStatus(community.id,true)"
+            >+ 申请加入</v-btn>
+            <v-btn
+              v-else-if="community.join_status == '审核中'"
+              class="mx-2 mb-4"
+              color="error"
+              @click="userSetJoinStatus(community.id,false)"
+            >x 取消申请</v-btn>
+            <v-btn
+              v-else
+              class="mx-2 mb-4"
+              color="error"
+              @click="userSetJoinStatus(community.id,false)"
+            >- 退出社团</v-btn>
+          </div>
+          <div v-else>
+            <v-btn v-if="community.join_status == '审核中'" class="mx-2 mb-4" color="error">解散社团</v-btn>
+          </div>
+        </div>
       </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -107,7 +131,26 @@ export default {
         this.community = response.data;
       });
   },
-  methods: {},
+  methods: {
+    userSetJoinStatus(communityId, joinStatus) {
+      this.axios
+        .post(
+          `/api/community/${communityId}/join`,
+          { join: joinStatus },
+          {
+            headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+          }
+        )
+        .then((response) => {
+          this.community.join_status = response.data.valid
+            ? "已加入"
+            : response.data.member
+            ? "审核中"
+            : "未加入";
+          this.$toasted.show("操作成功！");
+        });
+    },
+  },
   components: {
     CommunityInfo,
     CommunityActivity,
