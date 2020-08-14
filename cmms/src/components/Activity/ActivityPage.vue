@@ -6,7 +6,23 @@
         <v-card class="mb-5 pa-10">
           <v-row>
             <v-col cols="10">
-              <div class="text-h4">{{ activity.title }}</div>
+              <div class="text-h4">
+                {{ activity.title }}
+                <v-btn
+                  class="success mx-2"
+                  rounded
+                  depressed
+                  link
+                  :to="'/sign-community/' + activity.id"
+                >获取签到码</v-btn>
+                <v-btn
+                  class="success mx-2"
+                  rounded
+                  depressed
+                  link
+                  :to="'/sign-user/' + activity.id"
+                >成员签到</v-btn>
+              </div>
             </v-col>
             <v-col cols="2">
               <v-chip v-if="activity.status === '未开始'" color="blue" text-color="white">
@@ -48,6 +64,7 @@ export default {
   data: () => ({
     message: "",
     activity: {
+      id: "",
       location: "",
       title: "",
       description: "",
@@ -59,18 +76,17 @@ export default {
   }),
   computed: {},
   mounted() {
-    this.axios
-      .get("/api/activity/" + this.$route.params.activity_id)
-      .then((response) => {
-        console.log(response);
-        this.activity.location = response.data.location;
-        this.activity.title = response.data.title;
-        this.activity.description = response.data.description;
-        this.activity.start_time = response.data.start_time;
-        this.activity.end_time = response.data.end_time;
-        this.activity.created_date = response.data.created_date;
-        this.activity.status = response.data.status;
-      });
+    this.activity.id = this.$route.params.activity_id;
+    this.axios.get("/api/activity/" + this.activity.id).then((response) => {
+      console.log(response);
+      this.activity.location = response.data.location;
+      this.activity.title = response.data.title;
+      this.activity.description = response.data.description;
+      this.activity.start_time = response.data.start_time;
+      this.activity.end_time = response.data.end_time;
+      this.activity.created_date = response.data.created_date;
+      this.activity.status = response.data.status;
+    });
   },
   methods: {},
   components: {
