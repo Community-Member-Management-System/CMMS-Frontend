@@ -26,13 +26,27 @@
           <template v-slot:action>
             <v-menu>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  large
-                  color="grey"
-                  dark
-                  v-bind="attrs"
-                  @click.stop.self.prevent="on.click"
-                >mdi-pencil-circle</v-icon>
+                <div>
+                  <v-chip
+                    v-if="a.id===community.creator"
+                    text-color="white"
+                    class="mr-10"
+                    color="light-blue"
+                  >创建者</v-chip>
+                  <v-chip
+                    v-if="a.id===community.owner"
+                    text-color="white"
+                    class="mr-10"
+                    color="orange"
+                  >所有者</v-chip>
+                  <v-icon
+                    large
+                    color="grey"
+                    dark
+                    v-bind="attrs"
+                    @click.stop.self.prevent="on.click"
+                  >mdi-pencil-circle</v-icon>
+                </div>
               </template>
               <v-list>
                 <v-list-item @click="removeAdmin(a.id)">
