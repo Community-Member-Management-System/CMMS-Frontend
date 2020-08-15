@@ -89,9 +89,8 @@ const router = new Router({
                     props: true
                 },
                 {
-                    path: "/invite-user",
+                    path: "/community/:communityId/invite",
                     component: InviteUser,
-                    meta: { needAuth: false }, // debug other components without auth
                 },
                 {
                     path: "/activity/:activity_id",

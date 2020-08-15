@@ -60,8 +60,7 @@
             dark
             small
             color="green"
-            @click="inviteMember"
-            to="/invite-user"
+            :to="`/community/${community.id}/invite`"
           >
             <v-icon>mdi-account-multiple-plus-outline</v-icon>
           </v-btn>
@@ -95,9 +94,6 @@
                 </v-list-item>
                 <v-list-item @click="setAdmin(m.id)">
                   <v-list-item-title>设为管理员</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click="transferCommunity(m.id)">
-                  <v-list-item-title>转让社团</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -143,18 +139,30 @@ export default {
     addAdmin() {
       //TODO:主动搜索成员并设为管理员
     },
-    removeAdmin() {
+
+    removeAdmin(userId) {
       this.$confirm("其他管理员将收到通知", {
         title: "确认移除该管理员？",
       }).then((res) => {
         if (res) {
-          // TODO: 请求后端
+          this.axios
+            .post(
+              `/api/community/${this.community.id}/members/${userId}/admin/unset`,
+              {},
+              {
+                headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+              }
+            )
+            .then((response) => {
+              this.$emit("modifyCommunity"); // 更新社团信息
+            });
         }
       });
     },
-    inviteMember() {
-      // TODO: 跳转到邀请成员页面
-    },
+
+    // inviteMember() {
+    //   // TODO: 跳转到邀请成员页面
+    // },
 
     removeMember(userId) {
       this.$confirm("一旦移除将无法恢复！", {
@@ -166,7 +174,7 @@ export default {
               headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
             })
             .then((response) => {
-              this.$emit("modifyCommunity");
+              this.$emit("modifyCommunity"); // 更新社团信息
             });
         }
       });
@@ -177,16 +185,37 @@ export default {
         title: "确认设为管理员？",
       }).then((res) => {
         if (res) {
-          // TODO: 请求后端
+          this.axios
+            .post(
+              `/api/community/${this.community.id}/members/${userId}/admin/set`,
+              {},
+              {
+                headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+              }
+            )
+            .then((response) => {
+              this.$emit("modifyCommunity"); // 更新社团信息
+            });
         }
       });
     },
+
     transferCommunity(userId) {
       this.$confirm("一旦转让将无法撤销", {
         title: "确认转让社团？",
       }).then((res) => {
         if (res) {
-          // TODO: 请求后端
+          this.axios
+            .patch(
+              `/api/community/${this.community.id}/transfer`,
+              { owner: userId },
+              {
+                headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+              }
+            )
+            .then((response) => {
+              this.$emit("modifyCommunity"); // 更新社团信息
+            });
         }
       });
     },
