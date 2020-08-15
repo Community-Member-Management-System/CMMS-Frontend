@@ -14,7 +14,6 @@ import ActivityPage from "@/components/Activity/ActivityPage";
 
 import CreateActivity from "@/components/Activity/CreateActivity";
 import Community from "@/components/Community/Community";
-import InviteUser from "@/components/Community/InviteUser";
 
 import SystemManagement from "@/components/SystemManagement/SystemManagement";
 import SystemAuditCommunity from "@/components/SystemManagement/SystemAuditCommunity";
@@ -87,10 +86,6 @@ const router = new Router({
                     path: "/user/:userId",
                     component: UserPage,
                     props: true
-                },
-                {
-                    path: "/community/:communityId/invite",
-                    component: InviteUser,
                 },
                 {
                     path: "/activity/:activity_id",

@@ -6,9 +6,9 @@
           <v-list-item-content>
             <span>管理员</span>
           </v-list-item-content>
-          <v-btn absolute right fab dark small color="green" @click="addAdmin">
+          <!-- <v-btn absolute right fab dark small color="green" @click="addAdmin">
             <v-icon>mdi-account-plus-outline</v-icon>
-          </v-btn>
+          </v-btn>-->
         </v-list-item>
       </v-card-title>
 
@@ -53,15 +53,7 @@
           <v-list-item-content>
             <span>社团成员</span>
           </v-list-item-content>
-          <v-btn
-            absolute
-            right
-            fab
-            dark
-            small
-            color="green"
-            :to="`/community/${community.id}/invite`"
-          >
+          <v-btn absolute right fab dark small color="green" @click="openInvitationDialog()">
             <v-icon>mdi-account-multiple-plus-outline</v-icon>
           </v-btn>
         </v-list-item>
@@ -101,6 +93,37 @@
         </user-item>
       </v-list>
     </v-card>
+
+    <!-- 邀请成员 -->
+    <v-dialog v-model="invitationDialog" max-width="750" max-height="500">
+      <v-card>
+        <v-card-title class="headline">邀请成员</v-card-title>
+        <template v-for="(m, i) in non_members">
+          <v-divider :key="'divider'+i"></v-divider>
+          <user-item
+            :key="i"
+            :user-avatar="m.avatar"
+            :user-name="m.nick_name"
+            :user-profile="m.profile"
+            :user-target="`/user/${m.id}`"
+          >
+            <template v-slot:action>
+              <v-icon
+                large
+                color="green"
+                dark
+                @click.stop.self.prevent="inviteMember(m.id)"
+              >mdi-plus-circle</v-icon>
+            </template>
+          </user-item>
+        </template>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green " text @click="invitationDialog = false">关闭</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -112,7 +135,10 @@ export default {
     community: { required: true, default: {} },
   }, //user or admin
   data: function () {
-    return {};
+    return {
+      invitationDialog: false,
+      non_members: [],
+    };
   },
   computed: {
     admins() {
@@ -136,6 +162,29 @@ export default {
     },
   },
   methods: {
+    openInvitationDialog() {
+      this.axios
+        .get(`/api/community/${this.community.id}/invite`)
+        .then((response) => {
+          this.non_members = response.data.non_members;
+          this.invitationDialog = true;
+        });
+    },
+
+    inviteMember(userId) {
+      this.axios
+        .post(
+          `/api/community/${this.community.id}/invite/${userId}`,
+          {},
+          {
+            headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+          }
+        )
+        .then((response) => {
+          this.$toasted.show("邀请成功！");
+        });
+    },
+
     addAdmin() {
       //TODO:主动搜索成员并设为管理员
     },
@@ -159,10 +208,6 @@ export default {
         }
       });
     },
-
-    // inviteMember() {
-    //   // TODO: 跳转到邀请成员页面
-    // },
 
     removeMember(userId) {
       this.$confirm("一旦移除将无法恢复！", {
