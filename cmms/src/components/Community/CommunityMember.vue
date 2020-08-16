@@ -1,112 +1,120 @@
  <template>
   <v-container>
-    <v-card class="mb-5 pa-5">
-      <v-card-title>
-        <v-list-item>
-          <v-list-item-content>
-            <span>管理员</span>
-          </v-list-item-content>
-          <!-- <v-btn absolute right fab dark small color="green" @click="addAdmin">
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title>
+            <v-list-item>
+              <v-list-item-content>
+                <span>管理员</span>
+              </v-list-item-content>
+              <!-- <v-btn absolute right fab dark small color="green" @click="addAdmin">
             <v-icon>mdi-account-plus-outline</v-icon>
-          </v-btn>-->
-        </v-list-item>
-      </v-card-title>
+              </v-btn>-->
+            </v-list-item>
+          </v-card-title>
 
-      <v-divider></v-divider>
+          <v-divider></v-divider>
 
-      <v-list subheader>
-        <user-item
-          v-for="(a, i) in admins"
-          :key="i"
-          :user-avatar="a.avatar"
-          :user-name="a.nick_name"
-          :user-profile="a.profile"
-          :user-target="`/user/${a.id}`"
-        >
-          <template v-slot:action>
-            <v-menu>
-              <template v-slot:activator="{ on, attrs }">
-                <div>
-                  <v-chip
-                    v-if="a.id===community.creator"
-                    text-color="white"
-                    class="mr-10"
-                    color="light-blue"
-                  >创建者</v-chip>
-                  <v-chip
-                    v-if="a.id===community.owner"
-                    text-color="white"
-                    class="mr-10"
-                    color="orange"
-                  >所有者</v-chip>
-                  <v-icon
-                    large
-                    color="grey"
-                    dark
-                    v-bind="attrs"
-                    @click.stop.self.prevent="on.click"
-                  >mdi-pencil-circle</v-icon>
-                </div>
+          <v-list subheader>
+            <user-item
+              v-for="(a, i) in admins"
+              :key="i"
+              :user-avatar="a.avatar"
+              :user-name="a.nick_name"
+              :user-profile="a.profile"
+              :user-target="`/user/${a.id}`"
+            >
+              <template v-slot:action>
+                <v-chip
+                  v-if="a.id===community.creator"
+                  text-color="white"
+                  :class="community.creator!==community.owner && authType!='owner'?'mr-1':'mr-5'"
+                  color="light-blue"
+                >创建者</v-chip>
+                <v-chip
+                  v-if="a.id===community.owner"
+                  text-color="white"
+                  :class="community.creator!==community.owner && authType=='owner'?'mr-14':'mr-1'"
+                  color="orange"
+                >所有者</v-chip>
+                <v-menu v-if="authType=='owner' && a.id!=community.owner">
+                  <template v-slot:activator="{ on, attrs }">
+                    <div>
+                      <v-icon
+                        large
+                        color="grey"
+                        dark
+                        v-bind="attrs"
+                        @click.stop.self.prevent="on.click"
+                      >mdi-pencil-circle</v-icon>
+                    </div>
+                  </template>
+                  <v-list>
+                    <v-list-item @click="removeAdmin(a.id)">
+                      <v-list-item-title>取消管理员</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="transferCommunity(a.id)">
+                      <v-list-item-title>转让社团</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
               </template>
-              <v-list>
-                <v-list-item @click="removeAdmin(a.id)">
-                  <v-list-item-title>取消管理员</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click="transferCommunity(a.id)">
-                  <v-list-item-title>转让社团</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </template>
-        </user-item>
-      </v-list>
-    </v-card>
-    <v-card class="mb-5 pa-5">
-      <v-card-title>
-        <v-list-item>
-          <v-list-item-content>
-            <span>社团成员</span>
-          </v-list-item-content>
-          <v-btn absolute right fab dark small color="green" @click="openInvitationDialog()">
-            <v-icon>mdi-account-multiple-plus-outline</v-icon>
-          </v-btn>
-        </v-list-item>
-      </v-card-title>
-      <v-divider></v-divider>
+            </user-item>
+          </v-list>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title>
+            <v-list-item>
+              <v-list-item-content>
+                <span>社团成员</span>
+              </v-list-item-content>
+              <v-btn absolute right fab dark small color="green" @click="openInvitationDialog()">
+                <v-icon>mdi-account-multiple-plus-outline</v-icon>
+              </v-btn>
+            </v-list-item>
+          </v-card-title>
+          <v-divider></v-divider>
 
-      <v-list subheader>
-        <user-item
-          v-for="(m, i) in onlyMembers"
-          :key="i"
-          :user-avatar="m.avatar"
-          :user-name="m.nick_name"
-          :user-profile="m.profile"
-          :user-target="`/user/${m.id}`"
-        >
-          <template v-slot:action>
-            <v-menu>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  large
-                  color="grey"
-                  dark
-                  v-bind="attrs"
-                  @click.stop.self.prevent="on.click"
-                >mdi-pencil-circle</v-icon>
+          <v-list subheader>
+            <user-item
+              v-for="(m, i) in onlyMembers"
+              :key="i"
+              :user-avatar="m.avatar"
+              :user-name="m.nick_name"
+              :user-profile="m.profile"
+              :user-target="`/user/${m.id}`"
+            >
+              <template v-slot:action>
+                <v-menu>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      large
+                      color="grey"
+                      dark
+                      v-bind="attrs"
+                      @click.stop.self.prevent="on.click"
+                    >mdi-pencil-circle</v-icon>
+                  </template>
+                  <v-list>
+                    <v-list-item @click="removeMember(m.id)">
+                      <v-list-item-title>移除成员</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="setAdmin(m.id)">
+                      <v-list-item-title>设为管理员</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
               </template>
-              <v-list>
-                <v-list-item @click="removeMember(m.id)">
-                  <v-list-item-title>移除成员</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click="setAdmin(m.id)">
-                  <v-list-item-title>设为管理员</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </template>
-        </user-item>
-      </v-list>
-    </v-card>
+            </user-item>
+          </v-list>
+        </v-card>
+      </v-col>
+    </v-row>
 
     <!-- 邀请成员 -->
     <v-dialog v-model="invitationDialog" max-width="750" max-height="500">
@@ -145,6 +153,7 @@ import UserItem from "@/components/UserItem";
 export default {
   name: "CommunityMemberManagement",
   props: {
+    authType: { type: String, required: true, default: "admin" },
     community: { required: true, default: {} },
   }, //user or admin
   data: function () {
