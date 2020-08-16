@@ -145,7 +145,6 @@ import UserItem from "@/components/UserItem";
 export default {
   name: "CommunityMemberManagement",
   props: {
-    authType: { type: String, required: true, default: "admin" },
     community: { required: true, default: {} },
   }, //user or admin
   data: function () {

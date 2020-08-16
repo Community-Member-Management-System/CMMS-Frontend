@@ -51,7 +51,7 @@
         </div>
       </v-col>-->
     </v-row>
-    <v-row justify="center" v-if="authType == 'admin' ">
+    <v-row justify="center" v-if="authType == 'admin' || authType == 'owner' ">
       <v-btn
         elevation="5"
         bottom

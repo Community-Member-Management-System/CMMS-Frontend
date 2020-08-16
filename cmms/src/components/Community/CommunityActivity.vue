@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="4" v-for="(activity, i) in activities" :key="i">
         <activity-profile v-bind="activity">
-          <template v-if="authType == 'admin' " v-slot:deleteBtn>
+          <template v-if="authType == 'admin' || authType == 'owner' " v-slot:deleteBtn>
             <v-btn
               absolute
               right
@@ -16,7 +16,7 @@
         </activity-profile>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="authType == 'admin' ">
+    <v-row justify="center" v-if="authType == 'admin'|| authType == 'owner' ">
       <v-btn
         elevation="5"
         bottom

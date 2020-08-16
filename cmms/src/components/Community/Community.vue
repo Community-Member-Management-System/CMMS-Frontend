@@ -23,13 +23,13 @@
     <!-- <v-divider></v-divider> -->
 
     <v-row justify="center" align="center">
-      <v-col justify="center" align="center">
+      <v-col cols="4" justify="center" align="center">
         <v-avatar size="130">
           <v-icon dark v-if="!community.avatar">mdi-account-circle</v-icon>
           <v-img v-else :src="community.avatar"></v-img>
         </v-avatar>
       </v-col>
-      <v-col>
+      <v-col cols="4" align="center">
         <div class="text-h4">{{ community.name }}</div>
         <div class="mt-5">
           <div v-if="authType == 'user'">
@@ -52,8 +52,8 @@
               @click="userSetJoinStatus(community.id,false)"
             >- 退出社团</v-btn>
           </div>
-          <div v-else>
-            <v-btn v-if="community.join_status == '审核中'" class="mx-2 mb-4" color="error">解散社团</v-btn>
+          <div v-else-if="authType == 'owner'">
+            <v-btn color="error">解散社团</v-btn>
           </div>
         </div>
       </v-col>
@@ -110,7 +110,7 @@ export default {
         { tabName: "社团成员", tabComponent: "CommunityMember" },
         { tabName: "待办事项", tabComponent: "CommunityTodo" },
       ];
-      if (this.authType == "admin") return allTabs;
+      if (this.authType == "admin" || this.authType == "owner") return allTabs;
       else if (this.authType == "user") return allTabs.slice(0, 3);
       else return null;
     },
@@ -118,11 +118,16 @@ export default {
     authType() {
       if (
         this.$store.getters.user &&
+        this.community.owner == parseInt(this.$store.getters.user.id)
+      )
+        return "owner";
+      if (
+        this.$store.getters.user &&
         this.community.admins.indexOf(parseInt(this.$store.getters.user.id)) >
           -1
       )
         return "admin";
-      else return "user";
+      return "user";
     },
   },
   created() {
