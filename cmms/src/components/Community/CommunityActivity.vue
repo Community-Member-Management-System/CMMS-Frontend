@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="4" v-for="(activity, i) in activities" :key="i">
         <activity-profile v-bind="activity">
-          <template v-if="authType == 'admin' || authType == 'owner' " v-slot:deleteBtn>
+          <template v-if="authLevel < 3 " v-slot:deleteBtn>
             <v-btn
               absolute
               right
@@ -16,7 +16,7 @@
         </activity-profile>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="authType == 'admin'|| authType == 'owner' ">
+    <v-row justify="center" v-if="authLevel < 3 ">
       <v-btn
         elevation="5"
         bottom
@@ -38,7 +38,7 @@ import ActivityProfile from "@/components/Activity/ActivityProfile";
 export default {
   name: "CommunityActivity",
   props: {
-    authType: { type: String, required: true, default: "admin" }, //user or admin
+    authLevel: { type: Number, required: true, default: 3 },
     community: { required: true, default: null },
   },
   data: function () {

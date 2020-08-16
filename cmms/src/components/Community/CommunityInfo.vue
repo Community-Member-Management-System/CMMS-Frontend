@@ -9,7 +9,7 @@
               <v-chip
                 :color="community.join_status == '已加入'? 'green' :community.join_status == '审核中'?'yellow':'red' "
                 text-color="white"
-                v-if="authType == 'user' "
+                v-if="authLevel === 3 "
               >
                 <v-avatar left>
                   <v-icon v-if="community.join_status == '已加入'">mdi-checkbox-marked-circle</v-icon>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="mt-5">
-          <div v-if="authType == 'user'">
+          <div v-if="authLevel === 3">
             <v-btn outlined color="primary">关注</v-btn>
             <v-btn class="ml-2" outlined color="primary">加入</v-btn>
           </div>
@@ -51,7 +51,7 @@
         </div>
       </v-col>-->
     </v-row>
-    <v-row justify="center" v-if="authType == 'admin' || authType == 'owner' ">
+    <v-row justify="center" v-if="authLevel < 3 ">
       <v-btn
         elevation="5"
         bottom
@@ -72,7 +72,7 @@
 export default {
   name: "CommunityInfo",
   props: {
-    authType: { type: String, required: true, default: "admin" }, //user or admin
+    authLevel: { type: Number, required: true, default: 3 }, //user or admin
     community: { required: true, default: null },
   },
   data: function () {

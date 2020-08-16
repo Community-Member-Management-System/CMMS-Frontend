@@ -29,16 +29,16 @@
                 <v-chip
                   v-if="a.id===community.creator"
                   text-color="white"
-                  :class="community.creator!==community.owner && authType!='owner'?'mr-1':'mr-5'"
+                  :class="community.creator!==community.owner && authLevel > 1 ?'mr-1':'mr-5'"
                   color="light-blue"
                 >创建者</v-chip>
                 <v-chip
                   v-if="a.id===community.owner"
                   text-color="white"
-                  :class="community.creator!==community.owner && authType=='owner'?'mr-14':'mr-1'"
+                  :class="community.creator!==community.owner && authLevel <=1 ?'mr-14':'mr-1'"
                   color="orange"
                 >所有者</v-chip>
-                <v-menu v-if="authType=='owner' && a.id!=community.owner">
+                <v-menu v-if="authLevel<=1 && a.id!=community.owner">
                   <template v-slot:activator="{ on, attrs }">
                     <div>
                       <v-icon
@@ -104,7 +104,7 @@
                     <v-list-item @click="removeMember(m.id)">
                       <v-list-item-title>移除成员</v-list-item-title>
                     </v-list-item>
-                    <v-list-item @click="setAdmin(m.id)">
+                    <v-list-item v-if="authLevel <= 1" @click="setAdmin(m.id)">
                       <v-list-item-title>设为管理员</v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -153,7 +153,7 @@ import UserItem from "@/components/UserItem";
 export default {
   name: "CommunityMemberManagement",
   props: {
-    authType: { type: String, required: true, default: "admin" },
+    authLevel: { type: Number, required: true, default: 3 },
     community: { required: true, default: {} },
   }, //user or admin
   data: function () {

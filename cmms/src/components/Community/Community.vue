@@ -32,7 +32,7 @@
       <v-col cols="4" align="center">
         <div class="text-h4">{{ community.name }}</div>
         <div class="mt-5">
-          <div v-if="authType == 'user'">
+          <div v-if="authLevel === 3">
             <v-btn
               v-if="community.join_status == '未加入'"
               class="mx-2 mb-4"
@@ -52,7 +52,7 @@
               @click="userSetJoinStatus(community.id,false)"
             >- 退出社团</v-btn>
           </div>
-          <div v-else-if="authType == 'owner'">
+          <div v-else-if="authLevel === 1">
             <v-btn color="error">解散社团</v-btn>
           </div>
         </div>
@@ -73,7 +73,7 @@
               <keep-alive>
                 <component
                   :is="communityTabs[tab].tabComponent"
-                  :authType="authType"
+                  :authLevel="authLevel"
                   :community="community"
                   @modifyCommunity="getCommunity()"
                 ></component>
@@ -94,7 +94,6 @@ import CommunityMember from "@/components/Community/CommunityMember";
 import CommunityTodo from "@/components/Community/CommunityTodo";
 export default {
   name: "Community",
-  // props: { authType: { type: String, required: true, default: "admin" } }, //user or admin
   data: function () {
     return {
       tab: 0,
@@ -110,24 +109,25 @@ export default {
         { tabName: "社团成员", tabComponent: "CommunityMember" },
         { tabName: "待办事项", tabComponent: "CommunityTodo" },
       ];
-      if (this.authType == "admin" || this.authType == "owner") return allTabs;
-      else if (this.authType == "user") return allTabs.slice(0, 3);
+      if (this.authLevel < 3) return allTabs;
+      else if (this.authLevel === 3) return allTabs.slice(0, 3);
       else return null;
     },
 
-    authType() {
+    authLevel() {
+      // 0: SystemAdmin, 1: CommunityOwner, 2: CommunityAdmin, 3: CommunityMember, 4: User, 5: Tourist
       if (
         this.$store.getters.user &&
         this.community.owner == parseInt(this.$store.getters.user.id)
       )
-        return "owner";
+        return 1;
       if (
         this.$store.getters.user &&
         this.community.admins.indexOf(parseInt(this.$store.getters.user.id)) >
           -1
       )
-        return "admin";
-      return "user";
+        return 2;
+      return 3;
     },
   },
   created() {
