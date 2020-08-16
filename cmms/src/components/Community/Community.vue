@@ -52,7 +52,7 @@
               @click="userSetJoinStatus(community.id,false)"
             >- 退出社团</v-btn>
           </div>
-          <div v-else-if="authLevel === 1">
+          <div v-else-if="authLevel <= 1">
             <v-btn color="error">解散社团</v-btn>
           </div>
         </div>
@@ -97,6 +97,7 @@ export default {
   data: function () {
     return {
       tab: 0,
+      isSuperuser: false,
       community: { admins: [] },
     };
   },
@@ -116,6 +117,7 @@ export default {
 
     authLevel() {
       // 0: SystemAdmin, 1: CommunityOwner, 2: CommunityAdmin, 3: CommunityMember, 4: User, 5: Tourist
+      if (this.isSuperuser) return 0;
       if (
         this.$store.getters.user &&
         this.community.owner == parseInt(this.$store.getters.user.id)
@@ -132,6 +134,18 @@ export default {
   },
   created() {
     this.getCommunity();
+
+    this.axios
+      .post(
+        "/api/auth/check",
+        {},
+        {
+          headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+        }
+      )
+      .then((response) => {
+        this.isSuperuser = response.data.superuser;
+      });
   },
   methods: {
     getCommunity() {

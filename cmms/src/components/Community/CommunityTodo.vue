@@ -33,7 +33,11 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-title>待完成 {{uncompletedTodoIndices.length}} 项</v-card-title>
+          <v-card-title>
+            <v-list-item>
+              <v-badge :content="uncompletedTodoIndices.length">待完成</v-badge>
+            </v-list-item>
+          </v-card-title>
           <v-card-text>
             <v-list subheader two-line flat>
               <v-list-item-group>
@@ -62,7 +66,12 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-title>已完成 {{completedTodoIndices.length}} 项</v-card-title>
+          <v-card-title>
+            <v-list-item>
+              <v-badge :content="completedTodoIndices.length">已完成</v-badge>
+            </v-list-item>
+          </v-card-title>
+
           <v-card-text>
             <v-list subheader two-line flat>
               <v-list-item-group>

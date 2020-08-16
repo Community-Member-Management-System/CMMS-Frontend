@@ -5,9 +5,8 @@
         <v-card>
           <v-card-title>
             <v-list-item>
-              <v-list-item-content>
-                <span>管理员</span>
-              </v-list-item-content>
+              <v-badge :content="admins.length">管理员</v-badge>
+
               <!-- <v-btn absolute right fab dark small color="green" @click="addAdmin">
             <v-icon>mdi-account-plus-outline</v-icon>
               </v-btn>-->
@@ -70,9 +69,8 @@
         <v-card>
           <v-card-title>
             <v-list-item>
-              <v-list-item-content>
-                <span>社团成员</span>
-              </v-list-item-content>
+              <v-badge :content="onlyMembers.length">社团成员</v-badge>
+
               <v-btn absolute right fab dark small color="green" @click="openInvitationDialog()">
                 <v-icon>mdi-account-multiple-plus-outline</v-icon>
               </v-btn>
