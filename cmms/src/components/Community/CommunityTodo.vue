@@ -38,6 +38,7 @@
               <v-badge :content="uncompletedTodoIndices.length">待完成</v-badge>
             </v-list-item>
           </v-card-title>
+          <v-divider></v-divider>
           <v-card-text>
             <v-list subheader two-line flat>
               <v-list-item-group>
@@ -71,7 +72,7 @@
               <v-badge :content="completedTodoIndices.length">已完成</v-badge>
             </v-list-item>
           </v-card-title>
-
+          <v-divider></v-divider>
           <v-card-text>
             <v-list subheader two-line flat>
               <v-list-item-group>

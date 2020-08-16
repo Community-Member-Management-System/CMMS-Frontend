@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row v-if="authLevel < 3">
       <v-col>
         <v-card>
           <v-card-title>
@@ -19,20 +19,29 @@
               :user-target="`/user/${req.id}`"
             >
               <template v-slot:action>
-                <v-btn
-                  outlined
-                  color="primary"
-                  @click.stop.self.prevent="auditJoinReq('allow', req.id)"
-                >通过</v-btn>
-                <v-btn
-                  class="ml-2"
-                  outlined
-                  color="red"
-                  @click.stop.self.prevent="auditJoinReq('deny', req.id)"
-                >拒绝</v-btn>
+                <div>
+                  <v-btn small fab color="primary">
+                    <v-icon @click.stop.self.prevent="auditJoinReq('allow', req.id)">mdi-check</v-icon>
+                  </v-btn>
+                  <v-btn fab small class="ml-2" color="red">
+                    <v-icon @click.stop.self.prevent="auditJoinReq('deny', req.id)">mdi-close</v-icon>
+                  </v-btn>
+                </div>
               </template>
             </user-item>
           </v-list>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title>
+            <v-list-item>
+              <v-badge>社团公告</v-badge>
+            </v-list-item>
+          </v-card-title>
+          <v-divider></v-divider>
         </v-card>
       </v-col>
     </v-row>
