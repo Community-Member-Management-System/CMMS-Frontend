@@ -53,7 +53,7 @@
             >- 退出社团</v-btn>
           </div>
           <div v-else-if="authLevel <= 1">
-            <v-btn color="error">解散社团</v-btn>
+            <v-btn color="error" @click="deleteCommunity(community.id)">解散社团</v-btn>
           </div>
         </div>
       </v-col>
@@ -172,6 +172,17 @@ export default {
             ? "审核中"
             : "未加入";
           this.$toasted.show("操作成功！");
+        });
+    },
+
+    deleteCommunity(communityId) {
+      this.axios
+        .delete(`/api/community/${communityId}`, {
+          headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+        })
+        .then((response) => {
+          this.$router.push("/home");
+          this.$toasted.show("删除成功！");
         });
     },
   },
