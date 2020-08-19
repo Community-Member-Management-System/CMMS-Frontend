@@ -12,7 +12,7 @@ import SetUserInfo from "@/components/SetUserInfo";
 import ClubInfo from "@/components/ClubInfo";
 import ActivityPage from "@/components/Activity/ActivityPage";
 
-import CreateActivity from "@/components/Activity/CreateActivity";
+import CreateModifyActivity from "@/components/Activity/CreateModifyActivity";
 import Community from "@/components/Community/Community";
 
 import SystemManagement from "@/components/SystemManagement/SystemManagement";
@@ -79,7 +79,12 @@ const router = new Router({
                 },
                 {
                     path: "/activity/create/:communityId",
-                    component: CreateActivity,
+                    component: CreateModifyActivity,
+                    props: true
+                },
+                {
+                    path: "/activity/modify/:communityId/:activityId",
+                    component: CreateModifyActivity,
                     props: true
                 },
                 {
@@ -88,9 +93,9 @@ const router = new Router({
                     props: true
                 },
                 {
+                    name: "ActivityPage",
                     path: "/activity/:activity_id",
                     component: ActivityPage,
-                    meta: { needAuth: false }, // debug other components without auth
                 },
                 {
                     path: "/sign-community/:activity_id",

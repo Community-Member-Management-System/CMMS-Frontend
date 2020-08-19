@@ -3,14 +3,21 @@
     <v-row>
       <v-col cols="4" v-for="(activity, i) in activities" :key="i">
         <activity-profile v-bind="activity">
-          <template v-if="authLevel < 3 " v-slot:deleteBtn>
+          <template v-if="authLevel < 3 " v-slot:actions>
+            <v-btn
+              color="blue"
+              right
+              outlined
+              link
+              @click.stop.native.prevent="$router.push(`/activity/modify/${community.id}/${activity.id}`)"
+            >编辑活动</v-btn>
             <v-btn
               absolute
               right
-              color="red darken-2"
+              color="red"
               outlined
               link
-              @click="deleteActivity(activity.id,i)"
+              @click.stop.native.prevent="deleteActivity(activity.id,i)"
             >删除活动</v-btn>
           </template>
         </activity-profile>
@@ -69,7 +76,10 @@ export default {
       for (let activityId of this.community.activities) {
         this.axios.get("/api/activity/" + activityId).then((response) => {
           activity = response.data;
-          activity.detailLink = "/activity/" + activity.id;
+          activity.detailLink = {
+            name: "ActivityPage",
+            params: { activity_id: activityId, authLevel: this.authLevel },
+          };
           this.activities.push(activity);
         });
       }

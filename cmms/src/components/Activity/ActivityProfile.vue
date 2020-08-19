@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-3">
+  <v-card :to="detailLink" class="pa-3">
     <!-- 状态 chips -->
     <v-chip color="green" text-color="white">
       <v-avatar left>
@@ -18,8 +18,8 @@
 
     <v-card-text v-text="description"></v-card-text>
     <v-card-actions>
-      <v-btn color="primary darken-2" outlined link :to="detailLink">查看详情</v-btn>
-      <slot name="deleteBtn"></slot>
+      <!-- <v-btn color="primary darken-2" outlined link :to="detailLink">查看详情</v-btn> -->
+      <slot name="actions"></slot>
     </v-card-actions>
   </v-card>
 </template>
@@ -37,7 +37,7 @@ export default {
     start_time: String,
     end_time: String,
     location: String,
-    detailLink: String,
+    detailLink: [Object, String],
   },
   computed: {},
   methods: {},

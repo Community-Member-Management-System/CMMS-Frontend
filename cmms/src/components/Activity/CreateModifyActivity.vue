@@ -103,8 +103,11 @@
 <script>
 import AMapLoader from "@amap/amap-jsapi-loader";
 export default {
-  name: "CreatActivity",
-  props: { communityId: { required: true, default: null } },
+  name: "CreateModifyActivity",
+  props: {
+    communityId: { required: true, default: null },
+    activityId: { required: false, default: null },
+  },
   data: () => ({
     map: null,
     placeSearch: null,
@@ -122,6 +125,10 @@ export default {
     isMailListNotice: true,
   }),
   computed: {
+    isCreatingActivity() {
+      if (this.activityId !== null) return false;
+      else return true;
+    },
     activityCoverSrc() {
       if (this.activity.activityCover)
         return window.URL.createObjectURL(this.activity.activityCover);
@@ -134,21 +141,40 @@ export default {
       new_activity.start_time = new_activity.start_time.toISOString();
       new_activity.end_time = new_activity.end_time.toISOString();
       new_activity.related_community = this.communityId;
-      this.axios
-        .post("/api/activity/", new_activity, {
-          headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
-        })
-        .then((response) => {
-          this.$toasted.show("创建成功！", {
-            theme: "bubble",
-            position: "top-center",
-            duration: 3000,
+      if (this.isCreatingActivity) {
+        this.axios
+          .post("/api/activity/", new_activity, {
+            headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+          })
+          .then((response) => {
+            this.$toasted.show("创建成功！", {
+              theme: "bubble",
+              position: "top-center",
+              duration: 3000,
+            });
+            this.$router.push(`/activity/${response.data.id}`);
+          })
+          .catch((error) => {
+            console.log(error);
           });
-          this.$router.push(`/activity/${response.data.id}`);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      } else {
+        console.log(new_activity);
+        this.axios
+          .patch(`/api/activity/${this.activityId}`, new_activity, {
+            headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+          })
+          .then((response) => {
+            this.$toasted.show("修改成功！", {
+              theme: "bubble",
+              position: "top-center",
+              duration: 3000,
+            });
+            this.$router.push(`/activity/${response.data.id}`);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
 
     // 用户输入详细地点，地图自动定位至附近，然后手动在地图上标记详细地点以获取经纬度，将经纬度给用户导航使用
@@ -180,6 +206,15 @@ export default {
         else this.activity.commentRange = ["所有用户"];
       }
     },
+  },
+  created() {
+    if (!this.isCreatingActivity) {
+      this.axios.get(`/api/activity/${this.activityId}`).then((response) => {
+        Object.assign(this.activity, response.data);
+        this.activity.start_time = new Date(this.activity.start_time);
+        this.activity.end_time = new Date(this.activity.end_time);
+      });
+    }
   },
   // 高德地图持续为您导航 :)
   mounted() {
