@@ -11,12 +11,12 @@
             <v-row>
               <v-col cols="5">
                 <v-row justify="center">
-                  <v-avatar color="primary" size="180" class="mt-6">
+                  <v-avatar color="primary" size="250" class="mt-6">
                     <span v-if="!community.avatar" class="white--text headline">Avatar</span>
                     <v-img v-else :src="community.avatar"></v-img>
                   </v-avatar>
                 </v-row>
-                <v-row justify="center" class="mt-4">
+                <v-row justify="center" class="mt-9">
                   <v-btn outlined large rounded color="primary" @click="onButtonClick">上传头像</v-btn>
                   <input
                     ref="uploader"
@@ -31,6 +31,15 @@
                 <v-row>
                   <v-col>
                     <v-text-field v-model="community.name" label="社团名称 *" required></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      hint="http[s]?://rec.ustc.edu.cn/.+"
+                      label="睿课网链接"
+                      v-model="community.rec_link"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -65,6 +74,7 @@ export default {
         name: "",
         profile: "",
         avatar: null,
+        rec_link: "https://rec.ustc.edu.cn/",
       },
       selectedFile: null,
     };
@@ -122,6 +132,7 @@ export default {
       let formData = new FormData();
       formData.append("name", this.community.name);
       formData.append("profile", this.community.profile);
+      formData.append("rec_link", this.community.rec_link);
       if (this.selectedFile) formData.append("avatar", this.selectedFile);
 
       let url = "/api/community/";

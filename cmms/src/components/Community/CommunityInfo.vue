@@ -45,6 +45,17 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col class="pl-0">
+        <v-card>
+          <v-card-title>睿课网</v-card-title>
+          <v-card-text>
+            链接：
+            <a :href="community.rec_link">{{community.rec_link}}</a>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
     <v-row justify="center" v-if="authLevel < 3 ">
       <v-btn
         elevation="5"
