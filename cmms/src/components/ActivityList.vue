@@ -1,44 +1,45 @@
 <template>
-  <v-container class="fill-height" grey lighten-5 fluid>
-    <v-row align="start" justify="center">
-      <v-col cols="6">
-        <v-row v-for="msg in messages" :key="msg.title">
-          <v-card class="mx-auto mb-5 pa-2">
-            <v-card-title class="headline">{{ msg.title }}</v-card-title>
-            <v-card-subtitle>Subtitle</v-card-subtitle>
-            <v-card-text>{{ msg.content }}</v-card-text>
-            <v-card-actions>
-              <v-list-item>
-                <v-list-item-avatar size="30" color="grey darken-3"></v-list-item-avatar>
-
-                <v-list-item-content>
-                  <v-list-item-title>{{ msg.username }}</v-list-item-title>
-                </v-list-item-content>
-
-                <v-row align="center" justify="end">
-                  <v-btn icon color="red">
-                    <v-icon>mdi-heart</v-icon>
-                  </v-btn>
-                  <span class="subheading mr-2">{{ msg.likes }}</span>
-                  <span class="mr-1"></span>
-                  <v-btn icon color="grey">
-                    <v-icon>mdi-comment</v-icon>
-                  </v-btn>
-                  <span class="subheading">{{ msg.comments }}</span>
-                </v-row>
-              </v-list-item>
-            </v-card-actions>
-          </v-card>
-        </v-row>
-      </v-col>
-      <v-col cols="3">
-        <v-card class="mx-auto mb-5 pb-10">
-          <v-card-title class="headline">{{ community.title }}</v-card-title>
-          <v-card-subtitle>{{ community.subtitle }}</v-card-subtitle>
-          <v-card-text>{{ community.description }}</v-card-text>
-          <v-btn absolute fab bottom right color="blue lighten-2">
-            <v-icon color="white">mdi-plus</v-icon>
-          </v-btn>
+  <v-container>
+    <v-row dense>
+      <v-col v-for="(item, i) in items" :key="i" cols="12">
+        <v-card class="mb-5 pa-5">
+          <v-row>
+            <v-col cols="10">
+              <v-card-title class="headline" v-text="item.title"></v-card-title>
+              <v-card-subtitle
+                class="py-0"
+                v-text="'时间: ' + getTime(item.start_time) + ' - ' + getTime(item.end_time)"
+              ></v-card-subtitle>
+              <v-card-subtitle class="py-0">地点: {{item.location }}</v-card-subtitle>
+            </v-col>
+            <v-col cols="2">
+              <v-chip v-if="item.status === '未开始'" color="blue" text-color="white">
+                <v-avatar left>
+                  <v-icon>mdi-calendar-clock</v-icon>
+                </v-avatar>未开始
+              </v-chip>
+              <v-chip v-if="item.status === '进行中'" color="yellow darken-3" text-color="white">
+                <v-avatar left>
+                  <v-icon>mdi-clock-outline</v-icon>
+                </v-avatar>进行中
+              </v-chip>
+              <v-chip v-if="item.status === '已结束'" color="green" text-color="white">
+                <v-avatar left>
+                  <v-icon>mdi-checkbox-marked-circle</v-icon>
+                </v-avatar>已结束
+              </v-chip>
+            </v-col>
+          </v-row>
+          <v-card-text v-text="item.description"></v-card-text>
+          <v-card-actions>
+            <v-btn color="primary darken-2" outlined link :to="'/activity/' + item.id">查看详情</v-btn>
+            <v-btn
+              color="primary darken-2"
+              outlined
+              link
+              :to="'/community/' + item.related_community"
+            >社团主页</v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -47,61 +48,22 @@
 
 <script>
 export default {
-  name: "App",
-  data: () => ({
-    community: {
-      title: "社团名称",
-      subtitle: "社团类型",
-      description:
-        "社团介绍社团介绍社团介绍社团介绍社团介绍社团介绍社团介绍社团介绍"
+  name: "ActivityList",
+  data: function () {
+    return {
+      items: [],
+    };
+  },
+  computed: {},
+  mounted() {
+    this.axios.get("/api/activity").then((response) => {
+      this.items = response.data;
+    });
+  },
+  methods: {
+    getTime(time) {
+      return new Date(time).toLocaleString();
     },
-    messages: [
-      {
-        title: "活动名称",
-        subtitle: "副标题",
-        content:
-          "活动内容活动内容活动内容活动内容活动内容活动内容活动内容活动内容活动内容",
-        username: "发布者",
-        likes: 100,
-        comments: 0
-      },
-      {
-        title: "活动名称",
-        subtitle: "副标题",
-        content:
-          "活动内容活动内容活动内容活动内容活动内容活动内容活动内容活动内容活动内容",
-        username: "发布者",
-        likes: 100,
-        comments: 0
-      },
-      {
-        title: "活动名称",
-        subtitle: "副标题",
-        content:
-          "活动内容活动内容活动内容活动内容活动内容活动内容活动内容活动内容活动内容",
-        username: "发布者",
-        likes: 100,
-        comments: 0
-      },
-      {
-        title: "活动名称",
-        subtitle: "副标题",
-        content:
-          "活动内容活动内容活动内容活动内容活动内容活动内容活动内容活动内容活动内容",
-        username: "发布者",
-        likes: 100,
-        comments: 0
-      },
-      {
-        title: "活动名称",
-        subtitle: "副标题",
-        content:
-          "活动内容活动内容活动内容活动内容活动内容活动内容活动内容活动内容活动内容",
-        username: "发布者",
-        likes: 100,
-        comments: 0
-      }
-    ]
-  })
+  },
 };
 </script>
