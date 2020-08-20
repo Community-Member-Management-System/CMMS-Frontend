@@ -8,3 +8,4 @@ RUN npm run build
 FROM nginx:latest
 COPY --from=builder /app/dist/ /var/www/html/
 COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80 8080

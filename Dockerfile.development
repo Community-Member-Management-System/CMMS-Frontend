@@ -3,4 +3,5 @@ WORKDIR /app
 COPY cmms/package.json cmms/package-lock.json /app/
 RUN npm install
 COPY cmms/ /app/
+EXPOSE 8080
 CMD ["npm", "run", "serve"]
