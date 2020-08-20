@@ -53,14 +53,12 @@ const router = new Router({
                     component: ActivityList,
                 },
                 {
-                    path: "/system-management",
+                    path: "/system",
                     component: SystemManagement,
-                    meta: { needAuth: false }, // debug other components without auth
                 },
                 {
-                    path: "/system-audit-community",
+                    path: "/system/audit/community",
                     component: SystemAuditCommunity,
-                    meta: { needAuth: false }, // debug other components without auth
                 },
                 //创建社团和修改社团合并到一起了
                 {

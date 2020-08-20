@@ -209,6 +209,7 @@
 export default {
   name: "Home",
   data: () => ({
+    isSuperuser: false,
     drawer: true,
     mini: false,
     fab: false,
@@ -216,38 +217,42 @@ export default {
     query: "",
     noticeStatus: [],
     notice: [],
-    list: [
-      {
-        title: "我的主页",
-        icon: "mdi-account",
-        color: "green",
-        targetPath: "/home",
-      },
-      {
-        title: "所有社团",
-        icon: "mdi-account-group",
-        color: "orange accent-4",
-        targetPath: "/community",
-      },
-      {
-        title: "所有活动",
-        icon: "mdi-calendar",
-        color: "blue",
-        targetPath: "/activity",
-      },
-      // {
-      //     title: "系统管理",
-      //     icon: "mdi-view-dashboard",
-      //     color: "#000000",
-      //     targetPath: "",
-      // },
-    ],
   }),
   mounted() {
     this.onResize();
     this.fetchUserInfo();
   },
   computed: {
+    list() {
+      let list = [
+        {
+          title: "我的主页",
+          icon: "mdi-account",
+          color: "green",
+          targetPath: "/home",
+        },
+        {
+          title: "所有社团",
+          icon: "mdi-account-group",
+          color: "orange accent-4",
+          targetPath: "/community",
+        },
+        {
+          title: "所有活动",
+          icon: "mdi-calendar",
+          color: "blue",
+          targetPath: "/activity",
+        },
+        {
+          title: "系统管理",
+          icon: "mdi-view-dashboard",
+          color: "red",
+          targetPath: "/system-management",
+        },
+      ];
+      if (this.isSuperuser) return list;
+      else return list.slice(0, 3);
+    },
     user() {
       let user = this.$store.getters.user;
       if (!user) {
@@ -281,6 +286,7 @@ export default {
         .then((response) => {
           let userID = response.data.userid.toString();
           let userNew = response.data.new;
+          this.isSuperuser = response.data.superuser;
           if (userNew) {
             this.$router.push("SetUserInfo");
           }
