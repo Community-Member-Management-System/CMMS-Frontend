@@ -158,6 +158,8 @@ export default {
             console.log(error);
           });
       } else {
+        if (new_activity.signed_in_users.length === 0)
+          delete new_activity.signed_in_users;
         console.log(new_activity);
         this.axios
           .patch(`/api/activity/${this.activityId}`, new_activity, {
