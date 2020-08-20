@@ -9,6 +9,7 @@
               <div class="text-h4">
                 {{ activity.title }}
                 <v-btn
+                  v-if="activity.status === '进行中'"
                   class="success mx-2"
                   rounded
                   depressed
@@ -16,6 +17,7 @@
                   :to="'/sign-community/' + activity.id"
                 >获取签到码</v-btn>
                 <v-btn
+                  v-if="activity.status === '进行中'"
                   class="success mx-2"
                   rounded
                   depressed
@@ -42,8 +44,10 @@
               </v-chip>
             </v-col>
           </v-row>
-          <v-card-text class="px-0 py-1">创建于：{{ activity.created_date }}</v-card-text>
-          <v-card-text class="px-0 py-1">活动时间：{{ activity.start_time }} - {{ activity.end_time }}</v-card-text>
+          <v-card-text class="px-0 py-1">创建于：{{ getTime(activity.created_date) }}</v-card-text>
+          <v-card-text
+            class="px-0 py-1"
+          >活动时间：{{ getTime(activity.start_time) }} - {{ getTime(activity.end_time) }}</v-card-text>
           <v-card-text class="px-0 py-1">
             <!-- <v-icon>mid-map-marker</v-icon> -->
             活动地点：{{ activity.location }}
@@ -88,7 +92,11 @@ export default {
       this.activity.status = response.data.status;
     });
   },
-  methods: {},
+  methods: {
+    getTime(time) {
+      return new Date(time).toLocaleString();
+    },
+  },
   components: {
     MarkdownItVueLight,
   },
