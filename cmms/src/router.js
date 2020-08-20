@@ -4,12 +4,13 @@ import Router from "vue-router";
 import Login from "@/components/Login";
 import Base from "@/components/Base";
 import Home from "@/components/Home";
+import CommunityList from "@/components/CommunityList";
+import ActivityList from "@/components/ActivityList";
 
 import ActivitySignClub from "@/components/Sign/ActivitySignClub";
 import ActivitySignUser from "@/components/Sign/ActivitySignUser";
 
 import SetUserInfo from "@/components/SetUserInfo";
-import ClubInfo from "@/components/ClubInfo";
 import ActivityPage from "@/components/Activity/ActivityPage";
 
 import CreateModifyActivity from "@/components/Activity/CreateModifyActivity";
@@ -20,8 +21,6 @@ import SystemAuditCommunity from "@/components/SystemManagement/SystemAuditCommu
 
 import UserPage from "@/components/User/UserPage";
 import CreateModifyCommunity from "@/components/Community/CreateModifyCommunity";
-import ActivityList from "@/components/ActivityList";
-import ClubList from "@/components/ClubList";
 import SearchList from "@/components/SearchList";
 
 
@@ -46,12 +45,12 @@ const router = new Router({
                     component: Home
                 },
                 {
-                    path: "/clubs",
-                    component: ClubList,
+                    path: "/community",
+                    component: CommunityList,
                 },
                 {
-                    path: "/clubs/:club_id",
-                    component: ClubInfo,
+                    path: "/activity",
+                    component: ActivityList,
                 },
                 {
                     path: "/system-management",
@@ -109,10 +108,6 @@ const router = new Router({
                     path: "/setuserinfo",
                     component: SetUserInfo,
                     name: 'SetUserInfo'
-                },
-                {
-                    path: "/activities",
-                    component: ActivityList,
                 },
                 {
                     path: "/search",

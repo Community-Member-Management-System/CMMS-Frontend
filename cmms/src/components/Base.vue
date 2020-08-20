@@ -227,7 +227,13 @@ export default {
         title: "所有社团",
         icon: "mdi-account-group",
         color: "orange accent-4",
-        targetPath: "/clubs",
+        targetPath: "/community",
+      },
+      {
+        title: "所有活动",
+        icon: "mdi-calendar",
+        color: "blue",
+        targetPath: "/activity",
       },
       // {
       //     title: "系统管理",
@@ -236,34 +242,6 @@ export default {
       //     targetPath: "",
       // },
     ],
-
-    // outerList: [
-    //   {
-    //     title: "我的活动",
-    //     icon: "mdi-calendar-multiselect",
-    //     color: "light-blue accent-4",
-    //     targetPath: "/",
-    //   },
-    // ],
-    // innerList: [
-    //   [
-    //     {
-    //       title: "正在进行的活动",
-    //       color: "light-blue accent-4",
-    //       targetPath: "/activity-now",
-    //     },
-    //     {
-    //       title: "已经结束的活动",
-    //       color: "light-blue accent-4",
-    //       targetPath: "/activity-fin",
-    //     },
-    //     {
-    //       title: "将要进行的活动",
-    //       color: "light-blue accent-4",
-    //       targetPath: "/activity-due",
-    //     },
-    //   ],
-    // ],
   }),
   mounted() {
     this.onResize();

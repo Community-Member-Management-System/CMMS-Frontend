@@ -29,7 +29,7 @@
 import MarkdownItVueLight from "markdown-it-vue/dist/markdown-it-vue-light.umd";
 
 export default {
-  name: "MyClubs",
+  name: "CommunityList",
   data: function () {
     return {
       items: [],
