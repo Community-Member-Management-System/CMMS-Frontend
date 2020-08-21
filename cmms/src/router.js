@@ -53,11 +53,11 @@ const router = new Router({
                     component: ActivityList,
                 },
                 {
-                    path: "/system",
+                    path: "/system-management",
                     component: SystemManagement,
                 },
                 {
-                    path: "/system/audit/community",
+                    path: "/system-management/audit/community",
                     component: SystemAuditCommunity,
                 },
                 //创建社团和修改社团合并到一起了
