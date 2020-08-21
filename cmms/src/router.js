@@ -17,7 +17,7 @@ import CreateModifyActivity from "@/components/Activity/CreateModifyActivity";
 import Community from "@/components/Community/Community";
 
 import SystemManagement from "@/components/SystemManagement/SystemManagement";
-import SystemAuditCommunity from "@/components/SystemManagement/SystemAuditCommunity";
+import AuditCommunityDetail from "@/components/SystemManagement/AuditCommunityDetail";
 
 import UserPage from "@/components/User/UserPage";
 import CreateModifyCommunity from "@/components/Community/CreateModifyCommunity";
@@ -57,8 +57,9 @@ const router = new Router({
                     component: SystemManagement,
                 },
                 {
-                    path: "/system-management/audit/community",
-                    component: SystemAuditCommunity,
+                    path: "/system-management/audit/community/:communityId",
+                    component: AuditCommunityDetail,
+                    props: true
                 },
                 //创建社团和修改社团合并到一起了
                 {

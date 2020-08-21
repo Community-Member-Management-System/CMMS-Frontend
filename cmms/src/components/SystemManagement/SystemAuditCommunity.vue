@@ -8,7 +8,11 @@
           </v-card-title>
           <div v-for="community in invalidCommunities" :key="community.pk">
             <v-divider></v-divider>
-            <v-card flat :to="`/community/${community.pk}`" class="pa-5 pt-0">
+            <v-card
+              flat
+              :to="`/system-management/audit/community/${community.pk}`"
+              class="pa-5 pt-0"
+            >
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
                   <v-card-title class="headline">
@@ -118,7 +122,7 @@
 import MarkdownItVueLight from "markdown-it-vue/dist/markdown-it-vue-light.umd";
 
 export default {
-  name: "CommunityInfo",
+  name: "SystemAuditCommunity",
   data: function () {
     return {
       communities: [],
