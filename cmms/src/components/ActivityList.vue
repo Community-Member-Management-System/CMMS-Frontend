@@ -24,10 +24,5 @@ export default {
       this.items = response.data;
     });
   },
-  methods: {
-    getTime(time) {
-      return new Date(time).toLocaleString();
-    },
-  },
 };
 </script>
