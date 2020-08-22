@@ -7,6 +7,7 @@ import Home from "@/components/Home";
 import CommunityList from "@/components/CommunityList";
 import ActivityList from "@/components/ActivityList";
 
+import SignList from "@/components/Sign/SignList";
 import ActivitySignClub from "@/components/Sign/ActivitySignClub";
 import ActivitySignUser from "@/components/Sign/ActivitySignUser";
 
@@ -94,6 +95,11 @@ const router = new Router({
                     name: "ActivityPage",
                     path: "/activity/:activity_id",
                     component: ActivityPage,
+                },
+                {
+                    name: "SignList",
+                    path: "/activity/sign/:activity_id",
+                    component: SignList,
                 },
                 {
                     path: "/sign-community/:activity_id",

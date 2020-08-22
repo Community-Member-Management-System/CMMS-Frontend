@@ -24,6 +24,13 @@
                   link
                   :to="'/sign-user/' + activity.id"
                 >成员签到</v-btn>
+                <v-btn
+                  class="primary mx-2"
+                  rounded
+                  depressed
+                  link
+                  :to="'/activity/sign/' + activity.id"
+                >签到管理</v-btn>
               </div>
             </v-col>
             <v-col cols="2">
@@ -82,7 +89,6 @@ export default {
   mounted() {
     this.activity.id = this.$route.params.activity_id;
     this.axios.get("/api/activity/" + this.activity.id).then((response) => {
-      console.log(response);
       this.activity.location = response.data.location;
       this.activity.title = response.data.title;
       this.activity.description = response.data.description;
