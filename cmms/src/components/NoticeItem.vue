@@ -1,12 +1,15 @@
 <template>
-  <v-list-item>
+  <v-list-item @click="readNotice()">
     <v-list-item-content>
-      <v-list-item-title v-text="getNoticeTitle(notice)"></v-list-item-title>
-      <v-list-item-subtitle v-text="notice ? notice.description : ''"></v-list-item-subtitle>
+      <v-list-item-title :class="read ? '' : 'font-weight-bold'" v-text="getNoticeTitle(notice)"></v-list-item-title>
+      <v-list-item-subtitle
+        :class="read ? '' : 'font-weight-bold'"
+        v-text="notice ? notice.description : ''"
+      ></v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
       <v-list-item-action-text v-text="getNoticeTime(notice)"></v-list-item-action-text>
-      <v-icon>close</v-icon>
+      <v-icon @click="deleteNotice()">close</v-icon>
     </v-list-item-action>
   </v-list-item>
 </template>
@@ -14,12 +17,19 @@
 <script>
 export default {
   name: "NoticeItem",
-  data: () => ({}),
+  data: () => ({
+    clicked: false,
+  }),
   props: {
     status: Object,
     notice: Object,
   },
-
+  computed: {
+    read: function () {
+      if (this.clicked || !this.status) return true;
+      else return this.status.read;
+    },
+  },
   methods: {
     getNoticeTime(notice) {
       if (!notice) return "";
@@ -82,6 +92,35 @@ export default {
         case "S_CA":
           return "系统管理员审核社团创建请求";
       }
+    },
+    readNotice() {
+      if (!this.read) {
+        this.axios
+          .post(
+            "/api/notice/",
+            { pk: this.status.pk, method: "read" },
+            {
+              headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+            }
+          )
+          .then((response) => {
+            this.clicked = true;
+            this.$emit("read");
+          });
+      }
+    },
+    deleteNotice() {
+      this.axios
+        .post(
+          "/api/notice/",
+          { pk: this.status.pk, method: "delete" },
+          {
+            headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+          }
+        )
+        .then((response) => {
+          this.$emit("delete");
+        });
     },
   },
 };

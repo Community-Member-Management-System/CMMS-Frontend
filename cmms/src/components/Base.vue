@@ -24,31 +24,6 @@
           </v-list-item-icon>
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
-
-        <!-- 我的活动 下拉列表 -->
-        <!--        <v-list-group-->
-        <!--          v-for="(item, idxout) in outerList"-->
-        <!--          :key="idxout+'2'"-->
-        <!--          :prepend-icon="item.icon"-->
-        <!--          :color="item.color"-->
-        <!--          no-action-->
-        <!--        >-->
-        <!--          <template v-slot:activator>-->
-        <!--            <v-list-item-content>-->
-        <!--              <v-list-item-title>{{ item.title }}</v-list-item-title>-->
-        <!--            </v-list-item-content>-->
-        <!--          </template>-->
-
-        <!--          <v-list-item-->
-        <!--            v-for="(innerItem, idxin) in innerList[idxout]"-->
-        <!--            :key="idxin+'3'"-->
-        <!--            link-->
-        <!--            :to="innerItem.targetPath"-->
-        <!--            :color="item.color"-->
-        <!--          >-->
-        <!--            <v-list-item-title>{{ innerItem.title }}</v-list-item-title>-->
-        <!--          </v-list-item>-->
-        <!--        </v-list-group>-->
       </v-list>
     </v-navigation-drawer>
 
@@ -101,7 +76,7 @@
         </v-btn>
 
         <!-- 通知 -->
-        <v-menu offset-y>
+        <v-menu :close-on-content-click="false" offset-y>
           <template v-slot:activator="{ on }">
             <v-btn color="rgba(0, 0, 0, 0)" depressed v-on="on">
               <v-badge color="red" dot :value="newNotice">
@@ -109,7 +84,7 @@
               </v-badge>
             </v-btn>
           </template>
-          <v-card class="mx-auto px-3" max-width="300">
+          <v-card class="mx-auto px-3" min-width="400" max-width="400">
             <v-list>
               <v-list-item v-if="noticeStatus.length == 0">
                 <v-list-item-content>
@@ -117,16 +92,13 @@
                 </v-list-item-content>
               </v-list-item>
               <template v-else v-for="(item, index) in noticeStatus">
-                <v-list-item :key="item.pk">
-                  <v-list-item-content>
-                    <v-list-item-title v-text="getNoticeTitle(notice[index])"></v-list-item-title>
-                    <v-list-item-subtitle v-text="notice[index] ? notice[index].description : ''"></v-list-item-subtitle>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-list-item-action-text v-text="getNoticeTime(notice[index])">1 min</v-list-item-action-text>
-                    <v-icon>close</v-icon>
-                  </v-list-item-action>
-                </v-list-item>
+                <NoticeItem
+                  :key="'notice-' + item.pk"
+                  :status="item"
+                  :notice="notice[index]"
+                  @read="readNotice(index)"
+                  @delete="deleteNotice(index)"
+                ></NoticeItem>
                 <v-divider v-if="index + 1 < noticeStatus.length" :key="index"></v-divider>
               </template>
             </v-list>
@@ -155,7 +127,6 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <!-- TODO: get user info -->
                   <v-list-item-title>{{ user.nick_name }}</v-list-item-title>
                   <v-list-item-subtitle>{{ user.profile }}</v-list-item-subtitle>
                 </v-list-item-content>
@@ -206,8 +177,10 @@
 </template>
 
 <script>
+import NoticeItem from "./NoticeItem.vue";
 export default {
-  name: "Home",
+  name: "Base",
+  components: { NoticeItem },
   data: () => ({
     isSuperuser: false,
     drawer: true,
@@ -296,10 +269,7 @@ export default {
     },
     fetchNoticeList() {
       this.axios.get("/api/notice/").then((response) => {
-        console.log(response);
         this.noticeStatus = response.data;
-        console.log(this.noticeStatus.length);
-
         for (let i = 0; i < this.noticeStatus.length; i++) {
           this.axios
             .post(
@@ -310,74 +280,17 @@ export default {
               }
             )
             .then((response) => {
-              console.log(response);
               this.notice.push(response.data);
-              console.log(this.notice);
             });
         }
       });
     },
-    getNoticeTime(notice) {
-      if (!notice) return "";
-      let timestamp = notice.date;
-      let mistiming = Math.round((Date.now() - Date.parse(timestamp)) / 1000);
-      let arrr = ["年", "个月", "星期", "天", "小时", "分钟", "秒"];
-      let arrn = [31536000, 2592000, 604800, 86400, 3600, 60, 1];
-      for (let i = 0; i < arrn.length; i++) {
-        let inm = Math.floor(mistiming / arrn[i]);
-        if (inm != 0) {
-          return inm + arrr[i] + "前";
-        }
-      }
+    readNotice(index) {
+      this.noticeStatus[index].read = true;
     },
-    getNoticeTitle(notice) {
-      if (!notice) return "";
-      let type = notice.type;
-      let subtype = notice.subtype;
-      switch (type) {
-        case "PC":
-          switch (subtype) {
-            case 0:
-              return "被邀请加入社团";
-            case 1:
-              return "取消管理员";
-            case 2:
-              return "被踢出社团";
-          }
-        case "CA":
-          switch (subtype) {
-            case 0:
-              return "创建社团审核结果";
-            case 1:
-              return "加入社团审核结果";
-          }
-        case "B":
-          return "你的账户已被封禁";
-        case "C_AN":
-          switch (subtype) {
-            case 0:
-              return "活动创建";
-            case 1:
-              return "活动更新";
-            case 2:
-              return "活动删除";
-          }
-        case "C_AP":
-          switch (subtype) {
-            case 0:
-              return "社团管理员个人邀请被拒绝";
-            case 1:
-              return "社团成员权限变更";
-            case 2:
-              return "成员增减";
-          }
-        case "C_AA":
-          return "社团管理员审核用户加入请求";
-        case "C_D":
-          return "社团已被解散";
-        case "S_CA":
-          return "系统管理员审核社团创建请求";
-      }
+    deleteNotice(index) {
+      this.noticeStatus.splice(index, 1);
+      this.notice.splice(index, 1);
     },
     onResize() {
       if (
@@ -405,13 +318,11 @@ export default {
       }
     },
     logout() {
-      // TODO: send to backend
       this.axios
         .post("/api/auth/logout", null, {
           headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
         })
         .then((response) => {
-          // console.log(response);
           alert(response.data.detail);
         });
       // clear cookies
