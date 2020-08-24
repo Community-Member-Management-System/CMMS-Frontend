@@ -14,6 +14,7 @@
           <div class="text-h6 text-center mb-10">发现兴趣、寻找你喜欢的社团</div>
           <v-text-field
             class="search mx-auto"
+            v-model="query"
             rounded
             filled
             single-line
@@ -31,7 +32,7 @@
       </v-row>
       <!-- <v-row class="mx-auto mb-5" align="center" justify="center">
         <v-btn depressed><v-icon>mdi-chevron-double-down</v-icon>查看所有社团信息</v-btn>
-      </v-row> -->
+      </v-row>-->
     </v-container>
   </v-app>
 </template>
@@ -39,11 +40,13 @@
 <script>
 export default {
   name: "Login",
-  data: () => ({}),
+  data: () => ({
+    query: "",
+  }),
   methods: {
     search() {
       this.$router.push({
-        path: "/search",
+        path: "/t/search",
         query: { q: this.query },
       });
     },

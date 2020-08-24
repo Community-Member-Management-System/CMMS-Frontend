@@ -38,6 +38,12 @@ const router = new Router({
             component: Login,
         },
         {
+            path: "/t/search",
+            component: SearchList,
+            meta: {needAuth: false},
+            props: (route) => ({ query: route.query.q })
+        },
+        {
             path: "/base",
             component: Base,
             children: [
