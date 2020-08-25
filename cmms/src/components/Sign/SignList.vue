@@ -22,7 +22,7 @@
                         v-model="newItem.id"
                         label="按学号查找成员"
                         append-icon="mdi-magnify"
-                        @click:append="getUserInfo()"
+                        @click:append="searchUser()"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -79,45 +79,75 @@ export default {
       userInfo: null,
     };
   },
-  computed: {},
+  computed: {
+    urlprefix() {
+      return "/api/activity/" + this.id + "/signed_in_list";
+    },
+  },
   mounted() {
     this.init();
   },
   methods: {
     init() {
       this.id = this.$route.params.activity_id;
-      this.axios.get("/api/activity/" + this.id).then((response) => {
+      this.fetchSignList();
+    },
+    fetchSignList() {
+      this.axios.get(this.urlprefix).then((response) => {
         this.users = response.data.signed_in_users;
-        for (let i = 0; i < this.users.length; i++) {
-          this.axios.get("/api/users/" + this.users[i]).then((response) => {
-            this.items.push(response.data);
-          });
-        }
+        this.fetchUsers();
       });
     },
-    getUserInfo() {
+    fetchUsers() {
+      this.items = [];
+      for (let i = 0; i < this.users.length; i++) {
+        this.axios.get("/api/users/" + this.users[i]).then((response) => {
+          // console.log(response.data);
+          this.items.push(response.data);
+        });
+      }
+    },
+    searchUser() {
       this.axios
         .get("/api/users/filter", {
           params: { student_id: this.newItem.id, community_id: this.id },
         })
         .then((response) => {
+          // console.log(response.data);
           this.userInfo = response.data;
         });
     },
     deleteItem(item) {
-      const index = this.items.indexOf(item);
-      confirm("确定要删除这条记录吗?") && this.items.splice(index, 1);
-      // TODO: delete
+      if (confirm("确定要删除这条记录吗?")) {
+        let url = this.urlprefix + "/remove/" + item.pk;
+        this.axios
+          .post(url, null, {
+            headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+          })
+          .then((response) => {
+            this.users = response.data.signed_in_users;
+            this.fetchUsers();
+          });
+      }
     },
     close() {
       this.dialog = false;
       this.$nextTick(() => {
         this.newItem = Object.assign({}, this.defaultItem);
+        this.userInfo = null;
       });
     },
     save() {
-      // TODO: add user
       if (!this.userInfo) return;
+      let url = this.urlprefix + "/add/" + this.userInfo.user_id;
+      this.axios
+        .post(url, null, {
+          headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+        })
+        .then((response) => {
+          this.users = response.data.signed_in_users;
+          this.fetchUsers();
+        });
       this.close();
     },
   },
