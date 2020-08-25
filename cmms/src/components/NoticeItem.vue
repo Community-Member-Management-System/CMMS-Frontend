@@ -6,6 +6,31 @@
         :class="read ? '' : 'font-weight-bold'"
         v-text="notice ? notice.description : ''"
       ></v-list-item-subtitle>
+      <v-row class="mr-3" align="center">
+        <v-spacer></v-spacer>
+        <div class="text-caption">查看相关：</div>
+        <v-btn
+          v-if="notice.related_community"
+          depressed
+          small
+          link
+          :to="'/community/' + notice.related_community"
+        >社团</v-btn>
+        <v-btn
+          v-if="notice.related_activity"
+          depressed
+          small
+          link
+          :to="'/activity/' + notice.related_activity"
+        >活动</v-btn>
+        <v-btn
+          v-if="notice.related_user"
+          depressed
+          small
+          link
+          :to="'/user/' + notice.related_user"
+        >成员</v-btn>
+      </v-row>
     </v-list-item-content>
     <v-list-item-action>
       <v-list-item-action-text v-text="getNoticeTime(notice)"></v-list-item-action-text>
