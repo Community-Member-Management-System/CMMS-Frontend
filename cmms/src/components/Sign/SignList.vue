@@ -18,13 +18,20 @@
                   <v-row>
                     <v-col>
                       <v-text-field
-                        solo
-                        outlined
-                        flat
                         placeholder="请输入学号"
                         v-model="newItem.id"
-                        label="学号"
+                        label="按学号查找成员"
+                        append-icon="mdi-magnify"
+                        @click:append="getUserInfo()"
                       ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <div>查找结果：</div>
+                      <div v-if="!userInfo">未找到该用户</div>
+                      <div v-else-if="userInfo.real_name">姓名: {{userInfo.real_name}}</div>
+                      <div v-else>找到用户，但用户不是本社团成员</div>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -39,9 +46,9 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <!-- <template v-slot:item.actions="{ item }">
-        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-      </template>-->
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-icon @click="deleteItem(item)">mdi-delete</v-icon>
+      </template>
     </v-data-table>
   </v-container>
 </template>
@@ -69,6 +76,7 @@ export default {
       defaultItem: {
         id: "",
       },
+      userInfo: null,
     };
   },
   computed: {},
@@ -87,6 +95,15 @@ export default {
         }
       });
     },
+    getUserInfo() {
+      this.axios
+        .get("/api/users/filter", {
+          params: { student_id: this.newItem.id, community_id: this.id },
+        })
+        .then((response) => {
+          this.userInfo = response.data;
+        });
+    },
     deleteItem(item) {
       const index = this.items.indexOf(item);
       confirm("确定要删除这条记录吗?") && this.items.splice(index, 1);
@@ -100,6 +117,7 @@ export default {
     },
     save() {
       // TODO: add user
+      if (!this.userInfo) return;
       this.close();
     },
   },
