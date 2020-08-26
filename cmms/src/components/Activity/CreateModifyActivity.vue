@@ -141,6 +141,7 @@ export default {
       new_activity.start_time = new_activity.start_time.toISOString();
       new_activity.end_time = new_activity.end_time.toISOString();
       new_activity.related_community = this.communityId;
+      new_activity.mail = this.isMailListNotice;
       if (this.isCreatingActivity) {
         this.axios
           .post("/api/activity/", new_activity, {
