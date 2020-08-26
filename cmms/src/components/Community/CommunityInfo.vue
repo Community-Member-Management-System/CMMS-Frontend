@@ -18,12 +18,20 @@
                 </v-avatar>
                 {{ community.join_status }}
               </v-chip>
-              <v-chip color="green" text-color="white" v-else>
+              <div v-else>
+              <v-chip color="green" text-color="white" v-if="community.valid">
                 <v-avatar left>
                   <v-icon>mdi-checkbox-marked-circle</v-icon>
                 </v-avatar>
-                {{ community.valid ?'已通过审核':'未通过审核' }}
+                已通过审核
               </v-chip>
+              <v-chip color="red" text-color="white" v-else>
+                <v-avatar left>
+                  <v-icon>mdi-help-circle</v-icon>
+                </v-avatar>
+                审核中
+              </v-chip>
+              </div>
             </v-col>
           </v-card-title>
           <v-card-subtitle>

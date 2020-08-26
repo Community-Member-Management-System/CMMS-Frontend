@@ -47,13 +47,21 @@
                       <v-img v-else :src="community.avatar"></v-img>
                     </v-avatar>
                   </div>
-                  <v-card-actions>
+                  <v-card-actions v-if="community.valid">
                     <v-btn
                       color="primary darken-2"
                       outlined
                       link
                       :to="'/community/' + community.id"
                     >查看详情</v-btn>
+                  </v-card-actions>
+                  <v-card-actions v-else>
+                    <v-chip color="red" text-color="white">
+                      <v-avatar left>
+                        <v-icon>mdi-help-circle</v-icon>
+                      </v-avatar>
+                      审核中
+                    </v-chip>
                   </v-card-actions>
                   <v-divider class="my-3"></v-divider>
                 </v-card>

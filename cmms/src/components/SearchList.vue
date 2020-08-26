@@ -94,7 +94,7 @@ export default {
               name: response.data[i].nick_name,
               profile: response.data[i].profile,
               avatar: response.data[i].avatar,
-              link: "/users/" + response.data[i].id,
+              link: "/user/" + response.data[i].id,
             });
           }
         });
