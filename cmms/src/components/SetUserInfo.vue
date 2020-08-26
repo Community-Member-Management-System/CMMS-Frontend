@@ -129,7 +129,7 @@ export default {
       this.selectedFile = e.target.files[0];
       // console.log(this.selectedFile);
 
-      // TODO: 上传头像文件，设置 avatar image
+      // 上传头像文件，设置 avatar image
       const reader = new FileReader();
       reader.onload = (e) => {
         this.user.avatar = e.target.result;
@@ -158,14 +158,13 @@ export default {
       this.axios
         .patch(url, formData, config)
         .then((response) => {
-          console.log(response);
           this.$store.dispatch("updateUser", this.user.id);
           return response;
         })
         .catch((err) => {
           console.log(err);
         });
-      // alert("信息已保存");
+      alert("信息已保存");
     },
   },
 };
