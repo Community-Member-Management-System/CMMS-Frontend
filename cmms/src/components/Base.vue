@@ -6,7 +6,7 @@
         <v-btn icon @click.stop="mini = !mini">
           <v-icon>mdi-menu</v-icon>
         </v-btn>
-        <v-list-item-title class="title ml-5">USTC | 社团</v-list-item-title>
+        <v-list-item-title id="site-title" class="title ml-5">USTC | 社团</v-list-item-title>
       </v-list-item>
 
       <v-divider></v-divider>
@@ -31,6 +31,7 @@
     <v-main class="background">
       <!-- 回到顶部浮动按钮 -->
       <v-btn
+        id="back-to-top"
         v-scroll="onScroll"
         v-show="fab"
         fab
@@ -52,10 +53,11 @@
         <v-spacer></v-spacer>
 
         <!-- 搜索 -->
-        <v-btn icon @click="expand = !expand">
+        <v-btn id="search-btn" icon @click="expand = !expand">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
         <v-text-field
+          id="search-id"
           v-show="expand"
           v-model="query"
           rounded
@@ -71,14 +73,14 @@
         ></v-text-field>
 
         <!-- 切换主题 -->
-        <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
+        <v-btn id="switch-dark-theme" icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
           <v-icon>mdi-brightness-7</v-icon>
         </v-btn>
 
         <!-- 通知 -->
         <v-menu :close-on-content-click="false" offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn color="rgba(0, 0, 0, 0)" depressed v-on="on">
+            <v-btn id="notice-btn" color="rgba(0, 0, 0, 0)" depressed v-on="on">
               <v-badge color="red" dot :value="newNotice">
                 <v-icon>mdi-bell</v-icon>
               </v-badge>
@@ -93,6 +95,7 @@
               </v-list-item>
               <template v-else v-for="(item, index) in noticeStatus">
                 <NoticeItem
+                  :id="'notice-' + item.pk"
                   :key="'notice-' + item.pk"
                   :status="item"
                   :notice="notice[index]"
@@ -135,20 +138,20 @@
 
             <v-divider></v-divider>
 
-            <v-list>
-              <v-list-item to="/setuserinfo">
+            <v-list id="profile-dropdown">
+              <v-list-item id="account-settings" to="/setuserinfo">
                 <v-list-item-icon>
                   <v-icon>mdi-account</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>资料设置</v-list-item-title>
               </v-list-item>
-              <v-list-item to="/community/create">
+              <v-list-item id="create-community" to="/community/create">
                 <v-list-item-icon>
                   <v-icon>mdi-newspaper-variant</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>创建社团</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="logout()">
+              <v-list-item id="logout" @click="logout()">
                 <v-list-item-icon>
                   <v-icon>mdi-logout-variant</v-icon>
                 </v-list-item-icon>
@@ -161,6 +164,7 @@
 
       <!-- 返回浮动按钮 -->
       <v-btn
+        id="back-btn"
         class="mx-5"
         fab
         dark

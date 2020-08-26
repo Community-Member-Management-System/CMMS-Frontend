@@ -8,8 +8,8 @@
         </v-avatar>
       </v-col>
       <v-col>
-        <div class="text-h4">{{ user.nick_name }}</div>
-        <div class="text-h6">{{ user.profile }}</div>
+        <div class="text-h4" id="user-name">{{ user.nick_name }}</div>
+        <div class="text-h6" id="user-profile">{{ user.profile }}</div>
       </v-col>
     </v-row>
     <v-divider></v-divider>
