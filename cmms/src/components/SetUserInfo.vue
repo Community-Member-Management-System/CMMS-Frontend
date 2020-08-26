@@ -159,12 +159,12 @@ export default {
         .patch(url, formData, config)
         .then((response) => {
           this.$store.dispatch("updateUser", this.user.id);
+          this.$toasted.show("信息已保存");
           return response;
         })
         .catch((err) => {
           console.log(err);
         });
-      alert("信息已保存");
     },
   },
 };
