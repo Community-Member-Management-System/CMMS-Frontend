@@ -9,7 +9,7 @@
               <div class="text-h4">
                 {{ activity.title }}
                 <v-btn
-                  v-if="activity.status === '进行中'"
+                  v-if="activity.status === '进行中' && isAdmin"
                   class="success mx-2"
                   rounded
                   depressed
@@ -25,6 +25,7 @@
                   :to="'/sign-user/' + activity.id"
                 >成员签到</v-btn>
                 <v-btn
+                  v-if="isAdmin"
                   class="primary mx-2"
                   rounded
                   depressed
@@ -74,6 +75,8 @@ export default {
   name: "ActivityPage",
   data: () => ({
     message: "",
+    community_id: 0,
+    admins: [],
     activity: {
       id: "",
       location: "",
@@ -85,20 +88,36 @@ export default {
       status: "",
     },
   }),
-  computed: {},
+  computed: {
+    isAdmin() {
+      if (this.admins.indexOf(parseInt(this.$store.getters.user.id)) > -1)
+        return true;
+      else return false;
+    },
+  },
   mounted() {
     this.activity.id = this.$route.params.activity_id;
-    this.axios.get("/api/activity/" + this.activity.id).then((response) => {
-      this.activity.location = response.data.location;
-      this.activity.title = response.data.title;
-      this.activity.description = response.data.description;
-      this.activity.start_time = response.data.start_time;
-      this.activity.end_time = response.data.end_time;
-      this.activity.created_date = response.data.created_date;
-      this.activity.status = response.data.status;
-    });
+    this.getActivity();
   },
   methods: {
+    getAdmins() {
+      this.axios.get("/api/community/" + this.community_id).then((response) => {
+        this.admins = response.data.admins;
+      });
+    },
+    getActivity() {
+      this.axios.get("/api/activity/" + this.activity.id).then((response) => {
+        this.activity.location = response.data.location;
+        this.activity.title = response.data.title;
+        this.activity.description = response.data.description;
+        this.activity.start_time = response.data.start_time;
+        this.activity.end_time = response.data.end_time;
+        this.activity.created_date = response.data.created_date;
+        this.activity.status = response.data.status;
+        this.community_id = response.data.related_community.id;
+        this.getAdmins();
+      });
+    },
     getTime(time) {
       return new Date(time).toLocaleString();
     },
