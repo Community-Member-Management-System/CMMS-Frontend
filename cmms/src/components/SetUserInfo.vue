@@ -85,7 +85,7 @@ export default {
       selectedFile: null,
       nickNameRules: [
         (v) => !!v || "昵称不能为空",
-        (v) => (v && v.length <= 10) || "昵称不能超过 10 个字符",
+        (v) => (v && v.length <= 64) || "昵称不能超过 64 个字符",
       ],
       realNameRules: [
         (v) => !!v || "真实姓名不能为空",
