@@ -10,15 +10,16 @@
         id="cas_login"
       >统一身份验证登录</v-btn>
       <v-tabs class="fill-height" background-color="#EEEEEE" right>
-        <v-tab>首页</v-tab>
-        <v-tab>社团</v-tab>
-        <v-tab>活动</v-tab>
+        <v-tab id="tab-home">首页</v-tab>
+        <v-tab id="tab-community">社团</v-tab>
+        <v-tab id="tab-activity">活动</v-tab>
         <v-tab-item class="fill-height background">
           <v-row class="mx-auto py-auto" align="center" justify="center">
             <v-col>
-              <div class="text-h2 text-center my-5">USTC | 社团</div>
-              <div class="text-h6 text-center mb-10">发现兴趣、寻找你喜欢的社团</div>
+              <div id="page-title" class="text-h2 text-center my-5">USTC | 社团</div>
+              <div id="page-subtitle" class="text-h6 text-center mb-10">发现兴趣、寻找你喜欢的社团</div>
               <v-text-field
+                id="search-input"
                 class="search mx-auto"
                 v-model="query"
                 rounded

@@ -2,16 +2,16 @@
   <v-container>
     <v-row justify="center" align="center">
       <v-col justify="center" align="center">
-        <v-avatar size="200">
+        <v-avatar id="user-avatar" size="200">
           <v-icon dark v-if="!user.avatar">mdi-account-circle</v-icon>
           <v-img v-else :src="user.avatar"></v-img>
         </v-avatar>
       </v-col>
       <v-col>
-        <div class="text-h4">{{ user.nick_name }}</div>
+        <div id="user-name" class="text-h4">{{ user.nick_name }}</div>
         <!-- <div class="text-h6">{{ user.profile }}</div> -->
-        <v-btn color="primary">关注</v-btn>
-        <v-btn class="ml-2" color="primary">私信</v-btn>
+        <v-btn id="user-follow" color="primary">关注</v-btn>
+        <v-btn id="user-pm" class="ml-2" color="primary">私信</v-btn>
       </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -26,7 +26,7 @@
               <v-card>
                 <v-card-text>
                   <ul>
-                    <li>账号: {{ user.id || user.pk}}</li>
+                    <li>账号: {{ user.id || user.pk }}</li>
                     <li>昵称: {{ user.nick_name }}</li>
                     <li>个人简介: {{ user.profile }}</li>
                   </ul>
