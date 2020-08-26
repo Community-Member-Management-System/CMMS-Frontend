@@ -318,17 +318,19 @@ export default {
       }
     },
     logout() {
+      let cas = this.$cookies.get('cas');
       this.axios
         .post("/api/auth/logout", null, {
           headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
         })
         .then((response) => {
-          alert(response.data.detail);
+          if (cas) {
+            window.location = response.data.cas_logout
+          } else {
+            this.$router.push({ path: "/" });
+            alert(response.data.detail);
+          }
         });
-      // clear cookies
-      this.$cookies.remove("login");
-      // jump to login page
-      this.$router.push({ path: "/" });
     },
     search() {
       this.$router.push({
