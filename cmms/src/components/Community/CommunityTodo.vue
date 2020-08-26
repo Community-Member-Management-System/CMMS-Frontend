@@ -152,7 +152,16 @@ export default {
       let len_todos = this.checklist.length;
       let todos = new Array(len_todos);
       for (var i = 0; i < len_todos; i++) {
-        todos[i] = JSON.parse(this.checklist[i][0]);
+        try {
+          todos[i] = JSON.parse(this.checklist[i][0]);
+        } catch (e) {
+          console.log(e);
+          todos[i] = {
+            title: "错误格式的事项",
+            detail: "请删除该事项",
+            time: new Date(),
+          };
+        }
         todos[i].done = this.checklist[i][1];
         todos[i].index = i;
       }
