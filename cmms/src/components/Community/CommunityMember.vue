@@ -71,7 +71,16 @@
             <v-list-item>
               <v-badge :content="onlyMembers.length">社团成员</v-badge>
 
-              <v-btn absolute right fab dark small color="green" @click="openInvitationDialog()">
+              <v-btn
+                v-if="authLevel <= 2"
+                absolute
+                right
+                fab
+                dark
+                small
+                color="green"
+                @click="openInvitationDialog()"
+              >
                 <v-icon>mdi-account-multiple-plus-outline</v-icon>
               </v-btn>
             </v-list-item>
@@ -87,7 +96,7 @@
               :user-profile="m.profile"
               :user-target="`/user/${m.id}`"
             >
-              <template v-slot:action>
+              <template v-if="authLevel <= 2" v-slot:action>
                 <v-menu>
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon

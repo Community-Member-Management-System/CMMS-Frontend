@@ -62,7 +62,7 @@ export default {
   },
 
   activated() {
-    this.getJoinReqs();
+    if (this.authLevel < 3) this.getJoinReqs();
   },
 
   methods: {
