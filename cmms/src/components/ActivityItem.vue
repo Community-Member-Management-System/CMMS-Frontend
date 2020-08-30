@@ -34,7 +34,7 @@
         color="primary darken-2"
         outlined
         link
-        :to="'/community/' + item.related_community"
+        :to="'/community/' + item.related_community.id"
       >社团主页</v-btn>
     </v-card-actions>
   </v-card>
