@@ -94,6 +94,9 @@ import CommunityMember from "@/components/Community/CommunityMember";
 import CommunityTodo from "@/components/Community/CommunityTodo";
 export default {
   name: "Community",
+  props: {
+    communityId: { required: true, default: null },
+  },
   data: function () {
     return {
       tab: 0,
@@ -149,11 +152,9 @@ export default {
   },
   methods: {
     getCommunity() {
-      this.axios
-        .get("/api/community/" + this.$route.params["communityId"])
-        .then((response) => {
-          this.community = response.data;
-        });
+      this.axios.get("/api/community/" + this.communityId).then((response) => {
+        this.community = response.data;
+      });
     },
 
     userSetJoinStatus(communityId, joinStatus) {

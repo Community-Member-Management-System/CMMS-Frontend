@@ -4,6 +4,7 @@ import Router from "vue-router";
 import Login from "@/components/Login";
 import Base from "@/components/Base";
 import Home from "@/components/Home";
+import Welcome from "@/components/Welcome"
 import CommunityList from "@/components/CommunityList";
 import ActivityList from "@/components/ActivityList";
 
@@ -36,11 +37,35 @@ const router = new Router({
             path: "/",
             name: "Login",
             component: Login,
+            children: [
+                {
+                    path: "/tourist/welcome",
+                    component: Welcome,
+                    meta: { needAuth: false },
+                },
+                {
+                    path: "/tourist/community",
+                    component: CommunityList,
+                    meta: { needAuth: false },
+                    props: true
+                },
+                {
+                    path: "/tourist/community/:communityId",
+                    component: Community,
+                    meta: { needAuth: false },
+                    props: true
+                },
+                {
+                    path: "/tourist/activity",
+                    component: ActivityList,
+                    meta: { needAuth: false },
+                },
+            ]
         },
         {
             path: "/t/search",
             component: SearchList,
-            meta: {needAuth: false},
+            meta: { needAuth: false },
             props: (route) => ({ query: route.query.q })
         },
         {
@@ -81,6 +106,7 @@ const router = new Router({
                 {
                     path: "/community/:communityId",
                     component: Community,
+                    props: true
                 },
                 {
                     path: "/activity/create/:communityId",
