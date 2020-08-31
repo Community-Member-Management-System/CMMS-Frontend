@@ -2,7 +2,7 @@
   <v-app v-resize="onResize">
     <!-- navigation drawer -->
     <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" app>
-      <v-list-item class="px-2">
+      <v-list-item class="px-2 py-2">
         <v-btn icon @click.stop="mini = !mini">
           <v-icon>mdi-menu</v-icon>
         </v-btn>
@@ -27,13 +27,138 @@
       </v-list>
     </v-navigation-drawer>
 
+    <!-- app bar -->
+    <v-app-bar class="background" flat app>
+      <v-btn class="d-inline d-lg-none" icon @click.stop="drawer = true">
+        <v-icon>mdi-menu</v-icon>
+      </v-btn>
+
+      <!-- 返回浮动按钮 -->
+      <v-btn id="back-btn" small fab dark color="primary" @click="goBack">
+        <v-icon>mdi-arrow-left-bold</v-icon>
+      </v-btn>
+
+      <v-spacer></v-spacer>
+
+      <!-- 搜索 -->
+      <v-btn id="search-btn" icon @click="expand = !expand">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+      <v-text-field
+        id="search-id"
+        v-show="expand"
+        v-model="query"
+        rounded
+        filled
+        single-line
+        dense
+        hide-details
+        autofocus
+        placeholder="搜索社团、活动、成员 ..."
+        append-icon="mdi-arrow-right"
+        @click:append="search"
+        @keydown.enter="search"
+      ></v-text-field>
+
+      <!-- 切换主题 -->
+      <v-btn id="switch-dark-theme" icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
+        <v-icon>mdi-brightness-7</v-icon>
+      </v-btn>
+
+      <!-- 通知 -->
+      <v-menu :close-on-content-click="false" offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn id="notice-btn" color="rgba(0, 0, 0, 0)" depressed v-on="on">
+            <v-badge color="red" dot :value="newNotice">
+              <v-icon>mdi-bell</v-icon>
+            </v-badge>
+          </v-btn>
+        </template>
+        <v-card class="mx-auto px-3" min-width="400" max-width="400">
+          <v-list>
+            <v-list-item v-if="noticeStatus.length == 0">
+              <v-list-item-content>
+                <v-list-item-subtitle>暂时没有通知</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <template v-else v-for="(item, index) in noticeStatus">
+              <NoticeItem
+                :id="'notice-' + item.pk"
+                :key="'notice-' + item.pk"
+                :status="item"
+                :notice="notice[index]"
+                @read="readNotice(index)"
+                @delete="deleteNotice(index)"
+              ></NoticeItem>
+              <v-divider v-if="index + 1 < noticeStatus.length" :key="index"></v-divider>
+            </template>
+          </v-list>
+        </v-card>
+      </v-menu>
+
+      <v-divider vertical></v-divider>
+      <v-avatar class="mx-5" color="grey" size="40">
+        <v-icon dark v-if="!user.avatar">mdi-account-circle</v-icon>
+        <v-img v-else :src="user.avatar"></v-img>
+      </v-avatar>
+
+      <!-- user drop-down menu -->
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn color="rgba(0, 0, 0, 0)" depressed v-on="on">
+            <v-icon>mdi-menu-down</v-icon>
+          </v-btn>
+        </template>
+        <v-card class="mx-auto px-3" max-width="300">
+          <v-list>
+            <v-list-item>
+              <v-list-item-avatar color="grey">
+                <v-icon dark v-if="!user.avatar">mdi-account-circle</v-icon>
+                <v-img v-else :src="user.avatar"></v-img>
+              </v-list-item-avatar>
+
+              <v-list-item-content>
+                <v-list-item-title>{{ user.nick_name }}</v-list-item-title>
+                <v-list-item-subtitle>{{ user.profile }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+
+          <v-divider></v-divider>
+
+          <v-list id="profile-dropdown">
+            <v-list-item id="account-settings" to="/setuserinfo">
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>资料设置</v-list-item-title>
+            </v-list-item>
+            <v-list-item id="create-community" to="/community/create">
+              <v-list-item-icon>
+                <v-icon>mdi-newspaper-variant</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>创建社团</v-list-item-title>
+            </v-list-item>
+            <v-list-item id="logout" @click="logout()">
+              <v-list-item-icon>
+                <v-icon>mdi-logout-variant</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>退出登录</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-menu>
+    </v-app-bar>
+
     <!-- content -->
     <v-main class="background">
+      <router-view></router-view>
       <!-- 回到顶部浮动按钮 -->
       <v-btn
         id="back-to-top"
         v-scroll="onScroll"
         v-show="fab"
+        small
         fab
         dark
         fixed
@@ -44,138 +169,6 @@
       >
         <v-icon>mdi-arrow-up-bold</v-icon>
       </v-btn>
-      <!-- app bar -->
-      <v-app-bar class="background" flat>
-        <v-btn class="d-inline d-lg-none" icon @click.stop="drawer = true">
-          <v-icon>mdi-menu</v-icon>
-        </v-btn>
-
-        <v-spacer></v-spacer>
-
-        <!-- 搜索 -->
-        <v-btn id="search-btn" icon @click="expand = !expand">
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-        <v-text-field
-          id="search-id"
-          v-show="expand"
-          v-model="query"
-          rounded
-          filled
-          single-line
-          dense
-          hide-details
-          autofocus
-          placeholder="搜索社团、活动、成员 ..."
-          append-icon="mdi-arrow-right"
-          @click:append="search"
-          @keydown.enter="search"
-        ></v-text-field>
-
-        <!-- 切换主题 -->
-        <v-btn id="switch-dark-theme" icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
-          <v-icon>mdi-brightness-7</v-icon>
-        </v-btn>
-
-        <!-- 通知 -->
-        <v-menu :close-on-content-click="false" offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn id="notice-btn" color="rgba(0, 0, 0, 0)" depressed v-on="on">
-              <v-badge color="red" dot :value="newNotice">
-                <v-icon>mdi-bell</v-icon>
-              </v-badge>
-            </v-btn>
-          </template>
-          <v-card class="mx-auto px-3" min-width="400" max-width="400">
-            <v-list>
-              <v-list-item v-if="noticeStatus.length == 0">
-                <v-list-item-content>
-                  <v-list-item-subtitle>暂时没有通知</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <template v-else v-for="(item, index) in noticeStatus">
-                <NoticeItem
-                  :id="'notice-' + item.pk"
-                  :key="'notice-' + item.pk"
-                  :status="item"
-                  :notice="notice[index]"
-                  @read="readNotice(index)"
-                  @delete="deleteNotice(index)"
-                ></NoticeItem>
-                <v-divider v-if="index + 1 < noticeStatus.length" :key="index"></v-divider>
-              </template>
-            </v-list>
-          </v-card>
-        </v-menu>
-
-        <v-divider vertical></v-divider>
-        <v-avatar class="mx-5" color="grey" size="40">
-          <v-icon dark v-if="!user.avatar">mdi-account-circle</v-icon>
-          <v-img v-else :src="user.avatar"></v-img>
-        </v-avatar>
-
-        <!-- user drop-down menu -->
-        <v-menu offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn color="rgba(0, 0, 0, 0)" depressed v-on="on">
-              <v-icon>mdi-menu-down</v-icon>
-            </v-btn>
-          </template>
-          <v-card class="mx-auto px-3" max-width="300">
-            <v-list>
-              <v-list-item>
-                <v-list-item-avatar color="grey">
-                  <v-icon dark v-if="!user.avatar">mdi-account-circle</v-icon>
-                  <v-img v-else :src="user.avatar"></v-img>
-                </v-list-item-avatar>
-
-                <v-list-item-content>
-                  <v-list-item-title>{{ user.nick_name }}</v-list-item-title>
-                  <v-list-item-subtitle>{{ user.profile }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-
-            <v-divider></v-divider>
-
-            <v-list id="profile-dropdown">
-              <v-list-item id="account-settings" to="/setuserinfo">
-                <v-list-item-icon>
-                  <v-icon>mdi-account</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>资料设置</v-list-item-title>
-              </v-list-item>
-              <v-list-item id="create-community" to="/community/create">
-                <v-list-item-icon>
-                  <v-icon>mdi-newspaper-variant</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>创建社团</v-list-item-title>
-              </v-list-item>
-              <v-list-item id="logout" @click="logout()">
-                <v-list-item-icon>
-                  <v-icon>mdi-logout-variant</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>退出登录</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </v-menu>
-      </v-app-bar>
-
-      <!-- 返回浮动按钮 -->
-      <v-btn
-        id="back-btn"
-        class="mx-5"
-        fab
-        dark
-        color="primary"
-        style="position: sticky; top: 30px; z-index:1;"
-        @click="goBack"
-      >
-        <v-icon>mdi-arrow-left</v-icon>
-      </v-btn>
-
-      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
@@ -322,14 +315,14 @@ export default {
       }
     },
     logout() {
-      let cas = this.$cookies.get('cas');
+      let cas = this.$cookies.get("cas");
       this.axios
         .post("/api/auth/logout", null, {
           headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
         })
         .then((response) => {
           if (cas) {
-            window.location = response.data.cas_logout
+            window.location = response.data.cas_logout;
           } else {
             this.$router.push({ path: "/" });
             alert(response.data.detail);
