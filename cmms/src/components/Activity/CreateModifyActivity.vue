@@ -142,8 +142,8 @@ export default {
       new_activity.end_time = new_activity.end_time.toISOString();
       new_activity.related_community = this.communityId;
       new_activity.mail = this.isMailListNotice;
-      new_activity.longitude = this.position[0];
-      new_activity.latitude = this.position[1];
+      new_activity.longitude = this.activity.position[0];
+      new_activity.latitude = this.activity.position[1];
       if (this.isCreatingActivity) {
         this.axios
           .post("/api/activity/", new_activity, {
@@ -158,6 +158,7 @@ export default {
             this.$router.push(`/activity/${response.data.id}`);
           })
           .catch((error) => {
+            this.$toasted.show("创建失败。")
             console.log(error);
           });
       } else {
