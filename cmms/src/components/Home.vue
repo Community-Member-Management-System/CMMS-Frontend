@@ -19,7 +19,7 @@
     <v-row class="mb-10">
       <v-col>
         <v-tabs background-color="#00000000" fixed-tabs v-model="tab">
-          <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
+          <v-tab v-for="item in items" :key="item.tab" :id="'home-tab-' + item.desc">{{ item.tab }}</v-tab>
         </v-tabs>
         <v-tabs-items v-model="tab" class="mt-8" style="background-color:#00000000">
           <v-tab-item v-for="item in items" :key="item.tab">
