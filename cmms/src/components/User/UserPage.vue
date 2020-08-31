@@ -3,7 +3,7 @@
     <v-row justify="center" align="center">
       <v-col justify="center" align="center">
         <v-avatar id="user-avatar" size="200">
-          <v-icon dark v-if="!user.avatar">mdi-account-circle</v-icon>
+          <v-icon dark v-if="!user.avatar" size="200">mdi-account-circle</v-icon>
           <v-img v-else :src="user.avatar"></v-img>
         </v-avatar>
       </v-col>
