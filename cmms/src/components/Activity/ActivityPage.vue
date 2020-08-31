@@ -119,7 +119,8 @@ export default {
       });
     },
     getTime(time) {
-      return new Date(time).toLocaleString();
+      // return new Date(time).toLocaleString();
+      return this.$moment(time).format("YYYY-MM-DD HH:mm:ss");
     },
   },
   components: {

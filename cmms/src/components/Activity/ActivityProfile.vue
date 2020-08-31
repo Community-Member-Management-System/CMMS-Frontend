@@ -11,8 +11,8 @@
     <v-card-title v-text="title"></v-card-title>
 
     <v-card-subtitle>
-      <div class="mt-1">开始时间：{{ start_time }}</div>
-      <div class="mt-1">结束时间：{{ end_time }}</div>
+      <div class="mt-1">开始时间：{{$moment(start_time).format("YYYY-MM-DD HH:mm:ss") }}</div>
+      <div class="mt-1">结束时间：{{$moment(end_time).format("YYYY-MM-DD HH:mm:ss") }}</div>
       <div class="mt-1">地点：{{ location }}</div>
     </v-card-subtitle>
 

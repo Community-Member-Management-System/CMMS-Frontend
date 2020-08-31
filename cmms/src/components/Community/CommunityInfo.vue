@@ -19,25 +19,25 @@
                 {{ community.join_status }}
               </v-chip>
               <div v-else>
-              <v-chip color="green" text-color="white" v-if="community.valid">
-                <v-avatar left>
-                  <v-icon>mdi-checkbox-marked-circle</v-icon>
-                </v-avatar>
-                已通过审核
-              </v-chip>
-              <v-chip color="red" text-color="white" v-else>
-                <v-avatar left>
-                  <v-icon>mdi-help-circle</v-icon>
-                </v-avatar>
-                审核中
-              </v-chip>
+                <v-chip color="green" text-color="white" v-if="community.valid">
+                  <v-avatar left>
+                    <v-icon>mdi-checkbox-marked-circle</v-icon>
+                  </v-avatar>已通过审核
+                </v-chip>
+                <v-chip color="red" text-color="white" v-else>
+                  <v-avatar left>
+                    <v-icon>mdi-help-circle</v-icon>
+                  </v-avatar>审核中
+                </v-chip>
               </div>
             </v-col>
           </v-card-title>
           <v-card-subtitle>
             <ul>
               <li class="mt-1">社团名称：{{community.name}}</li>
-              <li class="mt-2">创建时间：{{community.date_created}}</li>
+              <li
+                class="mt-2"
+              >创建时间：{{$moment(community.date_created).format("YYYY-MM-DD HH:mm:ss")}}</li>
               <li class="mt-2">创建者：{{ communityCreatorName || community.creator }}</li>
               <li class="mt-2">所有者：{{ communityOwnerName || community.owner }}</li>
             </ul>
