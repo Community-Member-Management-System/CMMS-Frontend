@@ -66,6 +66,7 @@ Vue.use(Toasted, {
     position: "top-center",
     duration: 3000,
 });
+Vue.use(require('vue-moment'));
 
 const store = new Vuex.Store({
     state: {

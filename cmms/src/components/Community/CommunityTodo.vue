@@ -50,8 +50,12 @@
                     <v-list-item-title>{{allTodos[todoIndex].title}}</v-list-item-title>
                     <v-list-item-subtitle>{{allTodos[todoIndex].detail}}</v-list-item-subtitle>
                   </v-list-item-content>
-                  <v-icon>mdi-calendar</v-icon>
-                  <div>{{allTodos[todoIndex].time}}</div>
+                  <v-chip>
+                    <v-icon>mdi-calendar</v-icon>
+                    <div
+                      class="ml-2"
+                    >{{$moment(allTodos[todoIndex].time).format("YYYY-MM-DD HH:mm:ss")}}</div>
+                  </v-chip>
                   <v-list-item-action>
                     <v-btn fab x-small outlined color="red" @click="removeTodo(todoIndex)">
                       <v-icon color="red">mdi-close</v-icon>
@@ -97,8 +101,12 @@
                       <div class="text-decoration-line-through">{{allTodos[todoIndex].detail}}</div>
                     </v-list-item-subtitle>
                   </v-list-item-content>
-                  <v-icon>mdi-calendar</v-icon>
-                  <div>{{allTodos[todoIndex].time}}</div>
+                  <v-chip>
+                    <v-icon>mdi-calendar</v-icon>
+                    <div
+                      class="ml-2"
+                    >{{$moment(allTodos[todoIndex].time).format("YYYY-MM-DD HH:mm:ss")}}</div>
+                  </v-chip>
                   <v-list-item-action>
                     <v-btn fab x-small outlined color="red" @click="removeTodo(todoIndex)">
                       <v-icon color="red">mdi-close</v-icon>
