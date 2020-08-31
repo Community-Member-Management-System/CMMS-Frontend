@@ -25,7 +25,7 @@
     <v-row justify="center" align="center">
       <v-col cols="4" justify="center" align="center">
         <v-avatar size="130">
-          <v-icon dark v-if="!community.avatar">mdi-account-circle</v-icon>
+          <v-icon dark v-if="!community.avatar" size="130">mdi-account-circle</v-icon>
           <v-img v-else :src="community.avatar"></v-img>
         </v-avatar>
       </v-col>
