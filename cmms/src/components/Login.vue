@@ -37,6 +37,7 @@
               <v-img class="ma-10" src="../assets/community.svg"></v-img>
             </v-col>
           </v-row>
+          <SearchList id="searchlist" v-if="showResult" :query="searchInput"></SearchList>
         </v-tab-item>
         <v-tab-item class="fill-height background">
           <CommunityList></CommunityList>
@@ -52,18 +53,22 @@
 <script>
 import CommunityList from "./CommunityList";
 import ActivityList from "./ActivityList";
+import SearchList from "./SearchList";
 
 export default {
   name: "Login",
-  components: { CommunityList, ActivityList },
+  components: { CommunityList, ActivityList, SearchList },
   data: () => ({
     query: "",
+    searchInput: "",
+    showResult: false,
   }),
   methods: {
     search() {
-      this.$router.push({
-        path: "/t/search",
-        query: { q: this.query },
+      this.showResult = true;
+      this.searchInput = this.query;
+      this.$nextTick(() => {
+        this.$vuetify.goTo("#searchlist");
       });
     },
   },

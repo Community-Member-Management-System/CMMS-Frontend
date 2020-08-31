@@ -18,6 +18,7 @@
             :rules="[v => (((v.length === 6) && /\d\d\d\d/.test(v)) || '签到码无效')]"
             :append-icon="valid ? 'mdi-arrow-right' : ''"
             @click:append="verifyRequest"
+            @keydown.enter="verifyRequest"
           ></v-text-field>
         </v-form>
       </v-col>

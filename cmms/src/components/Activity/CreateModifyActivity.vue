@@ -158,6 +158,7 @@ export default {
             this.$router.push(`/activity/${response.data.id}`);
           })
           .catch((error) => {
+            this.$toasted.show("创建失败。")
             console.log(error);
           });
       } else {
