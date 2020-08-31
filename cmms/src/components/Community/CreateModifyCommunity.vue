@@ -36,9 +36,10 @@
                 <v-row>
                   <v-col>
                     <v-text-field
-                      hint="http[s]?://rec.ustc.edu.cn/.+"
+                      hint="完整的、以 http(s)://rec.ustc.edu.cn/ 开头的 URL"
                       label="睿课网链接"
                       v-model="community.rec_link"
+                      :rules="[rules.rec]"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -74,9 +75,18 @@ export default {
         name: "",
         profile: "",
         avatar: null,
-        rec_link: "https://rec.ustc.edu.cn/",
+        rec_link: "",
       },
       selectedFile: null,
+      rules: {
+        rec: value => {
+          if (!value) {
+            return true;
+          }
+          const pattern = /^http[s]?:\/\/rec.ustc.edu.cn\/.+$/
+          return pattern.test(value) || '需要以 http(s)://rec.ustc.edu.cn/ 开头'
+        }
+      }
     };
   },
 
@@ -150,6 +160,7 @@ export default {
             return response;
           })
           .catch((err) => {
+            this.$toasted.show("修改失败。错误为" + err.toString())
             console.log(err);
           });
       } else {
