@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar flat app class="background px-12">
       <v-btn-toggle tile color="primary" group>
-        <v-btn id="tab-home" to="/tourist/welcome">首页</v-btn>
+        <v-btn id="tab-home" to="/">首页</v-btn>
         <v-btn id="tab-community" to="/tourist/community">社团</v-btn>
         <v-btn id="tab-activity" to="/tourist/activity">活动</v-btn>
       </v-btn-toggle>
