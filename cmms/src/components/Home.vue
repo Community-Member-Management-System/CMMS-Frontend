@@ -51,33 +51,37 @@
             </div>
             <div v-else>
               <!-- 社团 -->
-              <v-card class="pa-5" v-for="community in user.communities" :key="community.id">
-                <div class="d-flex flex-no-wrap justify-space-between">
-                  <div>
-                    <v-card-title>{{ community.name }}</v-card-title>
-                    <v-card-subtitle>{{ community.profile }}</v-card-subtitle>
-                  </div>
-                  <v-avatar color="blue" class="ma-3" size="125" tile>
-                    <span v-if="!community.avatar" class="white--text headline">暂无头像</span>
-                    <v-img v-else :src="community.avatar"></v-img>
-                  </v-avatar>
-                </div>
-                <v-card-actions v-if="community.valid">
-                  <v-btn
-                    color="primary darken-2"
-                    outlined
-                    link
-                    :to="'/community/' + community.id"
-                  >查看详情</v-btn>
-                </v-card-actions>
-                <v-card-actions v-else>
-                  <v-chip color="red" text-color="white">
-                    <v-avatar left>
-                      <v-icon>mdi-help-circle</v-icon>
-                    </v-avatar>审核中
-                  </v-chip>
-                </v-card-actions>
-              </v-card>
+              <v-row v-for="community in user.communities" :key="community.id">
+                <v-col>
+                  <v-card class="pa-5">
+                    <div class="d-flex flex-no-wrap justify-space-between">
+                      <div>
+                        <v-card-title>{{ community.name }}</v-card-title>
+                        <v-card-subtitle>{{ community.profile }}</v-card-subtitle>
+                      </div>
+                      <v-avatar color="blue" class="ma-3" size="125" tile>
+                        <span v-if="!community.avatar" class="white--text headline">暂无头像</span>
+                        <v-img v-else :src="community.avatar"></v-img>
+                      </v-avatar>
+                    </div>
+                    <v-card-actions v-if="community.valid">
+                      <v-btn
+                        color="primary darken-2"
+                        outlined
+                        link
+                        :to="'/community/' + community.id"
+                      >查看详情</v-btn>
+                    </v-card-actions>
+                    <v-card-actions v-else>
+                      <v-chip color="red" text-color="white">
+                        <v-avatar left>
+                          <v-icon>mdi-help-circle</v-icon>
+                        </v-avatar>审核中
+                      </v-chip>
+                    </v-card-actions>
+                  </v-card>
+                </v-col>
+              </v-row>
             </div>
           </v-tab-item>
         </v-tabs-items>

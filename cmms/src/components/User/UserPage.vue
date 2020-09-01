@@ -39,40 +39,39 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-row>
-                  <v-col>
-                    <v-card class="px-5">
-                      <v-card-title>个人简介</v-card-title>
-                      <v-card-text>{{ user.profile }}</v-card-text>
-                    </v-card>
-                  </v-col>
-                </v-row>
+                <v-card class="px-5">
+                  <v-card-title>个人简介</v-card-title>
+                  <v-card-text>{{ user.profile }}</v-card-text>
+                </v-card>
               </v-col>
             </v-row>
           </v-tab-item>
 
           <v-tab-item>
-            <v-card class="pa-5" flat v-for="community in user.communities" :key="community.id">
-              <div class="d-flex flex-no-wrap justify-space-between">
-                <div>
-                  <v-card-title>{{ community.name }}</v-card-title>
-                  <v-card-subtitle>{{ community.profile }}</v-card-subtitle>
-                </div>
-                <v-avatar color="blue" class="ma-3" size="125" tile>
-                  <span v-if="!community.avatar" class="white--text headline">暂无头像</span>
-                  <v-img v-else :src="community.avatar"></v-img>
-                </v-avatar>
-              </div>
-              <v-card-actions>
-                <v-btn
-                  color="primary darken-2"
-                  outlined
-                  link
-                  :to="'/community/' + community.id"
-                >查看详情</v-btn>
-              </v-card-actions>
-              <v-divider class="my-3"></v-divider>
-            </v-card>
+            <v-row v-for="community in user.communities" :key="community.id">
+              <v-col>
+                <v-card class="pa-5">
+                  <div class="d-flex flex-no-wrap justify-space-between">
+                    <div>
+                      <v-card-title>{{ community.name }}</v-card-title>
+                      <v-card-subtitle>{{ community.profile }}</v-card-subtitle>
+                    </div>
+                    <v-avatar color="blue" class="ma-3" size="125" tile>
+                      <span v-if="!community.avatar" class="white--text headline">暂无头像</span>
+                      <v-img v-else :src="community.avatar"></v-img>
+                    </v-avatar>
+                  </div>
+                  <v-card-actions>
+                    <v-btn
+                      color="primary darken-2"
+                      outlined
+                      link
+                      :to="'/community/' + community.id"
+                    >查看详情</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
           </v-tab-item>
         </v-tabs-items>
       </v-col>
