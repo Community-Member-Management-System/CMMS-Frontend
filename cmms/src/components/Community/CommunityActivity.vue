@@ -76,10 +76,13 @@ export default {
       for (let activityId of this.community.activities) {
         this.axios.get("/api/activity/" + activityId).then((response) => {
           activity = response.data;
-          activity.detailLink = {
-            name: "ActivityPage",
-            params: { activity_id: activityId, authLevel: this.authLevel },
-          };
+          // activity.detailLink = {
+          //   name: "ActivityPage",
+          //   params: { activity_id: activityId, authLevel: this.authLevel },
+          // };
+          activity.detailLink = `${
+            this.authLevel < 5 ? "" : "/tourist"
+          }/activity/${activityId}`;
           this.activities.push(activity);
         });
       }

@@ -114,7 +114,7 @@ export default {
         { tabName: "待办事项", tabComponent: "CommunityTodo" },
       ];
       if (this.authLevel < 3) return allTabs;
-      else if (this.authLevel === 3) return allTabs.slice(0, 4);
+      else if (this.authLevel >= 3) return allTabs.slice(0, 4);
       else return null;
     },
 
@@ -132,6 +132,7 @@ export default {
           -1
       )
         return 2;
+      if (this.$store.getters.user === null) return 5;
       return 3;
     },
   },

@@ -22,7 +22,7 @@
               :user-avatar="a.avatar"
               :user-name="a.nick_name"
               :user-profile="a.profile"
-              :user-target="`/user/${a.id}`"
+              :user-target="`${authLevel<5?'':'/tourist'}/user/${a.id}`"
             >
               <template v-slot:action>
                 <v-chip
@@ -94,7 +94,7 @@
               :user-avatar="m.avatar"
               :user-name="m.nick_name"
               :user-profile="m.profile"
-              :user-target="`/user/${m.id}`"
+              :user-target="`${authLevel<5?'':'/tourist'}/user/${m.id}`"
             >
               <template v-if="authLevel <= 2" v-slot:action>
                 <v-menu>

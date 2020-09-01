@@ -30,7 +30,7 @@
                         color="primary darken-2"
                         outlined
                         link
-                        :to="'/community/' + item.id"
+                        :to="`${$store.getters.user === null ? '/tourist':''}/community/${item.id}`"
                       >查看主页</v-btn>
                     </v-card-actions>
                   </v-card>
@@ -45,7 +45,7 @@
                     :userAvatar="item.avatar"
                     :userName="item.nick_name"
                     :userProfile="item.profile"
-                    :userTarget="'/community/' + item.id"
+                    :userTarget="`${$store.getters.user === null ? '/tourist':''}/user/${item.id}`"
                   ></UserItem>
                 </v-col>
               </v-row>
