@@ -35,6 +35,7 @@
                       label="昵称 *"
                       required
                       :rules="nickNameRules"
+                      id='userinfo-nickname'
                     ></v-text-field>
                   </v-col>
                   <v-col>
@@ -43,20 +44,21 @@
                       label="真实姓名 *"
                       required
                       :rules="realNameRules"
+                      id='userinfo-realname'
                     ></v-text-field>
                   </v-col>
                   <!-- <v-col>
                     <v-select label="性别 *" v-model="gender" required :items="['男', '女', '保密']"></v-select>
                   </v-col>-->
                 </v-row>
-                <v-text-field v-model="user.email" label="Email" required :rules="emailRules"></v-text-field>
+                <v-text-field v-model="user.email" label="Email" required :rules="emailRules" id='userinfo-email'></v-text-field>
               </v-col>
             </v-row>
-            <v-text-field v-model="user.phone" label="手机" :rules="phoneRules"></v-text-field>
-            <v-text-field v-model="user.profile" label="个人简介" :rules="profileRules"></v-text-field>
+            <v-text-field v-model="user.phone" label="手机" :rules="phoneRules" id='userinfo-phone'></v-text-field>
+            <v-text-field v-model="user.profile" label="个人简介" :rules="profileRules" id='userinfo-profile'></v-text-field>
           </v-form>
           <v-card-actions class="justify-center">
-            <v-btn color="primary" large :disabled="!valid" @click="submit">
+            <v-btn color="primary" large :disabled="!valid" @click="submit" id='userinfo-submit'>
               <v-icon>mdi-check</v-icon>提交
             </v-btn>
           </v-card-actions>
