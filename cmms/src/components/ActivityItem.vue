@@ -29,12 +29,17 @@
     </v-row>
     <v-card-text v-text="item.description"></v-card-text>
     <v-card-actions>
-      <v-btn color="primary darken-2" outlined link :to="'/activity/' + item.id">查看详情</v-btn>
       <v-btn
         color="primary darken-2"
         outlined
         link
-        :to="'/community/' + item.related_community.id"
+        :to="`${tourist ? '/tourist' :''}/activity/${item.id}`  "
+      >查看详情</v-btn>
+      <v-btn
+        color="primary darken-2"
+        outlined
+        link
+        :to="`${tourist ? '/tourist' :''}/community/${item.related_community.id}`"
       >社团主页</v-btn>
     </v-card-actions>
   </v-card>
@@ -46,6 +51,11 @@ export default {
   data: () => ({}),
   props: {
     item: Object,
+  },
+  computed: {
+    tourist() {
+      return this.$store.getters.user === null;
+    },
   },
   methods: {
     getTime(time) {

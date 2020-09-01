@@ -61,6 +61,17 @@ const router = new Router({
                     component: ActivityList,
                     meta: { needAuth: false },
                 },
+                {
+                    path: "/tourist/activity/:activity_id",
+                    component: ActivityPage,
+                    meta: { needAuth: false },
+                },
+                {
+                    path: "/tourist/user/:userId",
+                    component: UserPage,
+                    props: true,
+                    meta: { needAuth: false },
+                },
             ]
         },
         {

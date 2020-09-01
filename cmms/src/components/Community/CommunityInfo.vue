@@ -18,7 +18,7 @@
                 </v-avatar>
                 {{ community.join_status }}
               </v-chip>
-              <div v-else>
+              <div v-else-if="authLevel <= 2 ">
                 <v-chip color="green" text-color="white" v-if="community.valid">
                   <v-avatar left>
                     <v-icon>mdi-checkbox-marked-circle</v-icon>

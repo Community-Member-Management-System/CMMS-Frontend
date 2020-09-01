@@ -90,7 +90,10 @@ export default {
   }),
   computed: {
     isAdmin() {
-      if (this.admins.indexOf(parseInt(this.$store.getters.user.id)) > -1)
+      if (
+        this.$store.getters.user &&
+        this.admins.indexOf(parseInt(this.$store.getters.user.id)) > -1
+      )
         return true;
       else return false;
     },
