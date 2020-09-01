@@ -5,9 +5,9 @@
       <v-col>
         <v-card flat>
           <v-tabs background-color="#EEEEEE" fixed-tabs>
-            <v-tab>社团</v-tab>
-            <v-tab>用户</v-tab>
-            <v-tab>活动</v-tab>
+            <v-tab id='search-community-tab'>社团</v-tab>
+            <v-tab id='search-user-tab'>用户</v-tab>
+            <v-tab id='search-activity-tab'>活动</v-tab>
             <!-- community -->
             <v-tab-item class="background">
               <v-row dense>

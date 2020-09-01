@@ -18,6 +18,7 @@
           link
           :to="item.targetPath"
           :color="item.color"
+          :id="'nav-' + item.icon"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -105,7 +106,7 @@
       <!-- user drop-down menu -->
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
-          <v-btn color="rgba(0, 0, 0, 0)" depressed v-on="on">
+          <v-btn color="rgba(0, 0, 0, 0)" depressed v-on="on" id='drop-down-button'>
             <v-icon>mdi-menu-down</v-icon>
           </v-btn>
         </template>
