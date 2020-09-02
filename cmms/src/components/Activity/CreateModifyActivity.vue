@@ -9,7 +9,7 @@
             <v-col cols="7">
               <v-row>
                 <v-col>
-                  <v-text-field v-model="activity.title" label="活动名称 *" required></v-text-field>
+                  <v-text-field v-model="activity.title" label="活动名称 *" required id='activity-name'></v-text-field>
                 </v-col>
                 <v-col>
                   <v-text-field
@@ -23,10 +23,10 @@
 
               <v-row>
                 <v-col cols="6">
-                  <v-datetime-picker label="开始时间 *" v-model="activity.start_time"></v-datetime-picker>
+                  <v-datetime-picker label="开始时间 *" v-model="activity.start_time" id='activity-start-time'></v-datetime-picker>
                 </v-col>
                 <v-col cols="6">
-                  <v-datetime-picker label="结束时间 *" v-model="activity.end_time"></v-datetime-picker>
+                  <v-datetime-picker label="结束时间 *" v-model="activity.end_time" id='activity-end-time'></v-datetime-picker>
                 </v-col>
               </v-row>
 
@@ -67,7 +67,7 @@
           </v-row>
 
           <v-row justify="center">
-            <v-btn fab color="primary" @click="e6 = 2">
+            <v-btn fab color="primary" @click="e6 = 2" id='activity-down-button'>
               <v-icon>mdi-chevron-double-down</v-icon>
             </v-btn>
           </v-row>
@@ -85,12 +85,13 @@
                 :boxShadow="false"
                 placeholder="活动详细内容..."
                 v-model="activity.description"
+                id='activity-description'
               />
             </v-col>
           </v-row>
           <v-row justify="center">
             <!-- TODO -->
-            <v-btn fab color="success" @click="submitActivity">
+            <v-btn fab color="success" @click="submitActivity" id='activity-submit'>
               <v-icon>mdi-check</v-icon>
             </v-btn>
           </v-row>

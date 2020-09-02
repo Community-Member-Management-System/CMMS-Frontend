@@ -10,6 +10,7 @@
               outlined
               link
               @click.stop.native.prevent="$router.push(`/activity/modify/${community.id}/${activity.id}`)"
+              :id="'activity-edit-' + i"
             >编辑活动</v-btn>
             <v-btn
               absolute
@@ -18,6 +19,7 @@
               outlined
               link
               @click.stop.native.prevent="deleteActivity(activity.id,i)"
+              :id="'activity-delete-' + i"
             >删除活动</v-btn>
           </template>
         </activity-profile>

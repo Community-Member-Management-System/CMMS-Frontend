@@ -30,7 +30,7 @@
               <v-col cols="7">
                 <v-row>
                   <v-col>
-                    <v-text-field v-model="community.name" label="社团名称 *" required></v-text-field>
+                    <v-text-field v-model="community.name" label="社团名称 *" required id='create-modify-community-name'></v-text-field>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -40,19 +40,20 @@
                       label="睿课网链接"
                       v-model="community.rec_link"
                       :rules="[rules.rec]"
+                      id='create-modify-community-rec'
                     ></v-text-field>
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col>
-                    <v-textarea label="社团简介 *" outlined v-model="community.profile"></v-textarea>
+                    <v-textarea label="社团简介 *" outlined v-model="community.profile" id='create-modify-community-profile'></v-textarea>
                   </v-col>
                 </v-row>
               </v-col>
             </v-row>
           </v-form>
           <v-card-actions class="justify-center">
-            <v-btn color="primary" large :disabled="!valid" @click="submit">
+            <v-btn color="primary" large :disabled="!valid" @click="submit" id='create-modify-community-submit'>
               <v-icon>mdi-check</v-icon>提交
             </v-btn>
           </v-card-actions>

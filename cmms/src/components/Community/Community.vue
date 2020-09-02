@@ -64,7 +64,7 @@
     <v-row class="mb-10">
       <v-col>
         <v-tabs v-model="tab" background-color="#00000000" fixed-tabs>
-          <v-tab v-for="(it, idx) in communityTabs" :key="idx">{{ it.tabName }}</v-tab>
+          <v-tab v-for="(it, idx) in communityTabs" :key="idx" :id='"community-tab-" + it.tabComponent.toLowerCase()'>{{ it.tabName }}</v-tab>
         </v-tabs>
 
         <v-row class="background">
