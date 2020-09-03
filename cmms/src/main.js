@@ -11,6 +11,7 @@ import mavonEditor from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 import DatetimePicker from "vuetify-datetime-picker";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
+import animated from 'animate.css'
 import App from "./App.vue";
 
 Vue.use(Vuex);
@@ -18,6 +19,7 @@ Vue.use(VueAxios, Axios);
 Vue.use(VueCookies);
 Vue.use(mavonEditor);
 Vue.use(DatetimePicker);
+Vue.use(animated);
 
 Vue.use(Vuetify, {
     icons: {
