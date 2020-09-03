@@ -2,7 +2,10 @@
   <v-container fluid>
     <v-row class="mx-auto py-auto" align="center" justify="center">
       <v-col>
-        <div id="page-title" class="text-h2 text-center my-5">USTC | 社团</div>
+        <div
+          id="page-title"
+          class="text-h2 text-center my-5 animate__animated animate__zoomInDown"
+        >USTC | 社团</div>
         <div id="page-subtitle" class="text-h6 text-center mb-10">发现兴趣、寻找你喜欢的社团</div>
         <v-text-field
           id="search-input"

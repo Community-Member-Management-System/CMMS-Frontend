@@ -64,12 +64,20 @@
     <v-row class="mb-10">
       <v-col>
         <v-tabs v-model="tab" background-color="#00000000" fixed-tabs>
-          <v-tab v-for="(it, idx) in communityTabs" :key="idx" :id='"community-tab-" + it.tabComponent.toLowerCase()'>{{ it.tabName }}</v-tab>
+          <v-tab
+            v-for="(it, idx) in communityTabs"
+            :key="idx"
+            :id="`community-tab-${it.tabComponent.toLowerCase()}`"
+          >{{ it.tabName }}</v-tab>
         </v-tabs>
 
         <v-row class="background">
           <v-col>
-            <v-scroll-x-transition>
+            <transition
+              mode="out-in"
+              :enter-active-class="`animate__animated animate__fadeIn${enterDirection} animate__faster`"
+              :leave-active-class="`animate__animated animate__fadeOut${leaveDirection} animate__faster`"
+            >
               <keep-alive>
                 <component
                   :is="communityTabs[tab].tabComponent"
@@ -78,7 +86,7 @@
                   @modifyCommunity="getCommunity()"
                 ></component>
               </keep-alive>
-            </v-scroll-x-transition>
+            </transition>
           </v-col>
         </v-row>
       </v-col>
@@ -102,7 +110,20 @@ export default {
       tab: 0,
       isSuperuser: false,
       community: { admins: [] },
+      enterDirection: "Right",
+      leaveDirection: "Left",
     };
+  },
+  watch: {
+    tab(newVal, oldVal) {
+      if (newVal > oldVal) {
+        this.enterDirection = "Right";
+        this.leaveDirection = "Left";
+      } else {
+        this.enterDirection = "Left";
+        this.leaveDirection = "Right";
+      }
+    },
   },
   computed: {
     communityTabs() {
