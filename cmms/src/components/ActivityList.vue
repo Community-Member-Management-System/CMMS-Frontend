@@ -24,5 +24,10 @@ export default {
       this.items = response.data;
     });
   },
+  activated() {
+    this.axios.get("/api/activity").then((response) => {
+      this.items = response.data;
+    });
+  },
 };
 </script>
