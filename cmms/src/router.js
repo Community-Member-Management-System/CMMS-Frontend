@@ -42,35 +42,35 @@ const router = new Router({
                     path: "",
                     name: "Welcome",
                     component: Welcome,
-                    meta: { needAuth: false },
+                    meta: { needAuth: false, pageNum: 0 },
                 },
                 {
                     path: "/tourist/community",
                     component: CommunityList,
-                    meta: { needAuth: false },
+                    meta: { needAuth: false, pageNum: 1 },
                     props: true
                 },
                 {
                     path: "/tourist/community/:communityId",
                     component: Community,
-                    meta: { needAuth: false },
+                    meta: { needAuth: false, pageNum: 2 },
                     props: true
                 },
                 {
                     path: "/tourist/activity",
                     component: ActivityList,
-                    meta: { needAuth: false },
+                    meta: { needAuth: false, pageNum: 3 },
                 },
                 {
                     path: "/tourist/activity/:activity_id",
                     component: ActivityPage,
-                    meta: { needAuth: false },
+                    meta: { needAuth: false, pageNum: 4 },
                 },
                 {
                     path: "/tourist/user/:userId",
                     component: UserPage,
                     props: true,
-                    meta: { needAuth: false },
+                    meta: { needAuth: false, pageNum: 5 },
                 },
             ]
         },
