@@ -1,14 +1,25 @@
 <template>
   <v-card :to="detailLink" class="pa-3">
     <!-- 状态 chips -->
-    <v-chip color="green" text-color="white">
+    <v-chip v-if="status === '未开始'" color="blue" text-color="white">
+      <v-avatar left>
+        <v-icon>mdi-calendar-clock</v-icon>
+      </v-avatar>未开始
+    </v-chip>
+    <v-chip v-else-if="status === '进行中'" color="yellow darken-3" text-color="white">
+      <v-avatar left>
+        <v-icon>mdi-clock-outline</v-icon>
+      </v-avatar>进行中
+    </v-chip>
+    <v-chip v-else color="green" text-color="white">
       <v-avatar left>
         <v-icon>mdi-checkbox-marked-circle</v-icon>
-      </v-avatar>
-      {{ status }}
+      </v-avatar>已结束
     </v-chip>
 
-    <v-card-title v-text="title"></v-card-title>
+    <v-card-title>
+      <div class="text-truncate">{{title}}</div>
+    </v-card-title>
 
     <v-card-subtitle>
       <div class="mt-1">开始时间：{{$moment(start_time).format("YYYY-MM-DD HH:mm:ss") }}</div>
@@ -16,9 +27,11 @@
       <div class="mt-1">地点：{{ location }}</div>
     </v-card-subtitle>
 
-    <v-card-text v-text="description"></v-card-text>
+    <v-card-text>
+      <div class="text-truncate">{{description}}</div>
+    </v-card-text>
+
     <v-card-actions>
-      <!-- <v-btn color="primary darken-2" outlined link :to="detailLink">查看详情</v-btn> -->
       <slot name="actions"></slot>
     </v-card-actions>
   </v-card>

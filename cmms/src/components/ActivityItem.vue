@@ -2,7 +2,9 @@
   <v-card class="mb-5 pa-5">
     <v-row>
       <v-col cols="10">
-        <v-card-title class="headline" v-text="item.title"></v-card-title>
+        <v-card-title class="headline">
+          <div class="text-truncate">{{item.title}}</div>
+        </v-card-title>
         <v-card-subtitle
           class="py-0"
           v-text="'时间: ' + getTime(item.start_time) + ' - ' + getTime(item.end_time)"
@@ -27,7 +29,9 @@
         </v-chip>
       </v-col>
     </v-row>
-    <v-card-text v-text="item.description"></v-card-text>
+    <v-card-text>
+      <div class="text-truncate">{{item.description}}</div>
+    </v-card-text>
     <v-card-actions>
       <v-btn
         color="primary darken-2"
