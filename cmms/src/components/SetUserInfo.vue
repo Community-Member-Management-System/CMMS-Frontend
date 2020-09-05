@@ -165,7 +165,7 @@ export default {
           return response;
         })
         .catch((err) => {
-          msg = ""
+          let msg = ""
           if (err.response) {
             if (err.response.email) {
               msg = "Email 与其他用户重复！"
