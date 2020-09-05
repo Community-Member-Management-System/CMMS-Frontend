@@ -109,6 +109,8 @@ export default {
               return "社团成员权限变更";
             case 2:
               return "成员增减";
+            case 3:
+              return "社团管理员个人邀请被同意";
           }
         case "C_AA":
           return "社团管理员审核用户加入请求";
