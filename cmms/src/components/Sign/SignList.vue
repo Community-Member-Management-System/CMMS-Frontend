@@ -121,7 +121,7 @@ export default {
     },
     deleteItem(item) {
       if (confirm("确定要删除这条记录吗?")) {
-        let url = this.urlprefix + "/remove/" + item.id;
+        let url = this.urlprefix + "/remove/" + item.user_id;
         this.axios
           .post(url, null, {
             headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
