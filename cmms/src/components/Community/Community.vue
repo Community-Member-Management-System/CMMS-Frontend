@@ -34,7 +34,17 @@
         <div class="mt-5">
           <div v-if="authLevel === 3">
             <v-btn
-              v-if="community.join_status == '未加入'"
+              v-if="community.join_status == '已加入'"
+              class="mx-2 mb-4"
+              color="error"
+              @click="userSetJoinStatus(community.id,false)"
+            >- 退出社团</v-btn>
+            <template v-else-if="isInvited">
+              <v-btn class="mx-2 mb-4" color="primary" @click="setInvitation('accept')">+ 接受</v-btn>
+              <v-btn class="mx-2 mb-4" color="error" @click="setInvitation('deny')">x 拒绝</v-btn>
+            </template>
+            <v-btn
+              v-else-if="community.join_status == '未加入'"
               class="mx-2 mb-4"
               color="primary"
               @click="userSetJoinStatus(community.id,true)"
@@ -45,12 +55,6 @@
               color="error"
               @click="userSetJoinStatus(community.id,false)"
             >x 取消申请</v-btn>
-            <v-btn
-              v-else
-              class="mx-2 mb-4"
-              color="error"
-              @click="userSetJoinStatus(community.id,false)"
-            >- 退出社团</v-btn>
           </div>
           <div v-else-if="authLevel <= 1">
             <v-btn color="error" @click="deleteCommunity(community.id)">解散社团</v-btn>
@@ -109,6 +113,7 @@ export default {
     return {
       tab: 0,
       isSuperuser: false,
+      invitations: [],
       community: { admins: [] },
       enterDirection: "Right",
       leaveDirection: "Left",
@@ -156,8 +161,26 @@ export default {
       if (this.$store.getters.user === null) return 5;
       return 3;
     },
+
+    isInvited() {
+      for (let invitation of this.invitations) {
+        if (invitation.community == this.communityId) {
+          return true;
+        }
+      }
+      return false;
+    },
+    invitationId() {
+      for (let invitation of this.invitations) {
+        if (invitation.community == this.communityId) {
+          return invitation.id;
+        }
+      }
+      return 0;
+    },
   },
   created() {
+    this.getInvitations();
     this.getCommunity();
 
     this.axios
@@ -173,6 +196,12 @@ export default {
       });
   },
   methods: {
+    getInvitations() {
+      this.axios.get("/api/community/invitation/").then((response) => {
+        this.invitations = response.data;
+        console.log(this.invitations);
+      });
+    },
     getCommunity() {
       this.axios.get("/api/community/" + this.communityId).then((response) => {
         this.community = response.data;
@@ -194,6 +223,22 @@ export default {
             : response.data.member
             ? "审核中"
             : "未加入";
+          this.$toasted.show("操作成功！");
+        });
+    },
+
+    setInvitation(status) {
+      this.axios
+        .post(
+          `/api/community/invitation/${this.invitationId}/${status}/`,
+          {},
+          {
+            headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+          }
+        )
+        .then((response) => {
+          this.getInvitations();
+          this.getCommunity();
           this.$toasted.show("操作成功！");
         });
     },
