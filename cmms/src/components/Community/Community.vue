@@ -77,11 +77,12 @@
 
         <v-row class="background">
           <v-col>
-            <transition
+            <!-- <transition
               mode="out-in"
               :enter-active-class="`animate__animated animate__fadeIn${enterDirection} animate__faster`"
               :leave-active-class="`animate__animated animate__fadeOut${leaveDirection} animate__faster`"
-            >
+            >-->
+            <v-scroll-x-transition>
               <keep-alive>
                 <component
                   :is="communityTabs[tab].tabComponent"
@@ -90,7 +91,8 @@
                   @modifyCommunity="getCommunity()"
                 ></component>
               </keep-alive>
-            </transition>
+            </v-scroll-x-transition>
+            <!-- </transition> -->
           </v-col>
         </v-row>
       </v-col>
