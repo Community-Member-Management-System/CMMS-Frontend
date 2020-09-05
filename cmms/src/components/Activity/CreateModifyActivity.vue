@@ -30,7 +30,7 @@
                 </v-col>
               </v-row>
 
-              <v-row>
+              <!-- <v-row>
                 <v-col cols="12">
                   <v-select
                     label="允许评论范围 *"
@@ -42,7 +42,7 @@
                     :items="[ '本社团签到成员','本社团所有成员', '所有签到用户','所有用户']"
                   ></v-select>
                 </v-col>
-              </v-row>
+              </v-row> -->
 
               <v-row>
                 <v-col>
