@@ -51,7 +51,7 @@
                       <v-switch label="平台内通知" inset input-value="true" value disabled></v-switch>
                     </v-col>
                     <v-col cols="4">
-                      <v-switch label="邮件列表通知" inset v-model="isMailListNotice"></v-switch>
+                      <v-switch label="邮件列表通知" inset v-model="isMailListNotice" id="mail-list-button"></v-switch>
                     </v-col>
                   </v-row>
                 </v-col>
