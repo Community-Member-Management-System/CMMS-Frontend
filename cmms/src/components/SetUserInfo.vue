@@ -167,7 +167,8 @@ export default {
         .catch((err) => {
           let msg = ""
           if (err.response) {
-            if (err.response.email) {
+            console.log(err.response)
+            if (err.response.data.email) {
               msg = "Email 与其他用户重复！"
             }
           }
