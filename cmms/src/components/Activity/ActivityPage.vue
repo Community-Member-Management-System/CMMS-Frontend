@@ -69,6 +69,7 @@
               <v-card-text class="px-0 py-1">
                 <!-- <v-icon>mid-map-marker</v-icon> -->
                 活动地点：{{ activity.location }}
+                <v-icon color="blue" @click="tab=1">mdi-map-marker-radius</v-icon>
               </v-card-text>
               <v-divider class="my-5"></v-divider>
               <markdown-it-vue-light class="md-body" :content="activity.description" />
@@ -127,6 +128,11 @@ export default {
     this.activity.id = this.$route.params.activity_id;
     this.getActivity();
   },
+
+  activated() {
+    this.activity.id = this.$route.params.activity_id;
+    this.getActivity();
+  },
   methods: {
     getAdmins() {
       this.axios.get("/api/community/" + this.community_id).then((response) => {
@@ -148,37 +154,47 @@ export default {
 
         this.getAdmins();
 
-        AMapLoader.load({
-          key: "8609496b04a93409688d07601c08ae89", // 申请好的Web端开发者Key，首次调用 load 时必填
-          version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-          plugins: ["AMap.Geolocation", "AMap.ToolBar"], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
-          AMapUI: {
-            // 是否加载 AMapUI，缺省不加载
-            version: "1.1", // AMapUI 缺省 1.1
-            plugins: [], // 需要加载的 AMapUI ui插件
-          },
-        })
-          .then((AMap) => {
-            var map = new AMap.Map("map-container", {
-              zoom: 18, //级别
-              center: [this.activity.longitude, this.activity.latitude], //中心点坐标
-            });
-            var geolocation = new AMap.Geolocation();
-            map.addControl(geolocation);
-            this.map = map;
-            this.mapMarker = new AMap.Marker({
-              position: new AMap.LngLat(
-                this.activity.longitude,
-                this.activity.latitude
-              ), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-              title: "活动地点",
-            });
-            map.add(this.mapMarker);
-            this.isLoadMap = true;
+        if (!this.isLoadMap) {
+          this.isLoadMap = true;
+          AMapLoader.load({
+            key: "8609496b04a93409688d07601c08ae89", // 申请好的Web端开发者Key，首次调用 load 时必填
+            version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+            plugins: ["AMap.Geolocation", "AMap.ToolBar"], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+            AMapUI: {
+              // 是否加载 AMapUI，缺省不加载
+              version: "1.1", // AMapUI 缺省 1.1
+              plugins: [], // 需要加载的 AMapUI ui插件
+            },
           })
-          .catch((e) => {
-            console.log(e);
-          });
+            .then((AMap) => {
+              var map = new AMap.Map("map-container", {
+                zoom: 18, //级别
+                center: [this.activity.longitude, this.activity.latitude], //中心点坐标
+              });
+              var geolocation = new AMap.Geolocation();
+              map.addControl(geolocation);
+              this.map = map;
+              this.mapMarker = new AMap.Marker({
+                position: new AMap.LngLat(
+                  this.activity.longitude,
+                  this.activity.latitude
+                ), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+                title: "活动地点",
+              });
+              map.add(this.mapMarker);
+              this.isLoadMap = true;
+            })
+            .catch((e) => {
+              this.isLoadMap = false;
+              console.log(e);
+            });
+        } else {
+          this.map.setCenter([this.activity.longitude, this.activity.latitude]);
+          this.mapMarker.setPosition([
+            this.activity.longitude,
+            this.activity.latitude,
+          ]);
+        }
       });
     },
     getTime(time) {

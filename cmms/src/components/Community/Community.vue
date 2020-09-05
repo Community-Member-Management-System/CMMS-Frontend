@@ -182,9 +182,26 @@ export default {
     },
   },
   created() {
-    this.getInvitations();
+    if (this.$store.getters.user === null) {
+      this.invitations = [];
+    } else this.getInvitations();
+
     this.getCommunity();
 
+    this.axios
+      .post(
+        "/api/auth/check",
+        {},
+        {
+          headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
+        }
+      )
+      .then((response) => {
+        this.isSuperuser = response.data.superuser;
+      });
+  },
+  activated() {
+    this.getCommunity();
     this.axios
       .post(
         "/api/auth/check",
@@ -201,7 +218,6 @@ export default {
     getInvitations() {
       this.axios.get("/api/community/invitation/").then((response) => {
         this.invitations = response.data;
-        console.log(this.invitations);
       });
     },
     getCommunity() {

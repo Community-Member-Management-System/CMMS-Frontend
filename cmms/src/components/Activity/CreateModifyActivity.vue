@@ -9,7 +9,7 @@
             <v-col cols="7">
               <v-row>
                 <v-col>
-                  <v-text-field v-model="activity.title" label="活动名称 *" required id='activity-name'></v-text-field>
+                  <v-text-field v-model="activity.title" label="活动名称 *" required id="activity-name"></v-text-field>
                 </v-col>
                 <v-col>
                   <v-text-field
@@ -23,10 +23,18 @@
 
               <v-row>
                 <v-col cols="6">
-                  <v-datetime-picker label="开始时间 *" v-model="activity.start_time" id='activity-start-time'></v-datetime-picker>
+                  <v-datetime-picker
+                    label="开始时间 *"
+                    v-model="activity.start_time"
+                    id="activity-start-time"
+                  ></v-datetime-picker>
                 </v-col>
                 <v-col cols="6">
-                  <v-datetime-picker label="结束时间 *" v-model="activity.end_time" id='activity-end-time'></v-datetime-picker>
+                  <v-datetime-picker
+                    label="结束时间 *"
+                    v-model="activity.end_time"
+                    id="activity-end-time"
+                  ></v-datetime-picker>
                 </v-col>
               </v-row>
 
@@ -42,7 +50,7 @@
                     :items="[ '本社团签到成员','本社团所有成员', '所有签到用户','所有用户']"
                   ></v-select>
                 </v-col>
-              </v-row> -->
+              </v-row>-->
 
               <v-row>
                 <v-col>
@@ -51,7 +59,12 @@
                       <v-switch label="平台内通知" inset input-value="true" value disabled></v-switch>
                     </v-col>
                     <v-col cols="4">
-                      <v-switch label="邮件列表通知" inset v-model="isMailListNotice" id="mail-list-button"></v-switch>
+                      <v-switch
+                        label="邮件列表通知"
+                        inset
+                        v-model="isMailListNotice"
+                        id="mail-list-button"
+                      ></v-switch>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -67,7 +80,7 @@
           </v-row>
 
           <v-row justify="center">
-            <v-btn fab color="primary" @click="e6 = 2" id='activity-down-button'>
+            <v-btn fab color="primary" @click="e6 = 2" id="activity-down-button">
               <v-icon>mdi-chevron-double-down</v-icon>
             </v-btn>
           </v-row>
@@ -85,13 +98,13 @@
                 :boxShadow="false"
                 placeholder="活动详细内容..."
                 v-model="activity.description"
-                id='activity-description'
+                id="activity-description"
               />
             </v-col>
           </v-row>
           <v-row justify="center">
             <!-- TODO -->
-            <v-btn fab color="success" @click="submitActivity" id='activity-submit'>
+            <v-btn fab color="success" @click="submitActivity" id="activity-submit">
               <v-icon>mdi-check</v-icon>
             </v-btn>
           </v-row>
@@ -159,7 +172,7 @@ export default {
             this.$router.push(`/activity/${response.data.id}`);
           })
           .catch((error) => {
-            this.$toasted.show("创建失败。")
+            this.$toasted.show("创建失败。");
             console.log(error);
           });
       } else {
@@ -214,15 +227,7 @@ export default {
       }
     },
   },
-  created() {
-    if (!this.isCreatingActivity) {
-      this.axios.get(`/api/activity/${this.activityId}`).then((response) => {
-        Object.assign(this.activity, response.data);
-        this.activity.start_time = new Date(this.activity.start_time);
-        this.activity.end_time = new Date(this.activity.end_time);
-      });
-    }
-  },
+  created() {},
   // 高德地图持续为您导航 :)
   mounted() {
     // 初始化高德地图
@@ -259,8 +264,37 @@ export default {
 
         map.clearEvents("rightclick");
         map.on("rightclick", this.setActivityPosition);
+
+        if (!this.isCreatingActivity) {
+          this.axios
+            .get(`/api/activity/${this.activityId}`)
+            .then((response) => {
+              Object.assign(this.activity, response.data);
+              this.activity.start_time = new Date(this.activity.start_time);
+              this.activity.end_time = new Date(this.activity.end_time);
+              this.isMailListNotice = response.data.mail;
+              this.map.setCenter([
+                this.activity.longitude,
+                this.activity.latitude,
+              ]);
+              this.mapMarker.setPosition([
+                this.activity.longitude,
+                this.activity.latitude,
+              ]);
+            });
+        }
       })
       .catch((e) => {
+        if (!this.isCreatingActivity) {
+          this.axios
+            .get(`/api/activity/${this.activityId}`)
+            .then((response) => {
+              Object.assign(this.activity, response.data);
+              this.activity.start_time = new Date(this.activity.start_time);
+              this.activity.end_time = new Date(this.activity.end_time);
+              this.isMailListNotice = response.data.mail;
+            });
+        }
         console.log(e);
       });
   },
