@@ -165,6 +165,13 @@ export default {
           return response;
         })
         .catch((err) => {
+          msg = ""
+          if (err.response) {
+            if (err.response.email) {
+              msg = "Email 与其他用户重复！"
+            }
+          }
+          this.$toasted.show("信息保存失败。" + msg)
           console.log(err);
         });
     },
