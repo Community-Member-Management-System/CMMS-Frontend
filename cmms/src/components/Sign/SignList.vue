@@ -110,7 +110,7 @@ export default {
     searchUser() {
       this.axios
         .get("/api/users/filter", {
-          params: { student_id: this.newItem.id, community_id: this.id },
+          params: { student_id: this.newItem.id, activity_id: this.id },
         })
         .then((response) => {
           // console.log(response.data);
