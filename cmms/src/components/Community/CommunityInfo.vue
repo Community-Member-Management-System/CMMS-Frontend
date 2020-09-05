@@ -40,6 +40,18 @@
               >创建时间：{{$moment(community.date_created).format("YYYY-MM-DD HH:mm:ss")}}</li>
               <li class="mt-2">创建者：{{ communityCreatorName || community.creator }}</li>
               <li class="mt-2">所有者：{{ communityOwnerName || community.owner }}</li>
+              <li class="mt-2">
+                RSS：
+                <v-btn small icon target="_blank" :href="`/api/community/${community.id}/feed.ics`">
+                  <v-icon>mdi-rss</v-icon>
+                </v-btn>
+              </li>
+              <li class="mt-2">
+                日历：
+                <v-btn small icon target="_blank" :href="`/api/community/${community.id}/atom.xml`">
+                  <v-icon>mdi-calendar</v-icon>
+                </v-btn>
+              </li>
             </ul>
           </v-card-subtitle>
         </v-card>
