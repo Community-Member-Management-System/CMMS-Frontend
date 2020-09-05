@@ -43,13 +43,13 @@
               <li class="mt-2">
                 日历：
                 <v-btn small icon target="_blank" :href="`/api/community/${community.id}/feed.ics`">
-                  <v-icon>mdi-rss</v-icon>
+                  <v-icon>mdi-calendar</v-icon>
                 </v-btn>
               </li>
               <li class="mt-2">
                 RSS：
                 <v-btn small icon target="_blank" :href="`/api/community/${community.id}/atom.xml`">
-                  <v-icon>mdi-calendar</v-icon>
+                  <v-icon>mdi-rss</v-icon>
                 </v-btn>
               </li>
             </ul>
