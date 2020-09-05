@@ -101,7 +101,9 @@ export default {
     fetchUsers() {
       this.items = [];
       for (let i = 0; i < this.users.length; i++) {
-        this.axios.get("/api/users/" + this.users[i]).then((response) => {
+        this.axios.get("/api/users/filter", {
+          params: { user_id: this.users[i], activity_id: this.id },
+        }).then((response) => {
           // console.log(response.data);
           this.items.push(response.data);
         });
@@ -119,7 +121,7 @@ export default {
     },
     deleteItem(item) {
       if (confirm("确定要删除这条记录吗?")) {
-        let url = this.urlprefix + "/remove/" + item.pk;
+        let url = this.urlprefix + "/remove/" + item.id;
         this.axios
           .post(url, null, {
             headers: { "X-CSRFToken": this.$cookies.get("csrftoken") },
