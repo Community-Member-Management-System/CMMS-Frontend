@@ -98,7 +98,7 @@ export default {
         (v) => !v || /.+@.+\..+/.test(v) || "Email 无效",
       ],
       phoneRules: [(v) => !v || /^1(3|4|5|7|8)\d{9}$/.test(v) || "手机号无效"],
-      profileRules: [(v) => v.length <= 50 || "个人简介不能超过 50 个字符"],
+      profileRules: [(v) => v.length <= 256 || "个人简介不能超过 256 个字符"],
     };
   },
   computed: {
