@@ -10,8 +10,8 @@
       <v-col cols="4" align="center">
         <div id="user-name" class="text-h4">{{ user.nick_name }}</div>
         <div class="mt-5">
-          <v-btn id="user-follow" color="primary">关注</v-btn>
-          <v-btn id="user-pm" class="ml-2" color="primary">私信</v-btn>
+          <!-- <v-btn id="user-follow" color="primary">关注</v-btn>
+          <v-btn id="user-pm" class="ml-2" color="primary">私信</v-btn>-->
         </div>
       </v-col>
     </v-row>

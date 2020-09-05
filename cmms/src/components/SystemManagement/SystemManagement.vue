@@ -32,7 +32,7 @@ export default {
       systemTabs: [
         { tabName: "社团管理", tabComponent: "SystemAuditCommunity" },
         { tabName: "活动管理", tabComponent: "SystemAuditActivity" },
-        { tabName: "用户管理", tabComponent: "SystemAuditUser" },
+        // { tabName: "用户管理", tabComponent: "SystemAuditUser" },
       ],
     };
   },
