@@ -20,14 +20,22 @@ export default {
   },
   computed: {},
   mounted() {
-    this.axios.get("/api/activity").then((response) => {
-      this.items = response.data;
-    });
+    this.getValidActivities();
   },
   activated() {
-    this.axios.get("/api/activity").then((response) => {
-      this.items = response.data;
-    });
+    this.getValidActivities();
+  },
+  methods: {
+    getValidActivities() {
+      this.axios.get("/api/activity").then((response) => {
+        this.items = [];
+        for (let item of response.data) {
+          if (item.related_community.valid) {
+            this.items.push(item);
+          }
+        }
+      });
+    },
   },
 };
 </script>
