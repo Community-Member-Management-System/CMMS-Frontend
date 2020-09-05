@@ -42,13 +42,13 @@
               <li class="mt-2">所有者：{{ communityOwnerName || community.owner }}</li>
               <li class="mt-2">
                 日历：
-                <v-btn small icon target="_blank" :href="`/api/community/${community.id}/feed.ics`">
+                <v-btn @click="doCopy(`/api/community/${community.id}/feed.ics`)" small icon>
                   <v-icon>mdi-calendar</v-icon>
                 </v-btn>
               </li>
               <li class="mt-2">
                 RSS：
-                <v-btn small icon target="_blank" :href="`/api/community/${community.id}/atom.xml`">
+                <v-btn small icon @click="doCopy(`/api/community/${community.id}/atom.xml`)">
                   <v-icon>mdi-rss</v-icon>
                 </v-btn>
               </li>
@@ -123,6 +123,18 @@ export default {
     },
   },
   computed: {},
-  methods: {},
+  methods: {
+    doCopy(link) {
+      let real_link = `http://${window.location.hostname}:${window.location.port}${link}`;
+      this.$copyText(real_link).then(
+        (e) => {
+          this.$toasted.show("链接已复制！");
+        },
+        (e) => {
+          this.$toasted.show("复制失败！");
+        }
+      );
+    },
+  },
 };
 </script>
