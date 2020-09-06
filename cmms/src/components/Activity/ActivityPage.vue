@@ -155,7 +155,6 @@ export default {
         this.getAdmins();
 
         if (!this.isLoadMap) {
-          this.isLoadMap = true;
           AMapLoader.load({
             key: "8609496b04a93409688d07601c08ae89", // 申请好的Web端开发者Key，首次调用 load 时必填
             version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15

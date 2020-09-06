@@ -10,9 +10,9 @@
     </v-app-bar>
     <v-main class="background mt-2">
       <transition :name="transitionName" mode="out-in">
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
+        <!-- <keep-alive> -->
+        <router-view></router-view>
+        <!-- </keep-alive> -->
       </transition>
     </v-main>
   </v-app>
