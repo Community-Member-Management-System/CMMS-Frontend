@@ -142,7 +142,13 @@ export default {
         { tabName: "待办事项", tabComponent: "CommunityTodo" },
       ];
       if (this.authLevel < 3) return allTabs;
-      else if (this.authLevel >= 3) return allTabs.slice(0, 4);
+      else if (this.authLevel >= 3)
+        return [
+          { tabName: "社团信息", tabComponent: "CommunityInfo" },
+          { tabName: "社团活动", tabComponent: "CommunityActivity" },
+
+          { tabName: "社团成员", tabComponent: "CommunityMember" },
+        ];
       else return null;
     },
 

@@ -33,7 +33,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
+    <!-- <v-row>
       <v-col>
         <v-card>
           <v-card-title>
@@ -43,8 +43,8 @@
           </v-card-title>
           <v-divider></v-divider>
         </v-card>
-      </v-col>
-    </v-row>
+    </v-col>-->
+    <!-- </v-row> -->
   </v-container>
 </template>
 
